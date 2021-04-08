@@ -1,0 +1,38 @@
+program Example:
+class Persona {
+var edad: int;
+var nombre: string;
+func UNO(x: int): int {
+return (edad - x);
+}
+};
+var i, j, p: int;
+var estudiante: Persona;
+func fact(j: int): int {
+var i: entero;
+i = j + (p - j*2+j);
+if (j == 1) {
+return j;
+} else {
+return j * fact(j-1);
+}
+}
+func pelos(y: entero) {
+var x: entero;
+input(estudiante.edad);
+x = y;
+while (x < 10) {
+output(estudiante.UNO(X));
+x = x + 1;
+}
+}
+main() {
+input(p);
+j = p*2;
+i = fact(p);
+input(estudiante, nombre);
+pelos(p);
+for (i = 1; i <= 10; i = i + 1) {
+output("Hello World", alumno.nombre, fact(alumno.edad));
+}
+}
