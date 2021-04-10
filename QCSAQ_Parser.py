@@ -184,6 +184,74 @@ class QCASQ_Parser:
         '''
         pass
 
+    def p_expresion(self, p):
+        '''
+        expresion : exp altexpresion exp
+        '''
+        pass
+
+    def p_altexpresion(self, p):
+        '''
+        altexpresion : SAMEAS
+                    | BIGGGERTHAN
+                    | BIGGEREQUALSTHAN
+                    | SMALLTHAN
+                    | SMALLEQUALSTHAN
+                    | DIFFERENTTHAN
+                    | AND
+                    | OR
+        '''
+        pass
+
+    def p_exp(self, p):
+        '''
+        exp : termino | termino altexp
+        '''
+        pass
+
+    def p_altexp(self, p):
+        '''
+        altexp  : SUM termino altexp
+                | SUBTRACT termino altexp
+                | empty
+        '''
+        pass
+
+    def p_termino(self, p):
+        '''
+        termino : factor | factor alttermino
+        '''
+        pass
+
+    def p_alttermino(self, p):
+        '''
+        alttermino : TIMES factor alttermino
+                    | DIV factor alttermino
+                    | empty
+        '''
+        pass
+
+    def p_read(self, p):
+        '''
+        read : INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+        '''
+        pass
+
+    def p_write(self, p):
+        '''
+        write : OUTPUT OPENPAREN varcte altwrite
+                | OUTPUT OPENPAREN expresion altwrite
+        '''
+        pass
+
+    def p_altwrite(self, p):
+        '''
+        altwrite : COMMA varcte altwrite
+                | COMMA expresion altwrite
+                | CLOSEPAREN SEMICOLON
+        '''
+        pass
+
     def p_empty(self, p):
         '''
         empty :
