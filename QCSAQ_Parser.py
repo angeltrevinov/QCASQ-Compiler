@@ -138,6 +138,19 @@ class QCASQ_Parser:
         '''
         pass
 
+    def p_params(self, p):
+        '''
+        params : ID TWODOTS type altparams
+        '''
+        pass
+
+    def p_altparams(self, p):
+        '''
+        altparams : COMMA ID TWODOTS type altparams
+                | empty
+        '''
+        pass
+
     def p_callfunc(self, p):
         '''
         callfunc : ID OPENPAREN altcall
@@ -146,7 +159,8 @@ class QCASQ_Parser:
 
     def p_altcall(self, p):
         '''
-        altcall : varcte alt2call | CLOSEPAREN
+        altcall : varcte alt2call 
+                | CLOSEPAREN
         '''
         pass
 
@@ -193,7 +207,7 @@ class QCASQ_Parser:
     def p_altexpresion(self, p):
         '''
         altexpresion : SAMEAS
-                    | BIGGGERTHAN
+                    | BIGGERTHAN
                     | BIGGEREQUALSTHAN
                     | SMALLTHAN
                     | SMALLEQUALSTHAN
@@ -205,7 +219,8 @@ class QCASQ_Parser:
 
     def p_exp(self, p):
         '''
-        exp : termino | termino altexp
+        exp : termino 
+            | termino altexp
         '''
         pass
 
@@ -219,7 +234,8 @@ class QCASQ_Parser:
 
     def p_termino(self, p):
         '''
-        termino : factor | factor alttermino
+        termino : factor 
+                | factor alttermino
         '''
         pass
 
@@ -249,6 +265,45 @@ class QCASQ_Parser:
         altwrite : COMMA varcte altwrite
                 | COMMA expresion altwrite
                 | CLOSEPAREN SEMICOLON
+        '''
+        pass
+
+    def p_factor(self, p):
+        '''
+        factor : OPENPAREN expresion CLOSEPAREN  
+                | SUM varcte
+                | SUBTRACT varcte
+                | varcte
+        '''
+        pass
+
+    def p_condition(self, p):
+        '''
+        condition : IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+                    | IF OPENPAREN expresion CLOSEPAREN  OPENCURLY  altcondition ELSE OPENCURLY altcondition
+        '''
+        pass
+
+    def p_altcondition(self, p):
+        '''
+        altcondition : estatuto altcondition
+                    | CLOSECURLY
+        '''
+        pass
+
+    def p_assign(self, p):
+        '''
+        assign : ID EQUALS expresion SEMICOLON 
+                | ID EQUALS expresion altassign
+        '''
+        pass
+
+    def p_altassign(self, p):
+        '''
+        altassign : callfunc altassign
+                    | exp altassign 
+                    | exp varcte altassign
+                    | SEMICOLON
         '''
         pass
 
