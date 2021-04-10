@@ -123,6 +123,67 @@ class QCASQ_Parser:
         '''
         pass
 
+    def p_alt2func(self, p):
+        '''
+        alt2func : TWODOTS type
+                 | empty
+        '''
+        pass
+
+    def p_alt3func(self, p):
+        '''
+        alt3func : var alt3func
+                 | estatuto alt3func
+                 | CLOSECURLY
+        '''
+        pass
+
+    def p_callfunc(self, p):
+        '''
+        callfunc : ID OPENPAREN altcall
+        '''
+        pass
+
+    def p_altcall(self, p):
+        '''
+        altcall : varcte alt2call | CLOSEPAREN
+        '''
+        pass
+
+    def p_alt2call(self, p):
+        '''
+        alt2call : COMMA varcte alt2call
+                 | CLOSEPAREN
+        '''
+        pass
+
+    def p_type(self, p):
+        '''
+        type : INT
+             | FLOAT
+             | STRING
+             | ID
+        '''
+        pass
+
+    def p_estatuto(self, p):
+        '''
+        estatuto : assign
+                | condition
+                | write
+                | read
+        '''
+        pass
+
+    def p_varcte(self, p):
+        '''
+        varcte : ID
+              | CTEFLOAT
+             | CTESTRING
+             | CTEINT
+        '''
+        pass
+
     def p_empty(self, p):
         '''
         empty :
