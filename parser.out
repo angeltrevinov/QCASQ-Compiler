@@ -1,0 +1,3377 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    RETURN
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM ID SEMICOLON altprogram
+Rule 2     altprogram -> class altprogram
+Rule 3     altprogram -> var altprogram
+Rule 4     altprogram -> function altprogram
+Rule 5     altprogram -> main
+Rule 6     main -> MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
+Rule 7     altmain -> estatuto altmain
+Rule 8     altmain -> CLOSECURLY
+Rule 9     class -> CLASS ID altclass OPENCURLY alt2class
+Rule 10    altclass -> TWODOTS ID
+Rule 11    altclass -> empty
+Rule 12    alt2class -> var alt2class
+Rule 13    alt2class -> function alt2class
+Rule 14    alt2class -> constructor CLOSECURLY SEMICOLON
+Rule 15    constructor -> CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
+Rule 16    altconst -> params altconst
+Rule 17    altconst -> empty
+Rule 18    alt2const -> estatuto alt2const
+Rule 19    alt2const -> CLOSECURLY
+Rule 20    var -> VAR listids TWODOTS type SEMICOLON
+Rule 21    listids -> ID listidsalty
+Rule 22    listidsalty -> COMMA listids
+Rule 23    listidsalty -> OPENBRACKET INT CLOSEBRACKET listidsaltz
+Rule 24    listidsalty -> empty
+Rule 25    listidsaltz -> COMMA listids
+Rule 26    listidsaltz -> OPENBRACKET INT CLOSEBRACKET listidsaltp
+Rule 27    listidsaltz -> empty
+Rule 28    listidsaltp -> COMMA listids
+Rule 29    listidsaltp -> empty
+Rule 30    function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+Rule 31    altfunc -> params
+Rule 32    altfunc -> empty
+Rule 33    alt2func -> TWODOTS type
+Rule 34    alt2func -> empty
+Rule 35    alt3func -> var alt3func
+Rule 36    alt3func -> estatuto alt3func
+Rule 37    alt3func -> CLOSECURLY
+Rule 38    params -> ID TWODOTS type altparams
+Rule 39    altparams -> COMMA ID TWODOTS type altparams
+Rule 40    altparams -> empty
+Rule 41    callfunc -> ID OPENPAREN altcall
+Rule 42    altcall -> varcte alt2call
+Rule 43    altcall -> CLOSEPAREN
+Rule 44    alt2call -> COMMA varcte alt2call
+Rule 45    alt2call -> CLOSEPAREN
+Rule 46    type -> INT
+Rule 47    type -> FLOAT
+Rule 48    type -> STRING
+Rule 49    type -> ID
+Rule 50    estatuto -> assign
+Rule 51    estatuto -> condition
+Rule 52    estatuto -> write
+Rule 53    estatuto -> read
+Rule 54    varcte -> ID
+Rule 55    varcte -> CTEFLOAT
+Rule 56    varcte -> CTESTRING
+Rule 57    varcte -> CTEINT
+Rule 58    expresion -> exp altexpresion exp
+Rule 59    altexpresion -> SAMEAS
+Rule 60    altexpresion -> BIGGERTHAN
+Rule 61    altexpresion -> BIGGEREQUALSTHAN
+Rule 62    altexpresion -> SMALLTHAN
+Rule 63    altexpresion -> SMALLEQUALSTHAN
+Rule 64    altexpresion -> DIFFERENTTHAN
+Rule 65    altexpresion -> AND
+Rule 66    altexpresion -> OR
+Rule 67    exp -> termino
+Rule 68    exp -> termino altexp
+Rule 69    altexp -> SUM termino altexp
+Rule 70    altexp -> SUBTRACT termino altexp
+Rule 71    altexp -> empty
+Rule 72    termino -> factor
+Rule 73    termino -> factor alttermino
+Rule 74    alttermino -> TIMES factor alttermino
+Rule 75    alttermino -> DIV factor alttermino
+Rule 76    alttermino -> empty
+Rule 77    read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+Rule 78    write -> OUTPUT OPENPAREN varcte altwrite
+Rule 79    write -> OUTPUT OPENPAREN expresion altwrite
+Rule 80    altwrite -> COMMA varcte altwrite
+Rule 81    altwrite -> COMMA expresion altwrite
+Rule 82    altwrite -> CLOSEPAREN SEMICOLON
+Rule 83    factor -> OPENPAREN expresion CLOSEPAREN
+Rule 84    factor -> SUM varcte
+Rule 85    factor -> SUBTRACT varcte
+Rule 86    factor -> varcte
+Rule 87    condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+Rule 88    condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+Rule 89    altcondition -> estatuto altcondition
+Rule 90    altcondition -> CLOSECURLY
+Rule 91    assign -> ID EQUALS expresion SEMICOLON
+Rule 92    assign -> ID EQUALS expresion altassign
+Rule 93    altassign -> callfunc altassign
+Rule 94    altassign -> exp altassign
+Rule 95    altassign -> exp varcte altassign
+Rule 96    altassign -> SEMICOLON
+Rule 97    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 65
+BIGGEREQUALSTHAN     : 61
+BIGGERTHAN           : 60
+CLASS                : 9
+CLOSEBRACKET         : 23 26
+CLOSECURLY           : 8 14 19 37 90
+CLOSEPAREN           : 6 15 30 43 45 77 82 83 87 88
+COMMA                : 22 25 28 39 44 80 81
+CONSTRUCTOR          : 15
+CTEFLOAT             : 55
+CTEINT               : 57
+CTESTRING            : 56
+DIFFERENTTHAN        : 64
+DIV                  : 75
+ELSE                 : 88
+EQUALS               : 91 92
+FLOAT                : 47
+FUNC                 : 30
+ID                   : 1 9 10 21 30 38 39 41 49 54 77 91 92
+IF                   : 87 88
+INPUT                : 77
+INT                  : 23 26 46
+MAIN                 : 6
+OPENBRACKET          : 23 26
+OPENCURLY            : 6 9 15 30 87 88 88
+OPENPAREN            : 6 15 30 41 77 78 79 83 87 88
+OR                   : 66
+OUTPUT               : 78 79
+PROGRAM              : 1
+RETURN               : 
+SAMEAS               : 59
+SEMICOLON            : 1 14 20 77 82 91 96
+SMALLEQUALSTHAN      : 63
+SMALLTHAN            : 62
+STRING               : 48
+SUBTRACT             : 70 85
+SUM                  : 69 84
+TIMES                : 74
+TWODOTS              : 10 20 33 38 39
+VAR                  : 20
+error                : 
+
+Nonterminals, with rules where they appear
+
+alt2call             : 42 44
+alt2class            : 9 12 13
+alt2const            : 15 18
+alt2func             : 30
+alt3func             : 30 35 36
+altassign            : 92 93 94 95
+altcall              : 41
+altclass             : 9
+altcondition         : 87 88 88 89
+altconst             : 15 16
+altexp               : 68 69 70
+altexpresion         : 58
+altfunc              : 30
+altmain              : 6 7
+altparams            : 38 39
+altprogram           : 1 2 3 4
+alttermino           : 73 74 75
+altwrite             : 78 79 80 81
+assign               : 50
+callfunc             : 93
+class                : 2
+condition            : 51
+constructor          : 14
+empty                : 11 17 24 27 29 32 34 40 71 76
+estatuto             : 7 18 36 89
+exp                  : 58 58 94 95
+expresion            : 79 81 83 87 88 91 92
+factor               : 72 73 74 75
+function             : 4 13
+listids              : 20 22 25 28
+listidsaltp          : 26
+listidsalty          : 21
+listidsaltz          : 23
+main                 : 5
+params               : 16 31
+program              : 0
+read                 : 53
+termino              : 67 68 69 70
+type                 : 20 33 38 39
+var                  : 3 12 35
+varcte               : 42 44 78 80 84 85 86 95
+write                : 52
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . PROGRAM ID SEMICOLON altprogram
+
+    PROGRAM         shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> PROGRAM . ID SEMICOLON altprogram
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) program -> PROGRAM ID . SEMICOLON altprogram
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) program -> PROGRAM ID SEMICOLON . altprogram
+    (2) altprogram -> . class altprogram
+    (3) altprogram -> . var altprogram
+    (4) altprogram -> . function altprogram
+    (5) altprogram -> . main
+    (9) class -> . CLASS ID altclass OPENCURLY alt2class
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (6) main -> . MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
+
+    CLASS           shift and go to state 10
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    MAIN            shift and go to state 13
+
+    altprogram                     shift and go to state 5
+    class                          shift and go to state 6
+    var                            shift and go to state 7
+    function                       shift and go to state 8
+    main                           shift and go to state 9
+
+state 5
+
+    (1) program -> PROGRAM ID SEMICOLON altprogram .
+
+    $end            reduce using rule 1 (program -> PROGRAM ID SEMICOLON altprogram .)
+
+
+state 6
+
+    (2) altprogram -> class . altprogram
+    (2) altprogram -> . class altprogram
+    (3) altprogram -> . var altprogram
+    (4) altprogram -> . function altprogram
+    (5) altprogram -> . main
+    (9) class -> . CLASS ID altclass OPENCURLY alt2class
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (6) main -> . MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
+
+    CLASS           shift and go to state 10
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    MAIN            shift and go to state 13
+
+    class                          shift and go to state 6
+    altprogram                     shift and go to state 14
+    var                            shift and go to state 7
+    function                       shift and go to state 8
+    main                           shift and go to state 9
+
+state 7
+
+    (3) altprogram -> var . altprogram
+    (2) altprogram -> . class altprogram
+    (3) altprogram -> . var altprogram
+    (4) altprogram -> . function altprogram
+    (5) altprogram -> . main
+    (9) class -> . CLASS ID altclass OPENCURLY alt2class
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (6) main -> . MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
+
+    CLASS           shift and go to state 10
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    MAIN            shift and go to state 13
+
+    var                            shift and go to state 7
+    altprogram                     shift and go to state 15
+    class                          shift and go to state 6
+    function                       shift and go to state 8
+    main                           shift and go to state 9
+
+state 8
+
+    (4) altprogram -> function . altprogram
+    (2) altprogram -> . class altprogram
+    (3) altprogram -> . var altprogram
+    (4) altprogram -> . function altprogram
+    (5) altprogram -> . main
+    (9) class -> . CLASS ID altclass OPENCURLY alt2class
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (6) main -> . MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
+
+    CLASS           shift and go to state 10
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    MAIN            shift and go to state 13
+
+    function                       shift and go to state 8
+    altprogram                     shift and go to state 16
+    class                          shift and go to state 6
+    var                            shift and go to state 7
+    main                           shift and go to state 9
+
+state 9
+
+    (5) altprogram -> main .
+
+    $end            reduce using rule 5 (altprogram -> main .)
+
+
+state 10
+
+    (9) class -> CLASS . ID altclass OPENCURLY alt2class
+
+    ID              shift and go to state 17
+
+
+state 11
+
+    (20) var -> VAR . listids TWODOTS type SEMICOLON
+    (21) listids -> . ID listidsalty
+
+    ID              shift and go to state 19
+
+    listids                        shift and go to state 18
+
+state 12
+
+    (30) function -> FUNC . ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+
+    ID              shift and go to state 20
+
+
+state 13
+
+    (6) main -> MAIN . OPENPAREN CLOSEPAREN OPENCURLY altmain
+
+    OPENPAREN       shift and go to state 21
+
+
+state 14
+
+    (2) altprogram -> class altprogram .
+
+    $end            reduce using rule 2 (altprogram -> class altprogram .)
+
+
+state 15
+
+    (3) altprogram -> var altprogram .
+
+    $end            reduce using rule 3 (altprogram -> var altprogram .)
+
+
+state 16
+
+    (4) altprogram -> function altprogram .
+
+    $end            reduce using rule 4 (altprogram -> function altprogram .)
+
+
+state 17
+
+    (9) class -> CLASS ID . altclass OPENCURLY alt2class
+    (10) altclass -> . TWODOTS ID
+    (11) altclass -> . empty
+    (97) empty -> .
+
+    TWODOTS         shift and go to state 23
+    OPENCURLY       reduce using rule 97 (empty -> .)
+
+    altclass                       shift and go to state 22
+    empty                          shift and go to state 24
+
+state 18
+
+    (20) var -> VAR listids . TWODOTS type SEMICOLON
+
+    TWODOTS         shift and go to state 25
+
+
+state 19
+
+    (21) listids -> ID . listidsalty
+    (22) listidsalty -> . COMMA listids
+    (23) listidsalty -> . OPENBRACKET INT CLOSEBRACKET listidsaltz
+    (24) listidsalty -> . empty
+    (97) empty -> .
+
+    COMMA           shift and go to state 27
+    OPENBRACKET     shift and go to state 28
+    TWODOTS         reduce using rule 97 (empty -> .)
+
+    listidsalty                    shift and go to state 26
+    empty                          shift and go to state 29
+
+state 20
+
+    (30) function -> FUNC ID . OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+
+    OPENPAREN       shift and go to state 30
+
+
+state 21
+
+    (6) main -> MAIN OPENPAREN . CLOSEPAREN OPENCURLY altmain
+
+    CLOSEPAREN      shift and go to state 31
+
+
+state 22
+
+    (9) class -> CLASS ID altclass . OPENCURLY alt2class
+
+    OPENCURLY       shift and go to state 32
+
+
+state 23
+
+    (10) altclass -> TWODOTS . ID
+
+    ID              shift and go to state 33
+
+
+state 24
+
+    (11) altclass -> empty .
+
+    OPENCURLY       reduce using rule 11 (altclass -> empty .)
+
+
+state 25
+
+    (20) var -> VAR listids TWODOTS . type SEMICOLON
+    (46) type -> . INT
+    (47) type -> . FLOAT
+    (48) type -> . STRING
+    (49) type -> . ID
+
+    INT             shift and go to state 35
+    FLOAT           shift and go to state 36
+    STRING          shift and go to state 37
+    ID              shift and go to state 38
+
+    type                           shift and go to state 34
+
+state 26
+
+    (21) listids -> ID listidsalty .
+
+    TWODOTS         reduce using rule 21 (listids -> ID listidsalty .)
+
+
+state 27
+
+    (22) listidsalty -> COMMA . listids
+    (21) listids -> . ID listidsalty
+
+    ID              shift and go to state 19
+
+    listids                        shift and go to state 39
+
+state 28
+
+    (23) listidsalty -> OPENBRACKET . INT CLOSEBRACKET listidsaltz
+
+    INT             shift and go to state 40
+
+
+state 29
+
+    (24) listidsalty -> empty .
+
+    TWODOTS         reduce using rule 24 (listidsalty -> empty .)
+
+
+state 30
+
+    (30) function -> FUNC ID OPENPAREN . altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (31) altfunc -> . params
+    (32) altfunc -> . empty
+    (38) params -> . ID TWODOTS type altparams
+    (97) empty -> .
+
+    ID              shift and go to state 41
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+
+    altfunc                        shift and go to state 42
+    params                         shift and go to state 43
+    empty                          shift and go to state 44
+
+state 31
+
+    (6) main -> MAIN OPENPAREN CLOSEPAREN . OPENCURLY altmain
+
+    OPENCURLY       shift and go to state 45
+
+
+state 32
+
+    (9) class -> CLASS ID altclass OPENCURLY . alt2class
+    (12) alt2class -> . var alt2class
+    (13) alt2class -> . function alt2class
+    (14) alt2class -> . constructor CLOSECURLY SEMICOLON
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (15) constructor -> . CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
+
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    CONSTRUCTOR     shift and go to state 50
+
+    alt2class                      shift and go to state 46
+    var                            shift and go to state 47
+    function                       shift and go to state 48
+    constructor                    shift and go to state 49
+
+state 33
+
+    (10) altclass -> TWODOTS ID .
+
+    OPENCURLY       reduce using rule 10 (altclass -> TWODOTS ID .)
+
+
+state 34
+
+    (20) var -> VAR listids TWODOTS type . SEMICOLON
+
+    SEMICOLON       shift and go to state 51
+
+
+state 35
+
+    (46) type -> INT .
+
+    SEMICOLON       reduce using rule 46 (type -> INT .)
+    COMMA           reduce using rule 46 (type -> INT .)
+    CLOSEPAREN      reduce using rule 46 (type -> INT .)
+    ID              reduce using rule 46 (type -> INT .)
+    OPENCURLY       reduce using rule 46 (type -> INT .)
+
+
+state 36
+
+    (47) type -> FLOAT .
+
+    SEMICOLON       reduce using rule 47 (type -> FLOAT .)
+    COMMA           reduce using rule 47 (type -> FLOAT .)
+    CLOSEPAREN      reduce using rule 47 (type -> FLOAT .)
+    ID              reduce using rule 47 (type -> FLOAT .)
+    OPENCURLY       reduce using rule 47 (type -> FLOAT .)
+
+
+state 37
+
+    (48) type -> STRING .
+
+    SEMICOLON       reduce using rule 48 (type -> STRING .)
+    COMMA           reduce using rule 48 (type -> STRING .)
+    CLOSEPAREN      reduce using rule 48 (type -> STRING .)
+    ID              reduce using rule 48 (type -> STRING .)
+    OPENCURLY       reduce using rule 48 (type -> STRING .)
+
+
+state 38
+
+    (49) type -> ID .
+
+    SEMICOLON       reduce using rule 49 (type -> ID .)
+    COMMA           reduce using rule 49 (type -> ID .)
+    CLOSEPAREN      reduce using rule 49 (type -> ID .)
+    ID              reduce using rule 49 (type -> ID .)
+    OPENCURLY       reduce using rule 49 (type -> ID .)
+
+
+state 39
+
+    (22) listidsalty -> COMMA listids .
+
+    TWODOTS         reduce using rule 22 (listidsalty -> COMMA listids .)
+
+
+state 40
+
+    (23) listidsalty -> OPENBRACKET INT . CLOSEBRACKET listidsaltz
+
+    CLOSEBRACKET    shift and go to state 52
+
+
+state 41
+
+    (38) params -> ID . TWODOTS type altparams
+
+    TWODOTS         shift and go to state 53
+
+
+state 42
+
+    (30) function -> FUNC ID OPENPAREN altfunc . CLOSEPAREN alt2func OPENCURLY alt3func
+
+    CLOSEPAREN      shift and go to state 54
+
+
+state 43
+
+    (31) altfunc -> params .
+
+    CLOSEPAREN      reduce using rule 31 (altfunc -> params .)
+
+
+state 44
+
+    (32) altfunc -> empty .
+
+    CLOSEPAREN      reduce using rule 32 (altfunc -> empty .)
+
+
+state 45
+
+    (6) main -> MAIN OPENPAREN CLOSEPAREN OPENCURLY . altmain
+    (7) altmain -> . estatuto altmain
+    (8) altmain -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 57
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    altmain                        shift and go to state 55
+    estatuto                       shift and go to state 56
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 46
+
+    (9) class -> CLASS ID altclass OPENCURLY alt2class .
+
+    CLASS           reduce using rule 9 (class -> CLASS ID altclass OPENCURLY alt2class .)
+    VAR             reduce using rule 9 (class -> CLASS ID altclass OPENCURLY alt2class .)
+    FUNC            reduce using rule 9 (class -> CLASS ID altclass OPENCURLY alt2class .)
+    MAIN            reduce using rule 9 (class -> CLASS ID altclass OPENCURLY alt2class .)
+
+
+state 47
+
+    (12) alt2class -> var . alt2class
+    (12) alt2class -> . var alt2class
+    (13) alt2class -> . function alt2class
+    (14) alt2class -> . constructor CLOSECURLY SEMICOLON
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (15) constructor -> . CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
+
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    CONSTRUCTOR     shift and go to state 50
+
+    var                            shift and go to state 47
+    alt2class                      shift and go to state 66
+    function                       shift and go to state 48
+    constructor                    shift and go to state 49
+
+state 48
+
+    (13) alt2class -> function . alt2class
+    (12) alt2class -> . var alt2class
+    (13) alt2class -> . function alt2class
+    (14) alt2class -> . constructor CLOSECURLY SEMICOLON
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (30) function -> . FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+    (15) constructor -> . CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
+
+    VAR             shift and go to state 11
+    FUNC            shift and go to state 12
+    CONSTRUCTOR     shift and go to state 50
+
+    function                       shift and go to state 48
+    alt2class                      shift and go to state 67
+    var                            shift and go to state 47
+    constructor                    shift and go to state 49
+
+state 49
+
+    (14) alt2class -> constructor . CLOSECURLY SEMICOLON
+
+    CLOSECURLY      shift and go to state 68
+
+
+state 50
+
+    (15) constructor -> CONSTRUCTOR . OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
+
+    OPENPAREN       shift and go to state 69
+
+
+state 51
+
+    (20) var -> VAR listids TWODOTS type SEMICOLON .
+
+    CLASS           reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    VAR             reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    FUNC            reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    MAIN            reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    CONSTRUCTOR     reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    CLOSECURLY      reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    ID              reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    IF              reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    OUTPUT          reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+    INPUT           reduce using rule 20 (var -> VAR listids TWODOTS type SEMICOLON .)
+
+
+state 52
+
+    (23) listidsalty -> OPENBRACKET INT CLOSEBRACKET . listidsaltz
+    (25) listidsaltz -> . COMMA listids
+    (26) listidsaltz -> . OPENBRACKET INT CLOSEBRACKET listidsaltp
+    (27) listidsaltz -> . empty
+    (97) empty -> .
+
+    COMMA           shift and go to state 72
+    OPENBRACKET     shift and go to state 70
+    TWODOTS         reduce using rule 97 (empty -> .)
+
+    listidsaltz                    shift and go to state 71
+    empty                          shift and go to state 73
+
+state 53
+
+    (38) params -> ID TWODOTS . type altparams
+    (46) type -> . INT
+    (47) type -> . FLOAT
+    (48) type -> . STRING
+    (49) type -> . ID
+
+    INT             shift and go to state 35
+    FLOAT           shift and go to state 36
+    STRING          shift and go to state 37
+    ID              shift and go to state 38
+
+    type                           shift and go to state 74
+
+state 54
+
+    (30) function -> FUNC ID OPENPAREN altfunc CLOSEPAREN . alt2func OPENCURLY alt3func
+    (33) alt2func -> . TWODOTS type
+    (34) alt2func -> . empty
+    (97) empty -> .
+
+    TWODOTS         shift and go to state 76
+    OPENCURLY       reduce using rule 97 (empty -> .)
+
+    alt2func                       shift and go to state 75
+    empty                          shift and go to state 77
+
+state 55
+
+    (6) main -> MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain .
+
+    $end            reduce using rule 6 (main -> MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain .)
+
+
+state 56
+
+    (7) altmain -> estatuto . altmain
+    (7) altmain -> . estatuto altmain
+    (8) altmain -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 57
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    estatuto                       shift and go to state 56
+    altmain                        shift and go to state 78
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 57
+
+    (8) altmain -> CLOSECURLY .
+
+    $end            reduce using rule 8 (altmain -> CLOSECURLY .)
+
+
+state 58
+
+    (50) estatuto -> assign .
+
+    CLOSECURLY      reduce using rule 50 (estatuto -> assign .)
+    ID              reduce using rule 50 (estatuto -> assign .)
+    IF              reduce using rule 50 (estatuto -> assign .)
+    OUTPUT          reduce using rule 50 (estatuto -> assign .)
+    INPUT           reduce using rule 50 (estatuto -> assign .)
+    VAR             reduce using rule 50 (estatuto -> assign .)
+
+
+state 59
+
+    (51) estatuto -> condition .
+
+    CLOSECURLY      reduce using rule 51 (estatuto -> condition .)
+    ID              reduce using rule 51 (estatuto -> condition .)
+    IF              reduce using rule 51 (estatuto -> condition .)
+    OUTPUT          reduce using rule 51 (estatuto -> condition .)
+    INPUT           reduce using rule 51 (estatuto -> condition .)
+    VAR             reduce using rule 51 (estatuto -> condition .)
+
+
+state 60
+
+    (52) estatuto -> write .
+
+    CLOSECURLY      reduce using rule 52 (estatuto -> write .)
+    ID              reduce using rule 52 (estatuto -> write .)
+    IF              reduce using rule 52 (estatuto -> write .)
+    OUTPUT          reduce using rule 52 (estatuto -> write .)
+    INPUT           reduce using rule 52 (estatuto -> write .)
+    VAR             reduce using rule 52 (estatuto -> write .)
+
+
+state 61
+
+    (53) estatuto -> read .
+
+    CLOSECURLY      reduce using rule 53 (estatuto -> read .)
+    ID              reduce using rule 53 (estatuto -> read .)
+    IF              reduce using rule 53 (estatuto -> read .)
+    OUTPUT          reduce using rule 53 (estatuto -> read .)
+    INPUT           reduce using rule 53 (estatuto -> read .)
+    VAR             reduce using rule 53 (estatuto -> read .)
+
+
+state 62
+
+    (91) assign -> ID . EQUALS expresion SEMICOLON
+    (92) assign -> ID . EQUALS expresion altassign
+
+    EQUALS          shift and go to state 79
+
+
+state 63
+
+    (87) condition -> IF . OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> IF . OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+
+    OPENPAREN       shift and go to state 80
+
+
+state 64
+
+    (78) write -> OUTPUT . OPENPAREN varcte altwrite
+    (79) write -> OUTPUT . OPENPAREN expresion altwrite
+
+    OPENPAREN       shift and go to state 81
+
+
+state 65
+
+    (77) read -> INPUT . OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    OPENPAREN       shift and go to state 82
+
+
+state 66
+
+    (12) alt2class -> var alt2class .
+
+    CLASS           reduce using rule 12 (alt2class -> var alt2class .)
+    VAR             reduce using rule 12 (alt2class -> var alt2class .)
+    FUNC            reduce using rule 12 (alt2class -> var alt2class .)
+    MAIN            reduce using rule 12 (alt2class -> var alt2class .)
+
+
+state 67
+
+    (13) alt2class -> function alt2class .
+
+    CLASS           reduce using rule 13 (alt2class -> function alt2class .)
+    VAR             reduce using rule 13 (alt2class -> function alt2class .)
+    FUNC            reduce using rule 13 (alt2class -> function alt2class .)
+    MAIN            reduce using rule 13 (alt2class -> function alt2class .)
+
+
+state 68
+
+    (14) alt2class -> constructor CLOSECURLY . SEMICOLON
+
+    SEMICOLON       shift and go to state 83
+
+
+state 69
+
+    (15) constructor -> CONSTRUCTOR OPENPAREN . altconst CLOSEPAREN OPENCURLY alt2const
+    (16) altconst -> . params altconst
+    (17) altconst -> . empty
+    (38) params -> . ID TWODOTS type altparams
+    (97) empty -> .
+
+    ID              shift and go to state 41
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+
+    altconst                       shift and go to state 84
+    params                         shift and go to state 85
+    empty                          shift and go to state 86
+
+state 70
+
+    (26) listidsaltz -> OPENBRACKET . INT CLOSEBRACKET listidsaltp
+
+    INT             shift and go to state 87
+
+
+state 71
+
+    (23) listidsalty -> OPENBRACKET INT CLOSEBRACKET listidsaltz .
+
+    TWODOTS         reduce using rule 23 (listidsalty -> OPENBRACKET INT CLOSEBRACKET listidsaltz .)
+
+
+state 72
+
+    (25) listidsaltz -> COMMA . listids
+    (21) listids -> . ID listidsalty
+
+    ID              shift and go to state 19
+
+    listids                        shift and go to state 88
+
+state 73
+
+    (27) listidsaltz -> empty .
+
+    TWODOTS         reduce using rule 27 (listidsaltz -> empty .)
+
+
+state 74
+
+    (38) params -> ID TWODOTS type . altparams
+    (39) altparams -> . COMMA ID TWODOTS type altparams
+    (40) altparams -> . empty
+    (97) empty -> .
+
+    COMMA           shift and go to state 90
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+    ID              reduce using rule 97 (empty -> .)
+
+    altparams                      shift and go to state 89
+    empty                          shift and go to state 91
+
+state 75
+
+    (30) function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func . OPENCURLY alt3func
+
+    OPENCURLY       shift and go to state 92
+
+
+state 76
+
+    (33) alt2func -> TWODOTS . type
+    (46) type -> . INT
+    (47) type -> . FLOAT
+    (48) type -> . STRING
+    (49) type -> . ID
+
+    INT             shift and go to state 35
+    FLOAT           shift and go to state 36
+    STRING          shift and go to state 37
+    ID              shift and go to state 38
+
+    type                           shift and go to state 93
+
+state 77
+
+    (34) alt2func -> empty .
+
+    OPENCURLY       reduce using rule 34 (alt2func -> empty .)
+
+
+state 78
+
+    (7) altmain -> estatuto altmain .
+
+    $end            reduce using rule 7 (altmain -> estatuto altmain .)
+
+
+state 79
+
+    (91) assign -> ID EQUALS . expresion SEMICOLON
+    (92) assign -> ID EQUALS . expresion altassign
+    (58) expresion -> . exp altexpresion exp
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    expresion                      shift and go to state 95
+    exp                            shift and go to state 96
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+    varcte                         shift and go to state 101
+
+state 80
+
+    (87) condition -> IF OPENPAREN . expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> IF OPENPAREN . expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (58) expresion -> . exp altexpresion exp
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    expresion                      shift and go to state 106
+    exp                            shift and go to state 96
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+    varcte                         shift and go to state 101
+
+state 81
+
+    (78) write -> OUTPUT OPENPAREN . varcte altwrite
+    (79) write -> OUTPUT OPENPAREN . expresion altwrite
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+    (58) expresion -> . exp altexpresion exp
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+
+    varcte                         shift and go to state 107
+    expresion                      shift and go to state 108
+    exp                            shift and go to state 96
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+
+state 82
+
+    (77) read -> INPUT OPENPAREN . ID CLOSEPAREN SEMICOLON
+
+    ID              shift and go to state 109
+
+
+state 83
+
+    (14) alt2class -> constructor CLOSECURLY SEMICOLON .
+
+    CLASS           reduce using rule 14 (alt2class -> constructor CLOSECURLY SEMICOLON .)
+    VAR             reduce using rule 14 (alt2class -> constructor CLOSECURLY SEMICOLON .)
+    FUNC            reduce using rule 14 (alt2class -> constructor CLOSECURLY SEMICOLON .)
+    MAIN            reduce using rule 14 (alt2class -> constructor CLOSECURLY SEMICOLON .)
+
+
+state 84
+
+    (15) constructor -> CONSTRUCTOR OPENPAREN altconst . CLOSEPAREN OPENCURLY alt2const
+
+    CLOSEPAREN      shift and go to state 110
+
+
+state 85
+
+    (16) altconst -> params . altconst
+    (16) altconst -> . params altconst
+    (17) altconst -> . empty
+    (38) params -> . ID TWODOTS type altparams
+    (97) empty -> .
+
+    ID              shift and go to state 41
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+
+    params                         shift and go to state 85
+    altconst                       shift and go to state 111
+    empty                          shift and go to state 86
+
+state 86
+
+    (17) altconst -> empty .
+
+    CLOSEPAREN      reduce using rule 17 (altconst -> empty .)
+
+
+state 87
+
+    (26) listidsaltz -> OPENBRACKET INT . CLOSEBRACKET listidsaltp
+
+    CLOSEBRACKET    shift and go to state 112
+
+
+state 88
+
+    (25) listidsaltz -> COMMA listids .
+
+    TWODOTS         reduce using rule 25 (listidsaltz -> COMMA listids .)
+
+
+state 89
+
+    (38) params -> ID TWODOTS type altparams .
+
+    CLOSEPAREN      reduce using rule 38 (params -> ID TWODOTS type altparams .)
+    ID              reduce using rule 38 (params -> ID TWODOTS type altparams .)
+
+
+state 90
+
+    (39) altparams -> COMMA . ID TWODOTS type altparams
+
+    ID              shift and go to state 113
+
+
+state 91
+
+    (40) altparams -> empty .
+
+    CLOSEPAREN      reduce using rule 40 (altparams -> empty .)
+    ID              reduce using rule 40 (altparams -> empty .)
+
+
+state 92
+
+    (30) function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY . alt3func
+    (35) alt3func -> . var alt3func
+    (36) alt3func -> . estatuto alt3func
+    (37) alt3func -> . CLOSECURLY
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 117
+    VAR             shift and go to state 11
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    alt3func                       shift and go to state 114
+    var                            shift and go to state 115
+    estatuto                       shift and go to state 116
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 93
+
+    (33) alt2func -> TWODOTS type .
+
+    OPENCURLY       reduce using rule 33 (alt2func -> TWODOTS type .)
+
+
+state 94
+
+    (54) varcte -> ID .
+
+    TIMES           reduce using rule 54 (varcte -> ID .)
+    DIV             reduce using rule 54 (varcte -> ID .)
+    SUM             reduce using rule 54 (varcte -> ID .)
+    SUBTRACT        reduce using rule 54 (varcte -> ID .)
+    SAMEAS          reduce using rule 54 (varcte -> ID .)
+    BIGGERTHAN      reduce using rule 54 (varcte -> ID .)
+    BIGGEREQUALSTHAN reduce using rule 54 (varcte -> ID .)
+    SMALLTHAN       reduce using rule 54 (varcte -> ID .)
+    SMALLEQUALSTHAN reduce using rule 54 (varcte -> ID .)
+    DIFFERENTTHAN   reduce using rule 54 (varcte -> ID .)
+    AND             reduce using rule 54 (varcte -> ID .)
+    OR              reduce using rule 54 (varcte -> ID .)
+    COMMA           reduce using rule 54 (varcte -> ID .)
+    CLOSEPAREN      reduce using rule 54 (varcte -> ID .)
+    SEMICOLON       reduce using rule 54 (varcte -> ID .)
+    ID              reduce using rule 54 (varcte -> ID .)
+    CTEFLOAT        reduce using rule 54 (varcte -> ID .)
+    CTESTRING       reduce using rule 54 (varcte -> ID .)
+    CTEINT          reduce using rule 54 (varcte -> ID .)
+    OPENPAREN       reduce using rule 54 (varcte -> ID .)
+
+
+state 95
+
+    (91) assign -> ID EQUALS expresion . SEMICOLON
+    (92) assign -> ID EQUALS expresion . altassign
+    (93) altassign -> . callfunc altassign
+    (94) altassign -> . exp altassign
+    (95) altassign -> . exp varcte altassign
+    (96) altassign -> . SEMICOLON
+    (41) callfunc -> . ID OPENPAREN altcall
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    SEMICOLON       shift and go to state 119
+    ID              shift and go to state 118
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    altassign                      shift and go to state 120
+    callfunc                       shift and go to state 121
+    exp                            shift and go to state 122
+    varcte                         shift and go to state 101
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+
+state 96
+
+    (58) expresion -> exp . altexpresion exp
+    (59) altexpresion -> . SAMEAS
+    (60) altexpresion -> . BIGGERTHAN
+    (61) altexpresion -> . BIGGEREQUALSTHAN
+    (62) altexpresion -> . SMALLTHAN
+    (63) altexpresion -> . SMALLEQUALSTHAN
+    (64) altexpresion -> . DIFFERENTTHAN
+    (65) altexpresion -> . AND
+    (66) altexpresion -> . OR
+
+    SAMEAS          shift and go to state 124
+    BIGGERTHAN      shift and go to state 125
+    BIGGEREQUALSTHAN shift and go to state 126
+    SMALLTHAN       shift and go to state 127
+    SMALLEQUALSTHAN shift and go to state 128
+    DIFFERENTTHAN   shift and go to state 129
+    AND             shift and go to state 130
+    OR              shift and go to state 131
+
+    altexpresion                   shift and go to state 123
+
+state 97
+
+    (67) exp -> termino .
+    (68) exp -> termino . altexp
+    (69) altexp -> . SUM termino altexp
+    (70) altexp -> . SUBTRACT termino altexp
+    (71) altexp -> . empty
+    (97) empty -> .
+
+  ! shift/reduce conflict for SUM resolved as shift
+  ! shift/reduce conflict for SUBTRACT resolved as shift
+  ! reduce/reduce conflict for SAMEAS resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for BIGGERTHAN resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for BIGGEREQUALSTHAN resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for SMALLTHAN resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for SMALLEQUALSTHAN resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for DIFFERENTTHAN resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for AND resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for OR resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for ID resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for CTEFLOAT resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for CTESTRING resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for CTEINT resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for OPENPAREN resolved using rule 67 (exp -> termino .)
+  ! shift/reduce conflict for SUM resolved as shift
+  ! shift/reduce conflict for SUBTRACT resolved as shift
+  ! reduce/reduce conflict for CLOSEPAREN resolved using rule 67 (exp -> termino .)
+  ! reduce/reduce conflict for COMMA resolved using rule 67 (exp -> termino .)
+    SAMEAS          reduce using rule 67 (exp -> termino .)
+    BIGGERTHAN      reduce using rule 67 (exp -> termino .)
+    BIGGEREQUALSTHAN reduce using rule 67 (exp -> termino .)
+    SMALLTHAN       reduce using rule 67 (exp -> termino .)
+    SMALLEQUALSTHAN reduce using rule 67 (exp -> termino .)
+    DIFFERENTTHAN   reduce using rule 67 (exp -> termino .)
+    AND             reduce using rule 67 (exp -> termino .)
+    OR              reduce using rule 67 (exp -> termino .)
+    SEMICOLON       reduce using rule 67 (exp -> termino .)
+    ID              reduce using rule 67 (exp -> termino .)
+    CTEFLOAT        reduce using rule 67 (exp -> termino .)
+    CTESTRING       reduce using rule 67 (exp -> termino .)
+    CTEINT          reduce using rule 67 (exp -> termino .)
+    OPENPAREN       reduce using rule 67 (exp -> termino .)
+    CLOSEPAREN      reduce using rule 67 (exp -> termino .)
+    COMMA           reduce using rule 67 (exp -> termino .)
+    SUM             shift and go to state 133
+    SUBTRACT        shift and go to state 134
+
+  ! SUM             [ reduce using rule 67 (exp -> termino .) ]
+  ! SUBTRACT        [ reduce using rule 67 (exp -> termino .) ]
+  ! SAMEAS          [ reduce using rule 97 (empty -> .) ]
+  ! BIGGERTHAN      [ reduce using rule 97 (empty -> .) ]
+  ! BIGGEREQUALSTHAN [ reduce using rule 97 (empty -> .) ]
+  ! SMALLTHAN       [ reduce using rule 97 (empty -> .) ]
+  ! SMALLEQUALSTHAN [ reduce using rule 97 (empty -> .) ]
+  ! DIFFERENTTHAN   [ reduce using rule 97 (empty -> .) ]
+  ! AND             [ reduce using rule 97 (empty -> .) ]
+  ! OR              [ reduce using rule 97 (empty -> .) ]
+  ! SEMICOLON       [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! CTEFLOAT        [ reduce using rule 97 (empty -> .) ]
+  ! CTESTRING       [ reduce using rule 97 (empty -> .) ]
+  ! CTEINT          [ reduce using rule 97 (empty -> .) ]
+  ! OPENPAREN       [ reduce using rule 97 (empty -> .) ]
+  ! SUM             [ reduce using rule 97 (empty -> .) ]
+  ! SUBTRACT        [ reduce using rule 97 (empty -> .) ]
+  ! CLOSEPAREN      [ reduce using rule 97 (empty -> .) ]
+  ! COMMA           [ reduce using rule 97 (empty -> .) ]
+
+    altexp                         shift and go to state 132
+    empty                          shift and go to state 135
+
+state 98
+
+    (72) termino -> factor .
+    (73) termino -> factor . alttermino
+    (74) alttermino -> . TIMES factor alttermino
+    (75) alttermino -> . DIV factor alttermino
+    (76) alttermino -> . empty
+    (97) empty -> .
+
+  ! reduce/reduce conflict for SUM resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for SUBTRACT resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for SAMEAS resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for BIGGERTHAN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for BIGGEREQUALSTHAN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for SMALLTHAN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for SMALLEQUALSTHAN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for DIFFERENTTHAN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for AND resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for OR resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for ID resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for CTEFLOAT resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for CTESTRING resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for CTEINT resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for OPENPAREN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for CLOSEPAREN resolved using rule 72 (termino -> factor .)
+  ! reduce/reduce conflict for COMMA resolved using rule 72 (termino -> factor .)
+    SUM             reduce using rule 72 (termino -> factor .)
+    SUBTRACT        reduce using rule 72 (termino -> factor .)
+    SAMEAS          reduce using rule 72 (termino -> factor .)
+    BIGGERTHAN      reduce using rule 72 (termino -> factor .)
+    BIGGEREQUALSTHAN reduce using rule 72 (termino -> factor .)
+    SMALLTHAN       reduce using rule 72 (termino -> factor .)
+    SMALLEQUALSTHAN reduce using rule 72 (termino -> factor .)
+    DIFFERENTTHAN   reduce using rule 72 (termino -> factor .)
+    AND             reduce using rule 72 (termino -> factor .)
+    OR              reduce using rule 72 (termino -> factor .)
+    SEMICOLON       reduce using rule 72 (termino -> factor .)
+    ID              reduce using rule 72 (termino -> factor .)
+    CTEFLOAT        reduce using rule 72 (termino -> factor .)
+    CTESTRING       reduce using rule 72 (termino -> factor .)
+    CTEINT          reduce using rule 72 (termino -> factor .)
+    OPENPAREN       reduce using rule 72 (termino -> factor .)
+    CLOSEPAREN      reduce using rule 72 (termino -> factor .)
+    COMMA           reduce using rule 72 (termino -> factor .)
+    TIMES           shift and go to state 137
+    DIV             shift and go to state 138
+
+  ! SUM             [ reduce using rule 97 (empty -> .) ]
+  ! SUBTRACT        [ reduce using rule 97 (empty -> .) ]
+  ! SAMEAS          [ reduce using rule 97 (empty -> .) ]
+  ! BIGGERTHAN      [ reduce using rule 97 (empty -> .) ]
+  ! BIGGEREQUALSTHAN [ reduce using rule 97 (empty -> .) ]
+  ! SMALLTHAN       [ reduce using rule 97 (empty -> .) ]
+  ! SMALLEQUALSTHAN [ reduce using rule 97 (empty -> .) ]
+  ! DIFFERENTTHAN   [ reduce using rule 97 (empty -> .) ]
+  ! AND             [ reduce using rule 97 (empty -> .) ]
+  ! OR              [ reduce using rule 97 (empty -> .) ]
+  ! SEMICOLON       [ reduce using rule 97 (empty -> .) ]
+  ! ID              [ reduce using rule 97 (empty -> .) ]
+  ! CTEFLOAT        [ reduce using rule 97 (empty -> .) ]
+  ! CTESTRING       [ reduce using rule 97 (empty -> .) ]
+  ! CTEINT          [ reduce using rule 97 (empty -> .) ]
+  ! OPENPAREN       [ reduce using rule 97 (empty -> .) ]
+  ! CLOSEPAREN      [ reduce using rule 97 (empty -> .) ]
+  ! COMMA           [ reduce using rule 97 (empty -> .) ]
+
+    alttermino                     shift and go to state 136
+    empty                          shift and go to state 139
+
+state 99
+
+    (83) factor -> OPENPAREN . expresion CLOSEPAREN
+    (58) expresion -> . exp altexpresion exp
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    expresion                      shift and go to state 140
+    exp                            shift and go to state 96
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+    varcte                         shift and go to state 101
+
+state 100
+
+    (84) factor -> SUM . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    varcte                         shift and go to state 141
+
+state 101
+
+    (86) factor -> varcte .
+
+    TIMES           reduce using rule 86 (factor -> varcte .)
+    DIV             reduce using rule 86 (factor -> varcte .)
+    SUM             reduce using rule 86 (factor -> varcte .)
+    SUBTRACT        reduce using rule 86 (factor -> varcte .)
+    SAMEAS          reduce using rule 86 (factor -> varcte .)
+    BIGGERTHAN      reduce using rule 86 (factor -> varcte .)
+    BIGGEREQUALSTHAN reduce using rule 86 (factor -> varcte .)
+    SMALLTHAN       reduce using rule 86 (factor -> varcte .)
+    SMALLEQUALSTHAN reduce using rule 86 (factor -> varcte .)
+    DIFFERENTTHAN   reduce using rule 86 (factor -> varcte .)
+    AND             reduce using rule 86 (factor -> varcte .)
+    OR              reduce using rule 86 (factor -> varcte .)
+    SEMICOLON       reduce using rule 86 (factor -> varcte .)
+    ID              reduce using rule 86 (factor -> varcte .)
+    CTEFLOAT        reduce using rule 86 (factor -> varcte .)
+    CTESTRING       reduce using rule 86 (factor -> varcte .)
+    CTEINT          reduce using rule 86 (factor -> varcte .)
+    OPENPAREN       reduce using rule 86 (factor -> varcte .)
+    CLOSEPAREN      reduce using rule 86 (factor -> varcte .)
+    COMMA           reduce using rule 86 (factor -> varcte .)
+
+
+state 102
+
+    (85) factor -> SUBTRACT . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    varcte                         shift and go to state 142
+
+state 103
+
+    (55) varcte -> CTEFLOAT .
+
+    TIMES           reduce using rule 55 (varcte -> CTEFLOAT .)
+    DIV             reduce using rule 55 (varcte -> CTEFLOAT .)
+    SUM             reduce using rule 55 (varcte -> CTEFLOAT .)
+    SUBTRACT        reduce using rule 55 (varcte -> CTEFLOAT .)
+    SAMEAS          reduce using rule 55 (varcte -> CTEFLOAT .)
+    BIGGERTHAN      reduce using rule 55 (varcte -> CTEFLOAT .)
+    BIGGEREQUALSTHAN reduce using rule 55 (varcte -> CTEFLOAT .)
+    SMALLTHAN       reduce using rule 55 (varcte -> CTEFLOAT .)
+    SMALLEQUALSTHAN reduce using rule 55 (varcte -> CTEFLOAT .)
+    DIFFERENTTHAN   reduce using rule 55 (varcte -> CTEFLOAT .)
+    AND             reduce using rule 55 (varcte -> CTEFLOAT .)
+    OR              reduce using rule 55 (varcte -> CTEFLOAT .)
+    COMMA           reduce using rule 55 (varcte -> CTEFLOAT .)
+    CLOSEPAREN      reduce using rule 55 (varcte -> CTEFLOAT .)
+    SEMICOLON       reduce using rule 55 (varcte -> CTEFLOAT .)
+    ID              reduce using rule 55 (varcte -> CTEFLOAT .)
+    CTEFLOAT        reduce using rule 55 (varcte -> CTEFLOAT .)
+    CTESTRING       reduce using rule 55 (varcte -> CTEFLOAT .)
+    CTEINT          reduce using rule 55 (varcte -> CTEFLOAT .)
+    OPENPAREN       reduce using rule 55 (varcte -> CTEFLOAT .)
+
+
+state 104
+
+    (56) varcte -> CTESTRING .
+
+    TIMES           reduce using rule 56 (varcte -> CTESTRING .)
+    DIV             reduce using rule 56 (varcte -> CTESTRING .)
+    SUM             reduce using rule 56 (varcte -> CTESTRING .)
+    SUBTRACT        reduce using rule 56 (varcte -> CTESTRING .)
+    SAMEAS          reduce using rule 56 (varcte -> CTESTRING .)
+    BIGGERTHAN      reduce using rule 56 (varcte -> CTESTRING .)
+    BIGGEREQUALSTHAN reduce using rule 56 (varcte -> CTESTRING .)
+    SMALLTHAN       reduce using rule 56 (varcte -> CTESTRING .)
+    SMALLEQUALSTHAN reduce using rule 56 (varcte -> CTESTRING .)
+    DIFFERENTTHAN   reduce using rule 56 (varcte -> CTESTRING .)
+    AND             reduce using rule 56 (varcte -> CTESTRING .)
+    OR              reduce using rule 56 (varcte -> CTESTRING .)
+    COMMA           reduce using rule 56 (varcte -> CTESTRING .)
+    CLOSEPAREN      reduce using rule 56 (varcte -> CTESTRING .)
+    SEMICOLON       reduce using rule 56 (varcte -> CTESTRING .)
+    ID              reduce using rule 56 (varcte -> CTESTRING .)
+    CTEFLOAT        reduce using rule 56 (varcte -> CTESTRING .)
+    CTESTRING       reduce using rule 56 (varcte -> CTESTRING .)
+    CTEINT          reduce using rule 56 (varcte -> CTESTRING .)
+    OPENPAREN       reduce using rule 56 (varcte -> CTESTRING .)
+
+
+state 105
+
+    (57) varcte -> CTEINT .
+
+    TIMES           reduce using rule 57 (varcte -> CTEINT .)
+    DIV             reduce using rule 57 (varcte -> CTEINT .)
+    SUM             reduce using rule 57 (varcte -> CTEINT .)
+    SUBTRACT        reduce using rule 57 (varcte -> CTEINT .)
+    SAMEAS          reduce using rule 57 (varcte -> CTEINT .)
+    BIGGERTHAN      reduce using rule 57 (varcte -> CTEINT .)
+    BIGGEREQUALSTHAN reduce using rule 57 (varcte -> CTEINT .)
+    SMALLTHAN       reduce using rule 57 (varcte -> CTEINT .)
+    SMALLEQUALSTHAN reduce using rule 57 (varcte -> CTEINT .)
+    DIFFERENTTHAN   reduce using rule 57 (varcte -> CTEINT .)
+    AND             reduce using rule 57 (varcte -> CTEINT .)
+    OR              reduce using rule 57 (varcte -> CTEINT .)
+    COMMA           reduce using rule 57 (varcte -> CTEINT .)
+    CLOSEPAREN      reduce using rule 57 (varcte -> CTEINT .)
+    SEMICOLON       reduce using rule 57 (varcte -> CTEINT .)
+    ID              reduce using rule 57 (varcte -> CTEINT .)
+    CTEFLOAT        reduce using rule 57 (varcte -> CTEINT .)
+    CTESTRING       reduce using rule 57 (varcte -> CTEINT .)
+    CTEINT          reduce using rule 57 (varcte -> CTEINT .)
+    OPENPAREN       reduce using rule 57 (varcte -> CTEINT .)
+
+
+state 106
+
+    (87) condition -> IF OPENPAREN expresion . CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> IF OPENPAREN expresion . CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+
+    CLOSEPAREN      shift and go to state 143
+
+
+state 107
+
+    (78) write -> OUTPUT OPENPAREN varcte . altwrite
+    (86) factor -> varcte .
+    (80) altwrite -> . COMMA varcte altwrite
+    (81) altwrite -> . COMMA expresion altwrite
+    (82) altwrite -> . CLOSEPAREN SEMICOLON
+
+    TIMES           reduce using rule 86 (factor -> varcte .)
+    DIV             reduce using rule 86 (factor -> varcte .)
+    SUM             reduce using rule 86 (factor -> varcte .)
+    SUBTRACT        reduce using rule 86 (factor -> varcte .)
+    SAMEAS          reduce using rule 86 (factor -> varcte .)
+    BIGGERTHAN      reduce using rule 86 (factor -> varcte .)
+    BIGGEREQUALSTHAN reduce using rule 86 (factor -> varcte .)
+    SMALLTHAN       reduce using rule 86 (factor -> varcte .)
+    SMALLEQUALSTHAN reduce using rule 86 (factor -> varcte .)
+    DIFFERENTTHAN   reduce using rule 86 (factor -> varcte .)
+    AND             reduce using rule 86 (factor -> varcte .)
+    OR              reduce using rule 86 (factor -> varcte .)
+    COMMA           shift and go to state 145
+    CLOSEPAREN      shift and go to state 146
+
+    altwrite                       shift and go to state 144
+
+state 108
+
+    (79) write -> OUTPUT OPENPAREN expresion . altwrite
+    (80) altwrite -> . COMMA varcte altwrite
+    (81) altwrite -> . COMMA expresion altwrite
+    (82) altwrite -> . CLOSEPAREN SEMICOLON
+
+    COMMA           shift and go to state 145
+    CLOSEPAREN      shift and go to state 146
+
+    altwrite                       shift and go to state 147
+
+state 109
+
+    (77) read -> INPUT OPENPAREN ID . CLOSEPAREN SEMICOLON
+
+    CLOSEPAREN      shift and go to state 148
+
+
+state 110
+
+    (15) constructor -> CONSTRUCTOR OPENPAREN altconst CLOSEPAREN . OPENCURLY alt2const
+
+    OPENCURLY       shift and go to state 149
+
+
+state 111
+
+    (16) altconst -> params altconst .
+
+    CLOSEPAREN      reduce using rule 16 (altconst -> params altconst .)
+
+
+state 112
+
+    (26) listidsaltz -> OPENBRACKET INT CLOSEBRACKET . listidsaltp
+    (28) listidsaltp -> . COMMA listids
+    (29) listidsaltp -> . empty
+    (97) empty -> .
+
+    COMMA           shift and go to state 151
+    TWODOTS         reduce using rule 97 (empty -> .)
+
+    listidsaltp                    shift and go to state 150
+    empty                          shift and go to state 152
+
+state 113
+
+    (39) altparams -> COMMA ID . TWODOTS type altparams
+
+    TWODOTS         shift and go to state 153
+
+
+state 114
+
+    (30) function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func .
+
+    CLASS           reduce using rule 30 (function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func .)
+    VAR             reduce using rule 30 (function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func .)
+    FUNC            reduce using rule 30 (function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func .)
+    MAIN            reduce using rule 30 (function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func .)
+    CONSTRUCTOR     reduce using rule 30 (function -> FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func .)
+
+
+state 115
+
+    (35) alt3func -> var . alt3func
+    (35) alt3func -> . var alt3func
+    (36) alt3func -> . estatuto alt3func
+    (37) alt3func -> . CLOSECURLY
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 117
+    VAR             shift and go to state 11
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    var                            shift and go to state 115
+    alt3func                       shift and go to state 154
+    estatuto                       shift and go to state 116
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 116
+
+    (36) alt3func -> estatuto . alt3func
+    (35) alt3func -> . var alt3func
+    (36) alt3func -> . estatuto alt3func
+    (37) alt3func -> . CLOSECURLY
+    (20) var -> . VAR listids TWODOTS type SEMICOLON
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 117
+    VAR             shift and go to state 11
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    estatuto                       shift and go to state 116
+    alt3func                       shift and go to state 155
+    var                            shift and go to state 115
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 117
+
+    (37) alt3func -> CLOSECURLY .
+
+    CLASS           reduce using rule 37 (alt3func -> CLOSECURLY .)
+    VAR             reduce using rule 37 (alt3func -> CLOSECURLY .)
+    FUNC            reduce using rule 37 (alt3func -> CLOSECURLY .)
+    MAIN            reduce using rule 37 (alt3func -> CLOSECURLY .)
+    CONSTRUCTOR     reduce using rule 37 (alt3func -> CLOSECURLY .)
+
+
+state 118
+
+    (41) callfunc -> ID . OPENPAREN altcall
+    (54) varcte -> ID .
+
+  ! shift/reduce conflict for OPENPAREN resolved as shift
+    OPENPAREN       shift and go to state 156
+    TIMES           reduce using rule 54 (varcte -> ID .)
+    DIV             reduce using rule 54 (varcte -> ID .)
+    SUM             reduce using rule 54 (varcte -> ID .)
+    SUBTRACT        reduce using rule 54 (varcte -> ID .)
+    SEMICOLON       reduce using rule 54 (varcte -> ID .)
+    ID              reduce using rule 54 (varcte -> ID .)
+    CTEFLOAT        reduce using rule 54 (varcte -> ID .)
+    CTESTRING       reduce using rule 54 (varcte -> ID .)
+    CTEINT          reduce using rule 54 (varcte -> ID .)
+
+  ! OPENPAREN       [ reduce using rule 54 (varcte -> ID .) ]
+
+
+state 119
+
+    (91) assign -> ID EQUALS expresion SEMICOLON .
+    (96) altassign -> SEMICOLON .
+
+  ! reduce/reduce conflict for CLOSECURLY resolved using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+  ! reduce/reduce conflict for ID resolved using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+  ! reduce/reduce conflict for IF resolved using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+  ! reduce/reduce conflict for OUTPUT resolved using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+  ! reduce/reduce conflict for INPUT resolved using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+  ! reduce/reduce conflict for VAR resolved using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+    CLOSECURLY      reduce using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+    ID              reduce using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+    IF              reduce using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+    OUTPUT          reduce using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+    INPUT           reduce using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+    VAR             reduce using rule 91 (assign -> ID EQUALS expresion SEMICOLON .)
+
+  ! CLOSECURLY      [ reduce using rule 96 (altassign -> SEMICOLON .) ]
+  ! ID              [ reduce using rule 96 (altassign -> SEMICOLON .) ]
+  ! IF              [ reduce using rule 96 (altassign -> SEMICOLON .) ]
+  ! OUTPUT          [ reduce using rule 96 (altassign -> SEMICOLON .) ]
+  ! INPUT           [ reduce using rule 96 (altassign -> SEMICOLON .) ]
+  ! VAR             [ reduce using rule 96 (altassign -> SEMICOLON .) ]
+
+
+state 120
+
+    (92) assign -> ID EQUALS expresion altassign .
+
+    CLOSECURLY      reduce using rule 92 (assign -> ID EQUALS expresion altassign .)
+    ID              reduce using rule 92 (assign -> ID EQUALS expresion altassign .)
+    IF              reduce using rule 92 (assign -> ID EQUALS expresion altassign .)
+    OUTPUT          reduce using rule 92 (assign -> ID EQUALS expresion altassign .)
+    INPUT           reduce using rule 92 (assign -> ID EQUALS expresion altassign .)
+    VAR             reduce using rule 92 (assign -> ID EQUALS expresion altassign .)
+
+
+state 121
+
+    (93) altassign -> callfunc . altassign
+    (93) altassign -> . callfunc altassign
+    (94) altassign -> . exp altassign
+    (95) altassign -> . exp varcte altassign
+    (96) altassign -> . SEMICOLON
+    (41) callfunc -> . ID OPENPAREN altcall
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    SEMICOLON       shift and go to state 158
+    ID              shift and go to state 118
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    callfunc                       shift and go to state 121
+    altassign                      shift and go to state 157
+    exp                            shift and go to state 122
+    varcte                         shift and go to state 101
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+
+state 122
+
+    (94) altassign -> exp . altassign
+    (95) altassign -> exp . varcte altassign
+    (93) altassign -> . callfunc altassign
+    (94) altassign -> . exp altassign
+    (95) altassign -> . exp varcte altassign
+    (96) altassign -> . SEMICOLON
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+    (41) callfunc -> . ID OPENPAREN altcall
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+
+    SEMICOLON       shift and go to state 158
+    ID              shift and go to state 161
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+
+    exp                            shift and go to state 122
+    altassign                      shift and go to state 159
+    varcte                         shift and go to state 160
+    callfunc                       shift and go to state 121
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+
+state 123
+
+    (58) expresion -> exp altexpresion . exp
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    exp                            shift and go to state 162
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+    varcte                         shift and go to state 101
+
+state 124
+
+    (59) altexpresion -> SAMEAS .
+
+    OPENPAREN       reduce using rule 59 (altexpresion -> SAMEAS .)
+    SUM             reduce using rule 59 (altexpresion -> SAMEAS .)
+    SUBTRACT        reduce using rule 59 (altexpresion -> SAMEAS .)
+    ID              reduce using rule 59 (altexpresion -> SAMEAS .)
+    CTEFLOAT        reduce using rule 59 (altexpresion -> SAMEAS .)
+    CTESTRING       reduce using rule 59 (altexpresion -> SAMEAS .)
+    CTEINT          reduce using rule 59 (altexpresion -> SAMEAS .)
+
+
+state 125
+
+    (60) altexpresion -> BIGGERTHAN .
+
+    OPENPAREN       reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+    SUM             reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+    SUBTRACT        reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+    ID              reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+    CTEFLOAT        reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+    CTESTRING       reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+    CTEINT          reduce using rule 60 (altexpresion -> BIGGERTHAN .)
+
+
+state 126
+
+    (61) altexpresion -> BIGGEREQUALSTHAN .
+
+    OPENPAREN       reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+    SUM             reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+    SUBTRACT        reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+    ID              reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+    CTEFLOAT        reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+    CTESTRING       reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+    CTEINT          reduce using rule 61 (altexpresion -> BIGGEREQUALSTHAN .)
+
+
+state 127
+
+    (62) altexpresion -> SMALLTHAN .
+
+    OPENPAREN       reduce using rule 62 (altexpresion -> SMALLTHAN .)
+    SUM             reduce using rule 62 (altexpresion -> SMALLTHAN .)
+    SUBTRACT        reduce using rule 62 (altexpresion -> SMALLTHAN .)
+    ID              reduce using rule 62 (altexpresion -> SMALLTHAN .)
+    CTEFLOAT        reduce using rule 62 (altexpresion -> SMALLTHAN .)
+    CTESTRING       reduce using rule 62 (altexpresion -> SMALLTHAN .)
+    CTEINT          reduce using rule 62 (altexpresion -> SMALLTHAN .)
+
+
+state 128
+
+    (63) altexpresion -> SMALLEQUALSTHAN .
+
+    OPENPAREN       reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+    SUM             reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+    SUBTRACT        reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+    ID              reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+    CTEFLOAT        reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+    CTESTRING       reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+    CTEINT          reduce using rule 63 (altexpresion -> SMALLEQUALSTHAN .)
+
+
+state 129
+
+    (64) altexpresion -> DIFFERENTTHAN .
+
+    OPENPAREN       reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+    SUM             reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+    SUBTRACT        reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+    ID              reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+    CTEFLOAT        reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+    CTESTRING       reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+    CTEINT          reduce using rule 64 (altexpresion -> DIFFERENTTHAN .)
+
+
+state 130
+
+    (65) altexpresion -> AND .
+
+    OPENPAREN       reduce using rule 65 (altexpresion -> AND .)
+    SUM             reduce using rule 65 (altexpresion -> AND .)
+    SUBTRACT        reduce using rule 65 (altexpresion -> AND .)
+    ID              reduce using rule 65 (altexpresion -> AND .)
+    CTEFLOAT        reduce using rule 65 (altexpresion -> AND .)
+    CTESTRING       reduce using rule 65 (altexpresion -> AND .)
+    CTEINT          reduce using rule 65 (altexpresion -> AND .)
+
+
+state 131
+
+    (66) altexpresion -> OR .
+
+    OPENPAREN       reduce using rule 66 (altexpresion -> OR .)
+    SUM             reduce using rule 66 (altexpresion -> OR .)
+    SUBTRACT        reduce using rule 66 (altexpresion -> OR .)
+    ID              reduce using rule 66 (altexpresion -> OR .)
+    CTEFLOAT        reduce using rule 66 (altexpresion -> OR .)
+    CTESTRING       reduce using rule 66 (altexpresion -> OR .)
+    CTEINT          reduce using rule 66 (altexpresion -> OR .)
+
+
+state 132
+
+    (68) exp -> termino altexp .
+
+    SAMEAS          reduce using rule 68 (exp -> termino altexp .)
+    BIGGERTHAN      reduce using rule 68 (exp -> termino altexp .)
+    BIGGEREQUALSTHAN reduce using rule 68 (exp -> termino altexp .)
+    SMALLTHAN       reduce using rule 68 (exp -> termino altexp .)
+    SMALLEQUALSTHAN reduce using rule 68 (exp -> termino altexp .)
+    DIFFERENTTHAN   reduce using rule 68 (exp -> termino altexp .)
+    AND             reduce using rule 68 (exp -> termino altexp .)
+    OR              reduce using rule 68 (exp -> termino altexp .)
+    SEMICOLON       reduce using rule 68 (exp -> termino altexp .)
+    ID              reduce using rule 68 (exp -> termino altexp .)
+    CTEFLOAT        reduce using rule 68 (exp -> termino altexp .)
+    CTESTRING       reduce using rule 68 (exp -> termino altexp .)
+    CTEINT          reduce using rule 68 (exp -> termino altexp .)
+    OPENPAREN       reduce using rule 68 (exp -> termino altexp .)
+    SUM             reduce using rule 68 (exp -> termino altexp .)
+    SUBTRACT        reduce using rule 68 (exp -> termino altexp .)
+    CLOSEPAREN      reduce using rule 68 (exp -> termino altexp .)
+    COMMA           reduce using rule 68 (exp -> termino altexp .)
+
+
+state 133
+
+    (69) altexp -> SUM . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    termino                        shift and go to state 163
+    factor                         shift and go to state 98
+    varcte                         shift and go to state 101
+
+state 134
+
+    (70) altexp -> SUBTRACT . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    termino                        shift and go to state 164
+    factor                         shift and go to state 98
+    varcte                         shift and go to state 101
+
+state 135
+
+    (71) altexp -> empty .
+
+    SAMEAS          reduce using rule 71 (altexp -> empty .)
+    BIGGERTHAN      reduce using rule 71 (altexp -> empty .)
+    BIGGEREQUALSTHAN reduce using rule 71 (altexp -> empty .)
+    SMALLTHAN       reduce using rule 71 (altexp -> empty .)
+    SMALLEQUALSTHAN reduce using rule 71 (altexp -> empty .)
+    DIFFERENTTHAN   reduce using rule 71 (altexp -> empty .)
+    AND             reduce using rule 71 (altexp -> empty .)
+    OR              reduce using rule 71 (altexp -> empty .)
+    SEMICOLON       reduce using rule 71 (altexp -> empty .)
+    ID              reduce using rule 71 (altexp -> empty .)
+    CTEFLOAT        reduce using rule 71 (altexp -> empty .)
+    CTESTRING       reduce using rule 71 (altexp -> empty .)
+    CTEINT          reduce using rule 71 (altexp -> empty .)
+    OPENPAREN       reduce using rule 71 (altexp -> empty .)
+    SUM             reduce using rule 71 (altexp -> empty .)
+    SUBTRACT        reduce using rule 71 (altexp -> empty .)
+    CLOSEPAREN      reduce using rule 71 (altexp -> empty .)
+    COMMA           reduce using rule 71 (altexp -> empty .)
+
+
+state 136
+
+    (73) termino -> factor alttermino .
+
+    SUM             reduce using rule 73 (termino -> factor alttermino .)
+    SUBTRACT        reduce using rule 73 (termino -> factor alttermino .)
+    SAMEAS          reduce using rule 73 (termino -> factor alttermino .)
+    BIGGERTHAN      reduce using rule 73 (termino -> factor alttermino .)
+    BIGGEREQUALSTHAN reduce using rule 73 (termino -> factor alttermino .)
+    SMALLTHAN       reduce using rule 73 (termino -> factor alttermino .)
+    SMALLEQUALSTHAN reduce using rule 73 (termino -> factor alttermino .)
+    DIFFERENTTHAN   reduce using rule 73 (termino -> factor alttermino .)
+    AND             reduce using rule 73 (termino -> factor alttermino .)
+    OR              reduce using rule 73 (termino -> factor alttermino .)
+    SEMICOLON       reduce using rule 73 (termino -> factor alttermino .)
+    ID              reduce using rule 73 (termino -> factor alttermino .)
+    CTEFLOAT        reduce using rule 73 (termino -> factor alttermino .)
+    CTESTRING       reduce using rule 73 (termino -> factor alttermino .)
+    CTEINT          reduce using rule 73 (termino -> factor alttermino .)
+    OPENPAREN       reduce using rule 73 (termino -> factor alttermino .)
+    CLOSEPAREN      reduce using rule 73 (termino -> factor alttermino .)
+    COMMA           reduce using rule 73 (termino -> factor alttermino .)
+
+
+state 137
+
+    (74) alttermino -> TIMES . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    factor                         shift and go to state 165
+    varcte                         shift and go to state 101
+
+state 138
+
+    (75) alttermino -> DIV . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    factor                         shift and go to state 166
+    varcte                         shift and go to state 101
+
+state 139
+
+    (76) alttermino -> empty .
+
+    SUM             reduce using rule 76 (alttermino -> empty .)
+    SUBTRACT        reduce using rule 76 (alttermino -> empty .)
+    SAMEAS          reduce using rule 76 (alttermino -> empty .)
+    BIGGERTHAN      reduce using rule 76 (alttermino -> empty .)
+    BIGGEREQUALSTHAN reduce using rule 76 (alttermino -> empty .)
+    SMALLTHAN       reduce using rule 76 (alttermino -> empty .)
+    SMALLEQUALSTHAN reduce using rule 76 (alttermino -> empty .)
+    DIFFERENTTHAN   reduce using rule 76 (alttermino -> empty .)
+    AND             reduce using rule 76 (alttermino -> empty .)
+    OR              reduce using rule 76 (alttermino -> empty .)
+    SEMICOLON       reduce using rule 76 (alttermino -> empty .)
+    ID              reduce using rule 76 (alttermino -> empty .)
+    CTEFLOAT        reduce using rule 76 (alttermino -> empty .)
+    CTESTRING       reduce using rule 76 (alttermino -> empty .)
+    CTEINT          reduce using rule 76 (alttermino -> empty .)
+    OPENPAREN       reduce using rule 76 (alttermino -> empty .)
+    CLOSEPAREN      reduce using rule 76 (alttermino -> empty .)
+    COMMA           reduce using rule 76 (alttermino -> empty .)
+
+
+state 140
+
+    (83) factor -> OPENPAREN expresion . CLOSEPAREN
+
+    CLOSEPAREN      shift and go to state 167
+
+
+state 141
+
+    (84) factor -> SUM varcte .
+
+    TIMES           reduce using rule 84 (factor -> SUM varcte .)
+    DIV             reduce using rule 84 (factor -> SUM varcte .)
+    SUM             reduce using rule 84 (factor -> SUM varcte .)
+    SUBTRACT        reduce using rule 84 (factor -> SUM varcte .)
+    SAMEAS          reduce using rule 84 (factor -> SUM varcte .)
+    BIGGERTHAN      reduce using rule 84 (factor -> SUM varcte .)
+    BIGGEREQUALSTHAN reduce using rule 84 (factor -> SUM varcte .)
+    SMALLTHAN       reduce using rule 84 (factor -> SUM varcte .)
+    SMALLEQUALSTHAN reduce using rule 84 (factor -> SUM varcte .)
+    DIFFERENTTHAN   reduce using rule 84 (factor -> SUM varcte .)
+    AND             reduce using rule 84 (factor -> SUM varcte .)
+    OR              reduce using rule 84 (factor -> SUM varcte .)
+    SEMICOLON       reduce using rule 84 (factor -> SUM varcte .)
+    ID              reduce using rule 84 (factor -> SUM varcte .)
+    CTEFLOAT        reduce using rule 84 (factor -> SUM varcte .)
+    CTESTRING       reduce using rule 84 (factor -> SUM varcte .)
+    CTEINT          reduce using rule 84 (factor -> SUM varcte .)
+    OPENPAREN       reduce using rule 84 (factor -> SUM varcte .)
+    CLOSEPAREN      reduce using rule 84 (factor -> SUM varcte .)
+    COMMA           reduce using rule 84 (factor -> SUM varcte .)
+
+
+state 142
+
+    (85) factor -> SUBTRACT varcte .
+
+    TIMES           reduce using rule 85 (factor -> SUBTRACT varcte .)
+    DIV             reduce using rule 85 (factor -> SUBTRACT varcte .)
+    SUM             reduce using rule 85 (factor -> SUBTRACT varcte .)
+    SUBTRACT        reduce using rule 85 (factor -> SUBTRACT varcte .)
+    SAMEAS          reduce using rule 85 (factor -> SUBTRACT varcte .)
+    BIGGERTHAN      reduce using rule 85 (factor -> SUBTRACT varcte .)
+    BIGGEREQUALSTHAN reduce using rule 85 (factor -> SUBTRACT varcte .)
+    SMALLTHAN       reduce using rule 85 (factor -> SUBTRACT varcte .)
+    SMALLEQUALSTHAN reduce using rule 85 (factor -> SUBTRACT varcte .)
+    DIFFERENTTHAN   reduce using rule 85 (factor -> SUBTRACT varcte .)
+    AND             reduce using rule 85 (factor -> SUBTRACT varcte .)
+    OR              reduce using rule 85 (factor -> SUBTRACT varcte .)
+    SEMICOLON       reduce using rule 85 (factor -> SUBTRACT varcte .)
+    ID              reduce using rule 85 (factor -> SUBTRACT varcte .)
+    CTEFLOAT        reduce using rule 85 (factor -> SUBTRACT varcte .)
+    CTESTRING       reduce using rule 85 (factor -> SUBTRACT varcte .)
+    CTEINT          reduce using rule 85 (factor -> SUBTRACT varcte .)
+    OPENPAREN       reduce using rule 85 (factor -> SUBTRACT varcte .)
+    CLOSEPAREN      reduce using rule 85 (factor -> SUBTRACT varcte .)
+    COMMA           reduce using rule 85 (factor -> SUBTRACT varcte .)
+
+
+state 143
+
+    (87) condition -> IF OPENPAREN expresion CLOSEPAREN . OPENCURLY altcondition
+    (88) condition -> IF OPENPAREN expresion CLOSEPAREN . OPENCURLY altcondition ELSE OPENCURLY altcondition
+
+    OPENCURLY       shift and go to state 168
+
+
+state 144
+
+    (78) write -> OUTPUT OPENPAREN varcte altwrite .
+
+    CLOSECURLY      reduce using rule 78 (write -> OUTPUT OPENPAREN varcte altwrite .)
+    ID              reduce using rule 78 (write -> OUTPUT OPENPAREN varcte altwrite .)
+    IF              reduce using rule 78 (write -> OUTPUT OPENPAREN varcte altwrite .)
+    OUTPUT          reduce using rule 78 (write -> OUTPUT OPENPAREN varcte altwrite .)
+    INPUT           reduce using rule 78 (write -> OUTPUT OPENPAREN varcte altwrite .)
+    VAR             reduce using rule 78 (write -> OUTPUT OPENPAREN varcte altwrite .)
+
+
+state 145
+
+    (80) altwrite -> COMMA . varcte altwrite
+    (81) altwrite -> COMMA . expresion altwrite
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+    (58) expresion -> . exp altexpresion exp
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+
+    varcte                         shift and go to state 169
+    expresion                      shift and go to state 170
+    exp                            shift and go to state 96
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+
+state 146
+
+    (82) altwrite -> CLOSEPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 171
+
+
+state 147
+
+    (79) write -> OUTPUT OPENPAREN expresion altwrite .
+
+    CLOSECURLY      reduce using rule 79 (write -> OUTPUT OPENPAREN expresion altwrite .)
+    ID              reduce using rule 79 (write -> OUTPUT OPENPAREN expresion altwrite .)
+    IF              reduce using rule 79 (write -> OUTPUT OPENPAREN expresion altwrite .)
+    OUTPUT          reduce using rule 79 (write -> OUTPUT OPENPAREN expresion altwrite .)
+    INPUT           reduce using rule 79 (write -> OUTPUT OPENPAREN expresion altwrite .)
+    VAR             reduce using rule 79 (write -> OUTPUT OPENPAREN expresion altwrite .)
+
+
+state 148
+
+    (77) read -> INPUT OPENPAREN ID CLOSEPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 172
+
+
+state 149
+
+    (15) constructor -> CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY . alt2const
+    (18) alt2const -> . estatuto alt2const
+    (19) alt2const -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 175
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    alt2const                      shift and go to state 173
+    estatuto                       shift and go to state 174
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 150
+
+    (26) listidsaltz -> OPENBRACKET INT CLOSEBRACKET listidsaltp .
+
+    TWODOTS         reduce using rule 26 (listidsaltz -> OPENBRACKET INT CLOSEBRACKET listidsaltp .)
+
+
+state 151
+
+    (28) listidsaltp -> COMMA . listids
+    (21) listids -> . ID listidsalty
+
+    ID              shift and go to state 19
+
+    listids                        shift and go to state 176
+
+state 152
+
+    (29) listidsaltp -> empty .
+
+    TWODOTS         reduce using rule 29 (listidsaltp -> empty .)
+
+
+state 153
+
+    (39) altparams -> COMMA ID TWODOTS . type altparams
+    (46) type -> . INT
+    (47) type -> . FLOAT
+    (48) type -> . STRING
+    (49) type -> . ID
+
+    INT             shift and go to state 35
+    FLOAT           shift and go to state 36
+    STRING          shift and go to state 37
+    ID              shift and go to state 38
+
+    type                           shift and go to state 177
+
+state 154
+
+    (35) alt3func -> var alt3func .
+
+    CLASS           reduce using rule 35 (alt3func -> var alt3func .)
+    VAR             reduce using rule 35 (alt3func -> var alt3func .)
+    FUNC            reduce using rule 35 (alt3func -> var alt3func .)
+    MAIN            reduce using rule 35 (alt3func -> var alt3func .)
+    CONSTRUCTOR     reduce using rule 35 (alt3func -> var alt3func .)
+
+
+state 155
+
+    (36) alt3func -> estatuto alt3func .
+
+    CLASS           reduce using rule 36 (alt3func -> estatuto alt3func .)
+    VAR             reduce using rule 36 (alt3func -> estatuto alt3func .)
+    FUNC            reduce using rule 36 (alt3func -> estatuto alt3func .)
+    MAIN            reduce using rule 36 (alt3func -> estatuto alt3func .)
+    CONSTRUCTOR     reduce using rule 36 (alt3func -> estatuto alt3func .)
+
+
+state 156
+
+    (41) callfunc -> ID OPENPAREN . altcall
+    (42) altcall -> . varcte alt2call
+    (43) altcall -> . CLOSEPAREN
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    CLOSEPAREN      shift and go to state 180
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    altcall                        shift and go to state 178
+    varcte                         shift and go to state 179
+
+state 157
+
+    (93) altassign -> callfunc altassign .
+
+    CLOSECURLY      reduce using rule 93 (altassign -> callfunc altassign .)
+    ID              reduce using rule 93 (altassign -> callfunc altassign .)
+    IF              reduce using rule 93 (altassign -> callfunc altassign .)
+    OUTPUT          reduce using rule 93 (altassign -> callfunc altassign .)
+    INPUT           reduce using rule 93 (altassign -> callfunc altassign .)
+    VAR             reduce using rule 93 (altassign -> callfunc altassign .)
+
+
+state 158
+
+    (96) altassign -> SEMICOLON .
+
+    CLOSECURLY      reduce using rule 96 (altassign -> SEMICOLON .)
+    ID              reduce using rule 96 (altassign -> SEMICOLON .)
+    IF              reduce using rule 96 (altassign -> SEMICOLON .)
+    OUTPUT          reduce using rule 96 (altassign -> SEMICOLON .)
+    INPUT           reduce using rule 96 (altassign -> SEMICOLON .)
+    VAR             reduce using rule 96 (altassign -> SEMICOLON .)
+
+
+state 159
+
+    (94) altassign -> exp altassign .
+
+    CLOSECURLY      reduce using rule 94 (altassign -> exp altassign .)
+    ID              reduce using rule 94 (altassign -> exp altassign .)
+    IF              reduce using rule 94 (altassign -> exp altassign .)
+    OUTPUT          reduce using rule 94 (altassign -> exp altassign .)
+    INPUT           reduce using rule 94 (altassign -> exp altassign .)
+    VAR             reduce using rule 94 (altassign -> exp altassign .)
+
+
+state 160
+
+    (95) altassign -> exp varcte . altassign
+    (86) factor -> varcte .
+    (93) altassign -> . callfunc altassign
+    (94) altassign -> . exp altassign
+    (95) altassign -> . exp varcte altassign
+    (96) altassign -> . SEMICOLON
+    (41) callfunc -> . ID OPENPAREN altcall
+    (67) exp -> . termino
+    (68) exp -> . termino altexp
+    (72) termino -> . factor
+    (73) termino -> . factor alttermino
+    (83) factor -> . OPENPAREN expresion CLOSEPAREN
+    (84) factor -> . SUM varcte
+    (85) factor -> . SUBTRACT varcte
+    (86) factor -> . varcte
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+  ! shift/reduce conflict for SEMICOLON resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for OPENPAREN resolved as shift
+  ! shift/reduce conflict for SUM resolved as shift
+  ! shift/reduce conflict for SUBTRACT resolved as shift
+  ! shift/reduce conflict for CTEFLOAT resolved as shift
+  ! shift/reduce conflict for CTESTRING resolved as shift
+  ! shift/reduce conflict for CTEINT resolved as shift
+    TIMES           reduce using rule 86 (factor -> varcte .)
+    DIV             reduce using rule 86 (factor -> varcte .)
+    SEMICOLON       shift and go to state 158
+    ID              shift and go to state 118
+    OPENPAREN       shift and go to state 99
+    SUM             shift and go to state 100
+    SUBTRACT        shift and go to state 102
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+  ! SUM             [ reduce using rule 86 (factor -> varcte .) ]
+  ! SUBTRACT        [ reduce using rule 86 (factor -> varcte .) ]
+  ! SEMICOLON       [ reduce using rule 86 (factor -> varcte .) ]
+  ! ID              [ reduce using rule 86 (factor -> varcte .) ]
+  ! CTEFLOAT        [ reduce using rule 86 (factor -> varcte .) ]
+  ! CTESTRING       [ reduce using rule 86 (factor -> varcte .) ]
+  ! CTEINT          [ reduce using rule 86 (factor -> varcte .) ]
+  ! OPENPAREN       [ reduce using rule 86 (factor -> varcte .) ]
+
+    exp                            shift and go to state 122
+    varcte                         shift and go to state 101
+    altassign                      shift and go to state 181
+    callfunc                       shift and go to state 121
+    termino                        shift and go to state 97
+    factor                         shift and go to state 98
+
+state 161
+
+    (54) varcte -> ID .
+    (41) callfunc -> ID . OPENPAREN altcall
+
+  ! shift/reduce conflict for OPENPAREN resolved as shift
+    SEMICOLON       reduce using rule 54 (varcte -> ID .)
+    ID              reduce using rule 54 (varcte -> ID .)
+    SUM             reduce using rule 54 (varcte -> ID .)
+    SUBTRACT        reduce using rule 54 (varcte -> ID .)
+    CTEFLOAT        reduce using rule 54 (varcte -> ID .)
+    CTESTRING       reduce using rule 54 (varcte -> ID .)
+    CTEINT          reduce using rule 54 (varcte -> ID .)
+    TIMES           reduce using rule 54 (varcte -> ID .)
+    DIV             reduce using rule 54 (varcte -> ID .)
+    OPENPAREN       shift and go to state 156
+
+  ! OPENPAREN       [ reduce using rule 54 (varcte -> ID .) ]
+
+
+state 162
+
+    (58) expresion -> exp altexpresion exp .
+
+    SEMICOLON       reduce using rule 58 (expresion -> exp altexpresion exp .)
+    ID              reduce using rule 58 (expresion -> exp altexpresion exp .)
+    OPENPAREN       reduce using rule 58 (expresion -> exp altexpresion exp .)
+    SUM             reduce using rule 58 (expresion -> exp altexpresion exp .)
+    SUBTRACT        reduce using rule 58 (expresion -> exp altexpresion exp .)
+    CTEFLOAT        reduce using rule 58 (expresion -> exp altexpresion exp .)
+    CTESTRING       reduce using rule 58 (expresion -> exp altexpresion exp .)
+    CTEINT          reduce using rule 58 (expresion -> exp altexpresion exp .)
+    CLOSEPAREN      reduce using rule 58 (expresion -> exp altexpresion exp .)
+    COMMA           reduce using rule 58 (expresion -> exp altexpresion exp .)
+
+
+state 163
+
+    (69) altexp -> SUM termino . altexp
+    (69) altexp -> . SUM termino altexp
+    (70) altexp -> . SUBTRACT termino altexp
+    (71) altexp -> . empty
+    (97) empty -> .
+
+  ! shift/reduce conflict for SUM resolved as shift
+  ! shift/reduce conflict for SUBTRACT resolved as shift
+    SUM             shift and go to state 133
+    SUBTRACT        shift and go to state 134
+    SAMEAS          reduce using rule 97 (empty -> .)
+    BIGGERTHAN      reduce using rule 97 (empty -> .)
+    BIGGEREQUALSTHAN reduce using rule 97 (empty -> .)
+    SMALLTHAN       reduce using rule 97 (empty -> .)
+    SMALLEQUALSTHAN reduce using rule 97 (empty -> .)
+    DIFFERENTTHAN   reduce using rule 97 (empty -> .)
+    AND             reduce using rule 97 (empty -> .)
+    OR              reduce using rule 97 (empty -> .)
+    SEMICOLON       reduce using rule 97 (empty -> .)
+    ID              reduce using rule 97 (empty -> .)
+    CTEFLOAT        reduce using rule 97 (empty -> .)
+    CTESTRING       reduce using rule 97 (empty -> .)
+    CTEINT          reduce using rule 97 (empty -> .)
+    OPENPAREN       reduce using rule 97 (empty -> .)
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+    COMMA           reduce using rule 97 (empty -> .)
+
+  ! SUM             [ reduce using rule 97 (empty -> .) ]
+  ! SUBTRACT        [ reduce using rule 97 (empty -> .) ]
+
+    altexp                         shift and go to state 182
+    empty                          shift and go to state 135
+
+state 164
+
+    (70) altexp -> SUBTRACT termino . altexp
+    (69) altexp -> . SUM termino altexp
+    (70) altexp -> . SUBTRACT termino altexp
+    (71) altexp -> . empty
+    (97) empty -> .
+
+  ! shift/reduce conflict for SUM resolved as shift
+  ! shift/reduce conflict for SUBTRACT resolved as shift
+    SUM             shift and go to state 133
+    SUBTRACT        shift and go to state 134
+    SAMEAS          reduce using rule 97 (empty -> .)
+    BIGGERTHAN      reduce using rule 97 (empty -> .)
+    BIGGEREQUALSTHAN reduce using rule 97 (empty -> .)
+    SMALLTHAN       reduce using rule 97 (empty -> .)
+    SMALLEQUALSTHAN reduce using rule 97 (empty -> .)
+    DIFFERENTTHAN   reduce using rule 97 (empty -> .)
+    AND             reduce using rule 97 (empty -> .)
+    OR              reduce using rule 97 (empty -> .)
+    SEMICOLON       reduce using rule 97 (empty -> .)
+    ID              reduce using rule 97 (empty -> .)
+    CTEFLOAT        reduce using rule 97 (empty -> .)
+    CTESTRING       reduce using rule 97 (empty -> .)
+    CTEINT          reduce using rule 97 (empty -> .)
+    OPENPAREN       reduce using rule 97 (empty -> .)
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+    COMMA           reduce using rule 97 (empty -> .)
+
+  ! SUM             [ reduce using rule 97 (empty -> .) ]
+  ! SUBTRACT        [ reduce using rule 97 (empty -> .) ]
+
+    altexp                         shift and go to state 183
+    empty                          shift and go to state 135
+
+state 165
+
+    (74) alttermino -> TIMES factor . alttermino
+    (74) alttermino -> . TIMES factor alttermino
+    (75) alttermino -> . DIV factor alttermino
+    (76) alttermino -> . empty
+    (97) empty -> .
+
+    TIMES           shift and go to state 137
+    DIV             shift and go to state 138
+    SUM             reduce using rule 97 (empty -> .)
+    SUBTRACT        reduce using rule 97 (empty -> .)
+    SAMEAS          reduce using rule 97 (empty -> .)
+    BIGGERTHAN      reduce using rule 97 (empty -> .)
+    BIGGEREQUALSTHAN reduce using rule 97 (empty -> .)
+    SMALLTHAN       reduce using rule 97 (empty -> .)
+    SMALLEQUALSTHAN reduce using rule 97 (empty -> .)
+    DIFFERENTTHAN   reduce using rule 97 (empty -> .)
+    AND             reduce using rule 97 (empty -> .)
+    OR              reduce using rule 97 (empty -> .)
+    SEMICOLON       reduce using rule 97 (empty -> .)
+    ID              reduce using rule 97 (empty -> .)
+    CTEFLOAT        reduce using rule 97 (empty -> .)
+    CTESTRING       reduce using rule 97 (empty -> .)
+    CTEINT          reduce using rule 97 (empty -> .)
+    OPENPAREN       reduce using rule 97 (empty -> .)
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+    COMMA           reduce using rule 97 (empty -> .)
+
+    alttermino                     shift and go to state 184
+    empty                          shift and go to state 139
+
+state 166
+
+    (75) alttermino -> DIV factor . alttermino
+    (74) alttermino -> . TIMES factor alttermino
+    (75) alttermino -> . DIV factor alttermino
+    (76) alttermino -> . empty
+    (97) empty -> .
+
+    TIMES           shift and go to state 137
+    DIV             shift and go to state 138
+    SUM             reduce using rule 97 (empty -> .)
+    SUBTRACT        reduce using rule 97 (empty -> .)
+    SAMEAS          reduce using rule 97 (empty -> .)
+    BIGGERTHAN      reduce using rule 97 (empty -> .)
+    BIGGEREQUALSTHAN reduce using rule 97 (empty -> .)
+    SMALLTHAN       reduce using rule 97 (empty -> .)
+    SMALLEQUALSTHAN reduce using rule 97 (empty -> .)
+    DIFFERENTTHAN   reduce using rule 97 (empty -> .)
+    AND             reduce using rule 97 (empty -> .)
+    OR              reduce using rule 97 (empty -> .)
+    SEMICOLON       reduce using rule 97 (empty -> .)
+    ID              reduce using rule 97 (empty -> .)
+    CTEFLOAT        reduce using rule 97 (empty -> .)
+    CTESTRING       reduce using rule 97 (empty -> .)
+    CTEINT          reduce using rule 97 (empty -> .)
+    OPENPAREN       reduce using rule 97 (empty -> .)
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+    COMMA           reduce using rule 97 (empty -> .)
+
+    alttermino                     shift and go to state 185
+    empty                          shift and go to state 139
+
+state 167
+
+    (83) factor -> OPENPAREN expresion CLOSEPAREN .
+
+    TIMES           reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    DIV             reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    SUM             reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    SUBTRACT        reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    SAMEAS          reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    BIGGERTHAN      reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    BIGGEREQUALSTHAN reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    SMALLTHAN       reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    SMALLEQUALSTHAN reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    DIFFERENTTHAN   reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    AND             reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    OR              reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    SEMICOLON       reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    ID              reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    CTEFLOAT        reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    CTESTRING       reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    CTEINT          reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    OPENPAREN       reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    CLOSEPAREN      reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    COMMA           reduce using rule 83 (factor -> OPENPAREN expresion CLOSEPAREN .)
+
+
+state 168
+
+    (87) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY . altcondition
+    (88) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY . altcondition ELSE OPENCURLY altcondition
+    (89) altcondition -> . estatuto altcondition
+    (90) altcondition -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 188
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    altcondition                   shift and go to state 186
+    estatuto                       shift and go to state 187
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 169
+
+    (80) altwrite -> COMMA varcte . altwrite
+    (86) factor -> varcte .
+    (80) altwrite -> . COMMA varcte altwrite
+    (81) altwrite -> . COMMA expresion altwrite
+    (82) altwrite -> . CLOSEPAREN SEMICOLON
+
+    TIMES           reduce using rule 86 (factor -> varcte .)
+    DIV             reduce using rule 86 (factor -> varcte .)
+    SUM             reduce using rule 86 (factor -> varcte .)
+    SUBTRACT        reduce using rule 86 (factor -> varcte .)
+    SAMEAS          reduce using rule 86 (factor -> varcte .)
+    BIGGERTHAN      reduce using rule 86 (factor -> varcte .)
+    BIGGEREQUALSTHAN reduce using rule 86 (factor -> varcte .)
+    SMALLTHAN       reduce using rule 86 (factor -> varcte .)
+    SMALLEQUALSTHAN reduce using rule 86 (factor -> varcte .)
+    DIFFERENTTHAN   reduce using rule 86 (factor -> varcte .)
+    AND             reduce using rule 86 (factor -> varcte .)
+    OR              reduce using rule 86 (factor -> varcte .)
+    COMMA           shift and go to state 145
+    CLOSEPAREN      shift and go to state 146
+
+    altwrite                       shift and go to state 189
+
+state 170
+
+    (81) altwrite -> COMMA expresion . altwrite
+    (80) altwrite -> . COMMA varcte altwrite
+    (81) altwrite -> . COMMA expresion altwrite
+    (82) altwrite -> . CLOSEPAREN SEMICOLON
+
+    COMMA           shift and go to state 145
+    CLOSEPAREN      shift and go to state 146
+
+    altwrite                       shift and go to state 190
+
+state 171
+
+    (82) altwrite -> CLOSEPAREN SEMICOLON .
+
+    CLOSECURLY      reduce using rule 82 (altwrite -> CLOSEPAREN SEMICOLON .)
+    ID              reduce using rule 82 (altwrite -> CLOSEPAREN SEMICOLON .)
+    IF              reduce using rule 82 (altwrite -> CLOSEPAREN SEMICOLON .)
+    OUTPUT          reduce using rule 82 (altwrite -> CLOSEPAREN SEMICOLON .)
+    INPUT           reduce using rule 82 (altwrite -> CLOSEPAREN SEMICOLON .)
+    VAR             reduce using rule 82 (altwrite -> CLOSEPAREN SEMICOLON .)
+
+
+state 172
+
+    (77) read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .
+
+    CLOSECURLY      reduce using rule 77 (read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .)
+    ID              reduce using rule 77 (read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .)
+    IF              reduce using rule 77 (read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .)
+    OUTPUT          reduce using rule 77 (read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .)
+    INPUT           reduce using rule 77 (read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .)
+    VAR             reduce using rule 77 (read -> INPUT OPENPAREN ID CLOSEPAREN SEMICOLON .)
+
+
+state 173
+
+    (15) constructor -> CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const .
+
+    CLOSECURLY      reduce using rule 15 (constructor -> CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const .)
+
+
+state 174
+
+    (18) alt2const -> estatuto . alt2const
+    (18) alt2const -> . estatuto alt2const
+    (19) alt2const -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 175
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    estatuto                       shift and go to state 174
+    alt2const                      shift and go to state 191
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 175
+
+    (19) alt2const -> CLOSECURLY .
+
+    CLOSECURLY      reduce using rule 19 (alt2const -> CLOSECURLY .)
+
+
+state 176
+
+    (28) listidsaltp -> COMMA listids .
+
+    TWODOTS         reduce using rule 28 (listidsaltp -> COMMA listids .)
+
+
+state 177
+
+    (39) altparams -> COMMA ID TWODOTS type . altparams
+    (39) altparams -> . COMMA ID TWODOTS type altparams
+    (40) altparams -> . empty
+    (97) empty -> .
+
+    COMMA           shift and go to state 90
+    CLOSEPAREN      reduce using rule 97 (empty -> .)
+    ID              reduce using rule 97 (empty -> .)
+
+    altparams                      shift and go to state 192
+    empty                          shift and go to state 91
+
+state 178
+
+    (41) callfunc -> ID OPENPAREN altcall .
+
+    SEMICOLON       reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    ID              reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    OPENPAREN       reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    SUM             reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    SUBTRACT        reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    CTEFLOAT        reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    CTESTRING       reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+    CTEINT          reduce using rule 41 (callfunc -> ID OPENPAREN altcall .)
+
+
+state 179
+
+    (42) altcall -> varcte . alt2call
+    (44) alt2call -> . COMMA varcte alt2call
+    (45) alt2call -> . CLOSEPAREN
+
+    COMMA           shift and go to state 194
+    CLOSEPAREN      shift and go to state 195
+
+    alt2call                       shift and go to state 193
+
+state 180
+
+    (43) altcall -> CLOSEPAREN .
+
+    SEMICOLON       reduce using rule 43 (altcall -> CLOSEPAREN .)
+    ID              reduce using rule 43 (altcall -> CLOSEPAREN .)
+    OPENPAREN       reduce using rule 43 (altcall -> CLOSEPAREN .)
+    SUM             reduce using rule 43 (altcall -> CLOSEPAREN .)
+    SUBTRACT        reduce using rule 43 (altcall -> CLOSEPAREN .)
+    CTEFLOAT        reduce using rule 43 (altcall -> CLOSEPAREN .)
+    CTESTRING       reduce using rule 43 (altcall -> CLOSEPAREN .)
+    CTEINT          reduce using rule 43 (altcall -> CLOSEPAREN .)
+
+
+state 181
+
+    (95) altassign -> exp varcte altassign .
+
+    CLOSECURLY      reduce using rule 95 (altassign -> exp varcte altassign .)
+    ID              reduce using rule 95 (altassign -> exp varcte altassign .)
+    IF              reduce using rule 95 (altassign -> exp varcte altassign .)
+    OUTPUT          reduce using rule 95 (altassign -> exp varcte altassign .)
+    INPUT           reduce using rule 95 (altassign -> exp varcte altassign .)
+    VAR             reduce using rule 95 (altassign -> exp varcte altassign .)
+
+
+state 182
+
+    (69) altexp -> SUM termino altexp .
+
+    SAMEAS          reduce using rule 69 (altexp -> SUM termino altexp .)
+    BIGGERTHAN      reduce using rule 69 (altexp -> SUM termino altexp .)
+    BIGGEREQUALSTHAN reduce using rule 69 (altexp -> SUM termino altexp .)
+    SMALLTHAN       reduce using rule 69 (altexp -> SUM termino altexp .)
+    SMALLEQUALSTHAN reduce using rule 69 (altexp -> SUM termino altexp .)
+    DIFFERENTTHAN   reduce using rule 69 (altexp -> SUM termino altexp .)
+    AND             reduce using rule 69 (altexp -> SUM termino altexp .)
+    OR              reduce using rule 69 (altexp -> SUM termino altexp .)
+    SEMICOLON       reduce using rule 69 (altexp -> SUM termino altexp .)
+    ID              reduce using rule 69 (altexp -> SUM termino altexp .)
+    CTEFLOAT        reduce using rule 69 (altexp -> SUM termino altexp .)
+    CTESTRING       reduce using rule 69 (altexp -> SUM termino altexp .)
+    CTEINT          reduce using rule 69 (altexp -> SUM termino altexp .)
+    OPENPAREN       reduce using rule 69 (altexp -> SUM termino altexp .)
+    SUM             reduce using rule 69 (altexp -> SUM termino altexp .)
+    SUBTRACT        reduce using rule 69 (altexp -> SUM termino altexp .)
+    CLOSEPAREN      reduce using rule 69 (altexp -> SUM termino altexp .)
+    COMMA           reduce using rule 69 (altexp -> SUM termino altexp .)
+
+
+state 183
+
+    (70) altexp -> SUBTRACT termino altexp .
+
+    SAMEAS          reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    BIGGERTHAN      reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    BIGGEREQUALSTHAN reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    SMALLTHAN       reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    SMALLEQUALSTHAN reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    DIFFERENTTHAN   reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    AND             reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    OR              reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    SEMICOLON       reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    ID              reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    CTEFLOAT        reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    CTESTRING       reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    CTEINT          reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    OPENPAREN       reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    SUM             reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    SUBTRACT        reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    CLOSEPAREN      reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+    COMMA           reduce using rule 70 (altexp -> SUBTRACT termino altexp .)
+
+
+state 184
+
+    (74) alttermino -> TIMES factor alttermino .
+
+    SUM             reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    SUBTRACT        reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    SAMEAS          reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    BIGGERTHAN      reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    BIGGEREQUALSTHAN reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    SMALLTHAN       reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    SMALLEQUALSTHAN reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    DIFFERENTTHAN   reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    AND             reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    OR              reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    SEMICOLON       reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    ID              reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    CTEFLOAT        reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    CTESTRING       reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    CTEINT          reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    OPENPAREN       reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    CLOSEPAREN      reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+    COMMA           reduce using rule 74 (alttermino -> TIMES factor alttermino .)
+
+
+state 185
+
+    (75) alttermino -> DIV factor alttermino .
+
+    SUM             reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    SUBTRACT        reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    SAMEAS          reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    BIGGERTHAN      reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    BIGGEREQUALSTHAN reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    SMALLTHAN       reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    SMALLEQUALSTHAN reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    DIFFERENTTHAN   reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    AND             reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    OR              reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    SEMICOLON       reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    ID              reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    CTEFLOAT        reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    CTESTRING       reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    CTEINT          reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    OPENPAREN       reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    CLOSEPAREN      reduce using rule 75 (alttermino -> DIV factor alttermino .)
+    COMMA           reduce using rule 75 (alttermino -> DIV factor alttermino .)
+
+
+state 186
+
+    (87) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .
+    (88) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition . ELSE OPENCURLY altcondition
+
+    CLOSECURLY      reduce using rule 87 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
+    ID              reduce using rule 87 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
+    IF              reduce using rule 87 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
+    OUTPUT          reduce using rule 87 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
+    INPUT           reduce using rule 87 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
+    VAR             reduce using rule 87 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
+    ELSE            shift and go to state 196
+
+
+state 187
+
+    (89) altcondition -> estatuto . altcondition
+    (89) altcondition -> . estatuto altcondition
+    (90) altcondition -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 188
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    estatuto                       shift and go to state 187
+    altcondition                   shift and go to state 197
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 188
+
+    (90) altcondition -> CLOSECURLY .
+
+    ELSE            reduce using rule 90 (altcondition -> CLOSECURLY .)
+    CLOSECURLY      reduce using rule 90 (altcondition -> CLOSECURLY .)
+    ID              reduce using rule 90 (altcondition -> CLOSECURLY .)
+    IF              reduce using rule 90 (altcondition -> CLOSECURLY .)
+    OUTPUT          reduce using rule 90 (altcondition -> CLOSECURLY .)
+    INPUT           reduce using rule 90 (altcondition -> CLOSECURLY .)
+    VAR             reduce using rule 90 (altcondition -> CLOSECURLY .)
+
+
+state 189
+
+    (80) altwrite -> COMMA varcte altwrite .
+
+    CLOSECURLY      reduce using rule 80 (altwrite -> COMMA varcte altwrite .)
+    ID              reduce using rule 80 (altwrite -> COMMA varcte altwrite .)
+    IF              reduce using rule 80 (altwrite -> COMMA varcte altwrite .)
+    OUTPUT          reduce using rule 80 (altwrite -> COMMA varcte altwrite .)
+    INPUT           reduce using rule 80 (altwrite -> COMMA varcte altwrite .)
+    VAR             reduce using rule 80 (altwrite -> COMMA varcte altwrite .)
+
+
+state 190
+
+    (81) altwrite -> COMMA expresion altwrite .
+
+    CLOSECURLY      reduce using rule 81 (altwrite -> COMMA expresion altwrite .)
+    ID              reduce using rule 81 (altwrite -> COMMA expresion altwrite .)
+    IF              reduce using rule 81 (altwrite -> COMMA expresion altwrite .)
+    OUTPUT          reduce using rule 81 (altwrite -> COMMA expresion altwrite .)
+    INPUT           reduce using rule 81 (altwrite -> COMMA expresion altwrite .)
+    VAR             reduce using rule 81 (altwrite -> COMMA expresion altwrite .)
+
+
+state 191
+
+    (18) alt2const -> estatuto alt2const .
+
+    CLOSECURLY      reduce using rule 18 (alt2const -> estatuto alt2const .)
+
+
+state 192
+
+    (39) altparams -> COMMA ID TWODOTS type altparams .
+
+    CLOSEPAREN      reduce using rule 39 (altparams -> COMMA ID TWODOTS type altparams .)
+    ID              reduce using rule 39 (altparams -> COMMA ID TWODOTS type altparams .)
+
+
+state 193
+
+    (42) altcall -> varcte alt2call .
+
+    SEMICOLON       reduce using rule 42 (altcall -> varcte alt2call .)
+    ID              reduce using rule 42 (altcall -> varcte alt2call .)
+    OPENPAREN       reduce using rule 42 (altcall -> varcte alt2call .)
+    SUM             reduce using rule 42 (altcall -> varcte alt2call .)
+    SUBTRACT        reduce using rule 42 (altcall -> varcte alt2call .)
+    CTEFLOAT        reduce using rule 42 (altcall -> varcte alt2call .)
+    CTESTRING       reduce using rule 42 (altcall -> varcte alt2call .)
+    CTEINT          reduce using rule 42 (altcall -> varcte alt2call .)
+
+
+state 194
+
+    (44) alt2call -> COMMA . varcte alt2call
+    (54) varcte -> . ID
+    (55) varcte -> . CTEFLOAT
+    (56) varcte -> . CTESTRING
+    (57) varcte -> . CTEINT
+
+    ID              shift and go to state 94
+    CTEFLOAT        shift and go to state 103
+    CTESTRING       shift and go to state 104
+    CTEINT          shift and go to state 105
+
+    varcte                         shift and go to state 198
+
+state 195
+
+    (45) alt2call -> CLOSEPAREN .
+
+    SEMICOLON       reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    ID              reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    OPENPAREN       reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    SUM             reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    SUBTRACT        reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    CTEFLOAT        reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    CTESTRING       reduce using rule 45 (alt2call -> CLOSEPAREN .)
+    CTEINT          reduce using rule 45 (alt2call -> CLOSEPAREN .)
+
+
+state 196
+
+    (88) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE . OPENCURLY altcondition
+
+    OPENCURLY       shift and go to state 199
+
+
+state 197
+
+    (89) altcondition -> estatuto altcondition .
+
+    ELSE            reduce using rule 89 (altcondition -> estatuto altcondition .)
+    CLOSECURLY      reduce using rule 89 (altcondition -> estatuto altcondition .)
+    ID              reduce using rule 89 (altcondition -> estatuto altcondition .)
+    IF              reduce using rule 89 (altcondition -> estatuto altcondition .)
+    OUTPUT          reduce using rule 89 (altcondition -> estatuto altcondition .)
+    INPUT           reduce using rule 89 (altcondition -> estatuto altcondition .)
+    VAR             reduce using rule 89 (altcondition -> estatuto altcondition .)
+
+
+state 198
+
+    (44) alt2call -> COMMA varcte . alt2call
+    (44) alt2call -> . COMMA varcte alt2call
+    (45) alt2call -> . CLOSEPAREN
+
+    COMMA           shift and go to state 194
+    CLOSEPAREN      shift and go to state 195
+
+    alt2call                       shift and go to state 200
+
+state 199
+
+    (88) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY . altcondition
+    (89) altcondition -> . estatuto altcondition
+    (90) altcondition -> . CLOSECURLY
+    (50) estatuto -> . assign
+    (51) estatuto -> . condition
+    (52) estatuto -> . write
+    (53) estatuto -> . read
+    (91) assign -> . ID EQUALS expresion SEMICOLON
+    (92) assign -> . ID EQUALS expresion altassign
+    (87) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
+    (88) condition -> . IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
+    (78) write -> . OUTPUT OPENPAREN varcte altwrite
+    (79) write -> . OUTPUT OPENPAREN expresion altwrite
+    (77) read -> . INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+
+    CLOSECURLY      shift and go to state 188
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    OUTPUT          shift and go to state 64
+    INPUT           shift and go to state 65
+
+    altcondition                   shift and go to state 201
+    estatuto                       shift and go to state 187
+    assign                         shift and go to state 58
+    condition                      shift and go to state 59
+    write                          shift and go to state 60
+    read                           shift and go to state 61
+
+state 200
+
+    (44) alt2call -> COMMA varcte alt2call .
+
+    SEMICOLON       reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    ID              reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    OPENPAREN       reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    SUM             reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    SUBTRACT        reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    CTEFLOAT        reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    CTESTRING       reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+    CTEINT          reduce using rule 44 (alt2call -> COMMA varcte alt2call .)
+
+
+state 201
+
+    (88) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .
+
+    CLOSECURLY      reduce using rule 88 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .)
+    ID              reduce using rule 88 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .)
+    IF              reduce using rule 88 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .)
+    OUTPUT          reduce using rule 88 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .)
+    INPUT           reduce using rule 88 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .)
+    VAR             reduce using rule 88 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SUM in state 97 resolved as shift
+WARNING: shift/reduce conflict for SUBTRACT in state 97 resolved as shift
+WARNING: shift/reduce conflict for SUM in state 97 resolved as shift
+WARNING: shift/reduce conflict for SUBTRACT in state 97 resolved as shift
+WARNING: shift/reduce conflict for OPENPAREN in state 118 resolved as shift
+WARNING: shift/reduce conflict for SEMICOLON in state 160 resolved as shift
+WARNING: shift/reduce conflict for ID in state 160 resolved as shift
+WARNING: shift/reduce conflict for OPENPAREN in state 160 resolved as shift
+WARNING: shift/reduce conflict for SUM in state 160 resolved as shift
+WARNING: shift/reduce conflict for SUBTRACT in state 160 resolved as shift
+WARNING: shift/reduce conflict for CTEFLOAT in state 160 resolved as shift
+WARNING: shift/reduce conflict for CTESTRING in state 160 resolved as shift
+WARNING: shift/reduce conflict for CTEINT in state 160 resolved as shift
+WARNING: shift/reduce conflict for OPENPAREN in state 161 resolved as shift
+WARNING: shift/reduce conflict for SUM in state 163 resolved as shift
+WARNING: shift/reduce conflict for SUBTRACT in state 163 resolved as shift
+WARNING: shift/reduce conflict for SUM in state 164 resolved as shift
+WARNING: shift/reduce conflict for SUBTRACT in state 164 resolved as shift
+WARNING: reduce/reduce conflict in state 97 resolved using rule (exp -> termino)
+WARNING: rejected rule (empty -> <empty>) in state 97
+WARNING: reduce/reduce conflict in state 98 resolved using rule (termino -> factor)
+WARNING: rejected rule (empty -> <empty>) in state 98
+WARNING: reduce/reduce conflict in state 119 resolved using rule (assign -> ID EQUALS expresion SEMICOLON)
+WARNING: rejected rule (altassign -> SEMICOLON) in state 119
