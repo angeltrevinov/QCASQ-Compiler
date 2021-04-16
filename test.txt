@@ -19,10 +19,10 @@ func fact(j: int): int {
 }
 func pelos(y: entero) {
     var x: int;
-    input(estudiante.edad);
+    input(estudiante);
     x = y;
     while (x < 10) {
-        output(estudiante.UNO(X));
+        output(estudiante);
         x = x + 1;
     }
 }
@@ -33,6 +33,6 @@ main() {
     input(estudiante);
     pelos(p);
     for (i = 1; i <= 10; i = i + 1) {
-        output("Hello World", alumno.nombre, fact(alumno.edad));
+        output("Hello World", alumno, fact(alumno));
     }
 }

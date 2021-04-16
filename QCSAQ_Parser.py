@@ -10,6 +10,7 @@ class QCASQ_Parser:
         '''
         program : PROGRAM ID SEMICOLON altprogram
         '''
+        print("here", p)
         pass
 
     def p_altprogram(self, p):
