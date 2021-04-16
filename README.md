@@ -5,13 +5,15 @@ Angel Odiel Treviño Villanueva A01336559
 Julia Margarita Jimenez Herrera A00821428
 
 ## Bitacora
-| Tarea                               |   Fecha     |
-|-------------------------------------|:-----------:|
-| Creacion de Lexer y Parser          | Abril 8 y 9 |
-| Crear diagramas de estructuras      | Abril 5 y 6 |
-| Definir la descripcion del proyecto | Abril 2     |
+| Tarea                                     |   Fecha     |
+|-------------------------------------------|:-----------:|
+| Crear clases para guardar funcs y vars    | Abril 16    |
+| Creacion de Lexer y Parser                | Abril 8 y 9 |
+| Crear diagramas de estructuras            | Abril 5 y 6 |
+| Definir la descripcion del proyecto       | Abril 2     |
 
 ## Issues
+- [#3 Agregar codigo para guardar variables](https://github.com/angeltrevinov/QCASQ-Compiler/issues/3)
 - [#2 Definir id.id](https://github.com/angeltrevinov/QCASQ-Compiler/issues/2)
 - [#1 Definir bloque de return](https://github.com/angeltrevinov/QCASQ-Compiler/issues/1)
 
