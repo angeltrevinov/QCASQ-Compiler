@@ -8,28 +8,19 @@ class QCASQ_Parser:
     # Definition of grammatic rules
     def p_program(self, p):
         '''
-        program : PROGRAM ID SEMICOLON altprogram
+        program     : PROGRAM ID SEMICOLON altprogram
+        altprogram  : class altprogram
+                    | var altprogram
+                    | function altprogram
+                    | main
         '''
-        print("here", p)
-        pass
-
-    def p_altprogram(self, p):
-        '''
-        altprogram : class altprogram
-                   | var altprogram
-                   | function altprogram
-                   | main
-        '''
+        for element in p:
+            print(element)
         pass
 
     def p_main(self, p):
         '''
-        main : MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
-        '''
-        pass
-
-    def p_altmain(self, p):
-        '''
+        main    : MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
         altmain : estatuto altmain
                 | CLOSECURLY
         '''
@@ -37,19 +28,9 @@ class QCASQ_Parser:
 
     def p_class(self, p):
         '''
-        class : CLASS ID altclass OPENCURLY alt2class
-        '''
-        pass
-
-    def p_altclass(self, p):
-        '''
-        altclass : TWODOTS ID
-                 | empty
-        '''
-        pass
-
-    def p_alt2class(self, p):
-        '''
+        class     : CLASS ID altclass OPENCURLY alt2class
+        altclass  : TWODOTS ID
+                  | empty
         alt2class : var alt2class
                   | function alt2class
                   | constructor CLOSECURLY SEMICOLON
@@ -59,20 +40,10 @@ class QCASQ_Parser:
     def p_constructor(self, p):
         '''
         constructor : CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
-        '''
-        pass
-
-    def p_altconst(self, p):
-        '''
-        altconst : params altconst
-                 | empty
-        '''
-        pass
-
-    def p_alt2const(self, p):
-        '''
-        alt2const : estatuto alt2const
-                 | CLOSECURLY
+        altconst    : params altconst
+                    | empty
+        alt2const   : estatuto alt2const
+                    | CLOSECURLY
         '''
         pass
 
@@ -84,28 +55,13 @@ class QCASQ_Parser:
 
     def p_listids(self, p):
         '''
-        listids : ID listidsalty
-        '''
-        pass
-
-    def p_listidsalty(self, p):
-        '''
+        listids      : ID listidsalty
         listidsalty : COMMA listids
-                    | OPENBRACKET INT CLOSEBRACKET listidsaltz
+                    | OPENBRACKET CTEINT CLOSEBRACKET listidsaltz
                     | empty
-        '''
-        pass
-
-    def p_listidsaltz(self, p):
-        '''
         listidsaltz : COMMA listids
-                    | OPENBRACKET INT CLOSEBRACKET listidsaltp
+                    | OPENBRACKET CTEINT CLOSEBRACKET listidsaltp
                     | empty
-        '''
-        pass
-
-    def p_listidsaltp(self, p):
-        '''
         listidsaltp : COMMA listids
                     | empty
         '''
@@ -114,25 +70,10 @@ class QCASQ_Parser:
     def p_function(self, p):
         '''
         function : FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
-        '''
-        pass
-
-    def p_altfunc(self, p):
-        '''
-        altfunc : params
-                | empty
-        '''
-        pass
-
-    def p_alt2func(self, p):
-        '''
+        altfunc  : params
+                 | empty
         alt2func : TWODOTS type
                  | empty
-        '''
-        pass
-
-    def p_alt3func(self, p):
-        '''
         alt3func : var alt3func
                  | estatuto alt3func
                  | CLOSECURLY
@@ -141,34 +82,19 @@ class QCASQ_Parser:
 
     def p_params(self, p):
         '''
-        params : ID TWODOTS type altparams
-        '''
-        pass
-
-    def p_altparams(self, p):
-        '''
-        altparams : COMMA ID TWODOTS type altparams
-                | empty
+        params      : ID TWODOTS type altparams
+        altparams   : COMMA ID TWODOTS type altparams
+                    | empty
         '''
         pass
 
     def p_callfunc(self, p):
         '''
-        callfunc : ID OPENPAREN altcall
-        '''
-        pass
-
-    def p_altcall(self, p):
-        '''
-        altcall : varcte alt2call 
-                | CLOSEPAREN
-        '''
-        pass
-
-    def p_alt2call(self, p):
-        '''
-        alt2call : COMMA varcte alt2call
-                 | CLOSEPAREN
+        callfunc    : ID OPENPAREN altcall CLOSEPAREN
+        altcall     : expresion alt2call
+                    | empty
+        alt2call   : COMMA altcall
+                    | empty
         '''
         pass
 
@@ -178,6 +104,7 @@ class QCASQ_Parser:
              | FLOAT
              | STRING
              | ID
+             | BOOL
         '''
         pass
 
@@ -187,46 +114,68 @@ class QCASQ_Parser:
                 | condition
                 | write
                 | read
+                | return
+                | voidcall
         '''
         pass
 
+    def p_voidcall(self, p):
+        '''
+        voidcall : ID OPENPAREN CLOSEPAREN
+                | ID OPENPAREN expresion altcall
+        altcall : COMMA expresion altcall
+                | CLOSEPAREN SEMICOLON
+        '''
+        pass
+
+    def p_varcall(self, p):
+        '''
+        varcall : varcte
+                | varcomplicated
+        '''
+
     def p_varcte(self, p):
         '''
-        varcte : ID
+        varcte : TRUE
+                | FALSE
               | CTEFLOAT
              | CTESTRING
              | CTEINT
         '''
         pass
 
-    def p_expresion(self, p):
+    def p_varcomplicated(self, p):
         '''
-        expresion : exp altexpresion exp
+        varcomplicated : varcomp1
+                        | callfunc
+        varcomp1        : ID varcomp2
+        varcomp2        : DOT varcomp3
+                        | empty
+        varcomp3        : varcomp1
+                        | callfunc
         '''
         pass
 
-    def p_altexpresion(self, p):
+    def p_expresion(self, p):
         '''
-        altexpresion : SAMEAS
-                    | BIGGERTHAN
-                    | BIGGEREQUALSTHAN
-                    | SMALLTHAN
-                    | SMALLEQUALSTHAN
-                    | DIFFERENTTHAN
-                    | AND
-                    | OR
+        expresion       : exp altexpresion
+        altexpresion    : altexpresion2 exp
+                        | empty
+        altexpresion2   : SAMEAS
+                        | BIGGERTHAN
+                        | BIGGEREQUALSTHAN
+                        | SMALLTHAN
+                        | SMALLEQUALSTHAN
+                        | DIFFERENTTHAN
+                        | AND
+                        | OR
         '''
         pass
 
     def p_exp(self, p):
         '''
-        exp : termino 
-            | termino altexp
-        '''
-        pass
-
-    def p_altexp(self, p):
-        '''
+        exp     : termino
+                | termino altexp
         altexp  : SUM termino altexp
                 | SUBTRACT termino altexp
                 | empty
@@ -235,13 +184,8 @@ class QCASQ_Parser:
 
     def p_termino(self, p):
         '''
-        termino : factor 
-                | factor alttermino
-        '''
-        pass
-
-    def p_alttermino(self, p):
-        '''
+        termino     : factor
+                    | factor alttermino
         alttermino : TIMES factor alttermino
                     | DIV factor alttermino
                     | empty
@@ -256,14 +200,9 @@ class QCASQ_Parser:
 
     def p_write(self, p):
         '''
-        write : OUTPUT OPENPAREN varcte altwrite
+        write : OUTPUT OPENPAREN varcall altwrite
                 | OUTPUT OPENPAREN expresion altwrite
-        '''
-        pass
-
-    def p_altwrite(self, p):
-        '''
-        altwrite : COMMA varcte altwrite
+        altwrite : COMMA varcall altwrite
                 | COMMA expresion altwrite
                 | CLOSEPAREN SEMICOLON
         '''
@@ -272,9 +211,9 @@ class QCASQ_Parser:
     def p_factor(self, p):
         '''
         factor : OPENPAREN expresion CLOSEPAREN  
-                | SUM varcte
-                | SUBTRACT varcte
-                | varcte
+                | SUM varcall
+                | SUBTRACT varcall
+                | varcall
         '''
         pass
 
@@ -282,11 +221,6 @@ class QCASQ_Parser:
         '''
         condition : IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
                     | IF OPENPAREN expresion CLOSEPAREN  OPENCURLY  altcondition ELSE OPENCURLY altcondition
-        '''
-        pass
-
-    def p_altcondition(self, p):
-        '''
         altcondition : estatuto altcondition
                     | CLOSECURLY
         '''
@@ -294,19 +228,18 @@ class QCASQ_Parser:
 
     def p_assign(self, p):
         '''
-        assign : ID EQUALS expresion SEMICOLON 
-                | ID EQUALS expresion altassign
+        assign : ID assign1 EQUALS expresion SEMICOLON
+        assign1 : DOT ID assign1
+                | empty
         '''
         pass
 
-    def p_altassign(self, p):
+    def p_return(self, p):
         '''
-        altassign : callfunc altassign
-                    | exp altassign 
-                    | exp varcte altassign
-                    | SEMICOLON
+        return  : RETURN expresion SEMICOLON
         '''
         pass
+
 
     def p_empty(self, p):
         '''
@@ -316,11 +249,12 @@ class QCASQ_Parser:
 
     def p_error(self, p):
         self.__error = True
-        print('\n gramatica no apropiada \n')
+        print('\n gramatica no apropiada', p)
 
     # constructor
     def __init__(self, lexer):
-        self.parser = yacc.yacc(module=self)
+
+        self.parser = yacc.yacc(module=self, debug=True)  # To use debug add debug = True
         self.lexer = lexer
 
     def get_error(self):
