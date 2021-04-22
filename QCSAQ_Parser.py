@@ -1,9 +1,14 @@
 import ply.yacc as yacc
 from QCASQ_Lexer import *
+from Function_Dir import *
+
 
 class QCASQ_Parser:
     __error = False
     tokens = QCASQ_Lexer.tokens
+
+    # initialize function directory
+    funct_dir = Function_Dir()
 
     # Definition of grammatic rules
     def p_program(self, p):
@@ -14,8 +19,11 @@ class QCASQ_Parser:
                     | function altprogram
                     | main
         '''
-        #for element in p:
-            #print(element)
+        # Adding program name to dictionary
+        for index, element in enumerate(p):
+            if element == ';':
+                self.funct_dir.add_to_dictionary(p[index-1])
+                #self.funct_dir.get_Dictionary() # printing to see dictionary
         pass
 
     def p_main(self, p):
@@ -25,6 +33,10 @@ class QCASQ_Parser:
                 | estatuto altmain
                 | CLOSECURLY
         '''
+        # adding main to dictionary
+        for element in p:
+            if element == 'main':
+                self.funct_dir.add_to_dictionary(element)
         pass
 
     def p_class(self, p):
@@ -36,6 +48,10 @@ class QCASQ_Parser:
                   | function alt2class
                   | constructor CLOSECURLY SEMICOLON
         '''
+        # adding classes
+        for index, element in enumerate(p):
+            if element == 'class':
+                self.funct_dir.add_to_dictionary(p[index + 1])
         pass
 
     def p_constructor(self, p):
@@ -47,6 +63,11 @@ class QCASQ_Parser:
                     | estatuto alt2const
                     | CLOSECURLY
         '''
+        # adding constructor
+        # TODO: breaks when there are 2 or more classes
+        for element in p:
+            if element == 'constructor':
+                self.funct_dir.add_to_dictionary(element)
         pass
 
     def p_var(self, p):
@@ -80,6 +101,12 @@ class QCASQ_Parser:
                  | estatuto alt3func
                  | CLOSECURLY
         '''
+        # Add functions to dictionary
+        # TODO: Save type
+        for index, element in enumerate(p):
+            if element == 'func':
+                self.funct_dir.add_to_dictionary(p[index + 1])
+                self.funct_dir.get_Dictionary()
         pass
 
     def p_params(self, p):
@@ -108,6 +135,9 @@ class QCASQ_Parser:
              | ID
              | BOOL
         '''
+        for element in p:
+            if element is not None:
+                print(element)
         pass
 
     def p_estatuto(self, p):
@@ -250,7 +280,6 @@ class QCASQ_Parser:
         return  : RETURN expresion SEMICOLON
         '''
         pass
-
 
     def p_empty(self, p):
         '''
