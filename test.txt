@@ -1,13 +1,24 @@
 program Example;
 class Persona {
-    var edad: int;
+    var edad[9][3]: int;
     var nombre: string;
+
     func UNO(x: int): int {
-    return (edad - x);
+        return (edad - x);
+    }
+    constructor() {
+        var edad: int;
+        edad = (edad - x);
+
+        while(i < j) {
+            i = i+j;
+        }
     }
 };
+
 var i, j, p: int;
 var estudiante: Persona;
+
 func fact(j: int): int {
     var i: int;
     i = j + (p - j*2+j);
@@ -17,22 +28,18 @@ func fact(j: int): int {
         return j * fact(j-1);
     }
 }
+
 func pelos(y: entero) {
     var x: int;
     input(estudiante);
     x = y;
-    while (x < 10) {
-        output(estudiante);
-        x = x + 1;
-    }
 }
+
 main() {
+    var all: int;
     input(p);
-    j = p*2;
+    //j = p*2;
     i = fact(p);
     input(estudiante);
     pelos(p);
-    for (i = 1; i <= 10; i = i + 1) {
-        output("Hello World", alumno, fact(alumno));
-    }
 }
