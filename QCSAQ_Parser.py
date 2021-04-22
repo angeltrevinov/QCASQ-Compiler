@@ -14,14 +14,15 @@ class QCASQ_Parser:
                     | function altprogram
                     | main
         '''
-        for element in p:
-            print(element)
+        #for element in p:
+            #print(element)
         pass
 
     def p_main(self, p):
         '''
         main    : MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
-        altmain : estatuto altmain
+        altmain : var altmain
+                | estatuto altmain
                 | CLOSECURLY
         '''
         pass
@@ -42,7 +43,8 @@ class QCASQ_Parser:
         constructor : CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
         altconst    : params altconst
                     | empty
-        alt2const   : estatuto alt2const
+        alt2const   : var alt2const
+                    | estatuto alt2const
                     | CLOSECURLY
         '''
         pass
@@ -116,6 +118,7 @@ class QCASQ_Parser:
                 | read
                 | return
                 | voidcall
+                | while
         '''
         pass
 
@@ -125,6 +128,14 @@ class QCASQ_Parser:
                 | ID OPENPAREN expresion altcall
         altcall : COMMA expresion altcall
                 | CLOSEPAREN SEMICOLON
+        '''
+        pass
+
+    def p_while(self, p):
+        '''
+        while    : WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
+        altwhile : estatuto altwhile
+                | CLOSECURLY
         '''
         pass
 

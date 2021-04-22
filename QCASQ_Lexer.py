@@ -52,6 +52,7 @@ class QCASQ_Lexer(object):
         'bool': 'BOOL',
         'true': 'TRUE',
         'false': 'FALSE',
+        'while': 'WHILE'
     }
 
     # Regular expresion rules for simple tokens
