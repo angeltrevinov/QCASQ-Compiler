@@ -7,6 +7,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Guardar funciones y su tipo                | Abril 22    |
 | Empezar a guardar funciones                | Abril 21    |
 | Agregar while y declaracion de variables   | Abril 21    |
 | Arreglar gramaticas y bloques que faltaron | Abril 19    |

@@ -13,61 +13,78 @@ class QCASQ_Parser:
     # Definition of grammatic rules
     def p_program(self, p):
         '''
-        program     : PROGRAM ID SEMICOLON altprogram
+        program     : PROGRAM ID save_program SEMICOLON altprogram
         altprogram  : class altprogram
                     | var altprogram
                     | function altprogram
                     | main
         '''
-        # Adding program name to dictionary
-        for index, element in enumerate(p):
-            if element == ';':
-                self.funct_dir.add_to_dictionary(p[index-1])
-                #self.funct_dir.get_Dictionary() # printing to see dictionary
+        pass
+
+    # Add the program name to the dictionary
+    def p_save_program(self, p):
+        '''
+        save_program :
+        '''
+        self.funct_dir.add_to_dictionary(p[-1])
         pass
 
     def p_main(self, p):
         '''
-        main    : MAIN OPENPAREN CLOSEPAREN OPENCURLY altmain
+        main    : MAIN save_main OPENPAREN CLOSEPAREN OPENCURLY altmain
         altmain : var altmain
                 | estatuto altmain
                 | CLOSECURLY
         '''
-        # adding main to dictionary
-        for element in p:
-            if element == 'main':
-                self.funct_dir.add_to_dictionary(element)
+        pass
+
+    # Add the main to function dictionary
+    def p_save_main(self, p):
+        '''
+        save_main :
+        '''
+        self.funct_dir.add_to_dictionary(p[-1])
         pass
 
     def p_class(self, p):
         '''
-        class     : CLASS ID altclass OPENCURLY alt2class
+        class     : CLASS ID altclass save_class OPENCURLY alt2class
         altclass  : TWODOTS ID
                   | empty
         alt2class : var alt2class
                   | function alt2class
                   | constructor CLOSECURLY SEMICOLON
         '''
-        # adding classes
-        for index, element in enumerate(p):
-            if element == 'class':
-                self.funct_dir.add_to_dictionary(p[index + 1])
+        # saves the inheritance type of the class
+        if p[1] == ":":
+            p[0] = p[2]
+        pass
+
+    # Add the class and its inheritance to the dictionary
+    def p_save_class(self, p):
+        '''
+        save_class :
+        '''
+        self.funct_dir.add_to_dictionary(p[-2], p[-1])
         pass
 
     def p_constructor(self, p):
         '''
-        constructor : CONSTRUCTOR OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
+        constructor : CONSTRUCTOR save_constructor OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
         altconst    : params altconst
                     | empty
         alt2const   : var alt2const
                     | estatuto alt2const
                     | CLOSECURLY
         '''
-        # adding constructor
-        # TODO: breaks when there are 2 or more classes
-        for element in p:
-            if element == 'constructor':
-                self.funct_dir.add_to_dictionary(element)
+        pass
+
+    # Add the construction to the dictionary
+    def p_save_constructor(self, p):
+        '''
+        save_constructor :
+        '''
+        self.funct_dir.add_to_dictionary(p[-1])
         pass
 
     def p_var(self, p):
@@ -92,7 +109,7 @@ class QCASQ_Parser:
 
     def p_function(self, p):
         '''
-        function : FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func OPENCURLY alt3func
+        function : FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func save_function OPENCURLY alt3func
         altfunc  : params
                  | empty
         alt2func : TWODOTS type
@@ -101,12 +118,19 @@ class QCASQ_Parser:
                  | estatuto alt3func
                  | CLOSECURLY
         '''
-        # Add functions to dictionary
-        # TODO: Save type
-        for index, element in enumerate(p):
-            if element == 'func':
-                self.funct_dir.add_to_dictionary(p[index + 1])
-                self.funct_dir.get_Dictionary()
+        if p[1] == ":":
+            p[0] = p[2]
+        if p[1] == "":
+            p[0] = ""
+        pass
+
+    # Add function name and type to the dictionary
+    def p_save_function(self, p):
+        '''
+        save_function :
+        '''
+        # Saving function with their type
+        self.funct_dir.add_to_dictionary(p[-5], p[-1])
         pass
 
     def p_params(self, p):
@@ -135,9 +159,7 @@ class QCASQ_Parser:
              | ID
              | BOOL
         '''
-        for element in p:
-            if element is not None:
-                print(element)
+        p[0] = p[1]
         pass
 
     def p_estatuto(self, p):
@@ -285,6 +307,7 @@ class QCASQ_Parser:
         '''
         empty :
         '''
+        p[0] = ""
         pass
 
     def p_error(self, p):

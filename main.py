@@ -18,6 +18,7 @@ def test_from_file():
     # to test parser
     parser = pars.parser
     parser.parse(src_file)
+    pars.funct_dir.get_Dictionary() # print function dictionary to see functions we have save
     if pars.get_error() == True:
         print("Error")
     else:

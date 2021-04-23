@@ -1,5 +1,5 @@
 program Example;
-class Persona {
+class Persona: hola {
     var edad[9][3]: int;
     var nombre: string;
 
