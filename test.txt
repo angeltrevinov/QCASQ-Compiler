@@ -3,7 +3,7 @@ class Persona: hola {
     var edad[9][3]: int;
     var nombre: string;
 
-    func UNO(x: int): int {
+    func UNO(a: int): int {
         return (edad - x);
     }
     constructor() {
@@ -19,7 +19,7 @@ class Persona: hola {
 var i, j, p: int;
 var estudiante: Persona;
 
-func fact(j: int): int {
+func fact(b: int, m: int): int {
     var i: int;
     i = j + (p - j*2+j);
     if (j == 1) {
@@ -29,7 +29,7 @@ func fact(j: int): int {
     }
 }
 
-func pelos(y: entero) {
+func pelos(l: entero) {
     var x: int;
     input(estudiante);
     x = y;

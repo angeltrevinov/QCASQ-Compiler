@@ -1,6 +1,5 @@
 from QCASQ_Lexer import *
 from QCSAQ_Parser import *
-from Function_Dir import *
 
 
 def test_from_file():
@@ -19,6 +18,8 @@ def test_from_file():
     parser = pars.parser
     parser.parse(src_file)
     pars.funct_dir.get_Dictionary() # print function dictionary to see functions we have save
+    print("=============")
+    pars.var_dir.get_Dictionary()
     if pars.get_error() == True:
         print("Error")
     else:

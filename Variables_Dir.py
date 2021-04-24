@@ -13,5 +13,6 @@ class Variables_Dir:
             "value": None
         }
 
-    def get_Dictionary(self) -> dict:
-        return self.__dict__
+    def get_Dictionary(self):
+        for element in self.__dict__:
+            print(element + ":", self.get_variable(element))

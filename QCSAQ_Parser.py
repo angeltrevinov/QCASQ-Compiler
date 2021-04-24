@@ -1,14 +1,18 @@
 import ply.yacc as yacc
 from QCASQ_Lexer import *
+from Variables_Dir import *
 from Function_Dir import *
 
 
 class QCASQ_Parser:
     __error = False
+    __stack_vars = []
     tokens = QCASQ_Lexer.tokens
+
 
     # initialize function directory
     funct_dir = Function_Dir()
+    var_dir = Variables_Dir()
 
     # Definition of grammatic rules
     def p_program(self, p):
@@ -89,13 +93,22 @@ class QCASQ_Parser:
 
     def p_var(self, p):
         '''
-        var : VAR listids TWODOTS type SEMICOLON
+        var : VAR listids TWODOTS type save_vars SEMICOLON
         '''
+        pass
+
+    def p_save_vars(self, p):
+        '''
+        save_vars :
+        '''
+        for element in self.__stack_vars:
+            self.var_dir.add_to_dictionary(element, p[-1])
+        self.__stack_vars.clear()
         pass
 
     def p_listids(self, p):
         '''
-        listids      : ID listidsalty
+        listids      : ID save_var_name listidsalty
         listidsalty : COMMA listids
                     | OPENBRACKET CTEINT CLOSEBRACKET listidsaltz
                     | empty
@@ -107,9 +120,17 @@ class QCASQ_Parser:
         '''
         pass
 
+    def p_save_var_name(self, p):
+        '''
+        save_var_name :
+        '''
+        p[0] = p[-1]
+        self.__stack_vars.append(p[0])
+        pass
+
     def p_function(self, p):
         '''
-        function : FUNC ID OPENPAREN altfunc CLOSEPAREN alt2func save_function OPENCURLY alt3func
+        function : FUNC ID OPENPAREN altfunc  CLOSEPAREN alt2func save_function OPENCURLY alt3func
         altfunc  : params
                  | empty
         alt2func : TWODOTS type
@@ -135,10 +156,17 @@ class QCASQ_Parser:
 
     def p_params(self, p):
         '''
-        params      : ID TWODOTS type altparams
-        altparams   : COMMA ID TWODOTS type altparams
+        params      : ID TWODOTS type save_params altparams
+        altparams   : COMMA ID TWODOTS type save_params altparams
                     | empty
         '''
+        pass
+
+    def p_save_params(self, p):
+        '''
+        save_params :
+        '''
+        self.var_dir.add_to_dictionary(p[-3], p[-1])
         pass
 
     def p_callfunc(self, p):
