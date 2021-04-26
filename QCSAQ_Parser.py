@@ -7,6 +7,7 @@ from Function_Dir import *
 class QCASQ_Parser:
     __error = False
     __stack_vars = []   # this is to store if multiple vars came as a list, so we can also add their type
+    __stack_params = [] # to save the params in their corresponding funct dir
     tokens = QCASQ_Lexer.tokens
 
 
@@ -168,6 +169,12 @@ class QCASQ_Parser:
         # Saving function with their type
         self.funct_dir.add_to_dictionary(p[-5], p[-1])
         self.funct_dir.add_to_scope(p[-5])
+        for param in self.__stack_params:
+            name, type = param
+            self.funct_dir.get_function(
+                self.funct_dir.get_current_scope()
+            )["tablevars"].add_to_dictionary(name, type)
+        self.__stack_params.clear()
         pass
 
     def p_remove_function_scope(self, p):
@@ -187,7 +194,7 @@ class QCASQ_Parser:
         '''
         save_params :
         '''
-        self.var_dir.add_to_dictionary(p[-3], p[-1])
+        self.__stack_params.append((p[-3], p[-1]))
         pass
 
     def p_callfunc(self, p):
