@@ -6,7 +6,7 @@ from Function_Dir import *
 
 class QCASQ_Parser:
     __error = False
-    __stack_vars = []
+    __stack_vars = []   # this is to store if multiple vars came as a list, so we can also add their type
     tokens = QCASQ_Lexer.tokens
 
 
@@ -27,10 +27,9 @@ class QCASQ_Parser:
 
     # Add the program name to the dictionary
     def p_save_program(self, p):
-        '''
-        save_program :
-        '''
+        ''' save_program : '''
         self.funct_dir.add_to_dictionary(p[-1])
+        self.funct_dir.add_to_scope(p[-1])
         pass
 
     def p_main(self, p):
@@ -38,16 +37,22 @@ class QCASQ_Parser:
         main    : MAIN save_main OPENPAREN CLOSEPAREN OPENCURLY altmain
         altmain : var altmain
                 | estatuto altmain
-                | CLOSECURLY
+                | CLOSECURLY clear_scope
         '''
         pass
 
     # Add the main to function dictionary
     def p_save_main(self, p):
-        '''
-        save_main :
-        '''
+        ''' save_main : '''
         self.funct_dir.add_to_dictionary(p[-1])
+        self.funct_dir.add_to_scope(p[-1])
+        pass
+
+    # remove main and program from scope
+    def p_clear_scope(self, p):
+        ''' clear_scope : '''
+        self.funct_dir.pop_scope()
+        self.funct_dir.pop_scope()
         pass
 
     def p_class(self, p):
@@ -57,7 +62,7 @@ class QCASQ_Parser:
                   | empty
         alt2class : var alt2class
                   | function alt2class
-                  | constructor CLOSECURLY SEMICOLON
+                  | constructor CLOSECURLY SEMICOLON remove_class_scope
         '''
         # saves the inheritance type of the class
         if p[1] == ":":
@@ -66,10 +71,15 @@ class QCASQ_Parser:
 
     # Add the class and its inheritance to the dictionary
     def p_save_class(self, p):
-        '''
-        save_class :
-        '''
+        ''' save_class : '''
         self.funct_dir.add_to_dictionary(p[-2], p[-1])
+        self.funct_dir.add_to_scope(p[-2])
+        pass
+
+    # Removes the class from the scope
+    def p_remove_class_scope(self, p):
+        ''' remove_class_scope : '''
+        self.funct_dir.pop_scope()
         pass
 
     def p_constructor(self, p):
@@ -79,16 +89,20 @@ class QCASQ_Parser:
                     | empty
         alt2const   : var alt2const
                     | estatuto alt2const
-                    | CLOSECURLY
+                    | CLOSECURLY remove_constructor_scope
         '''
         pass
 
     # Add the construction to the dictionary
     def p_save_constructor(self, p):
-        '''
-        save_constructor :
-        '''
+        ''' save_constructor : '''
         self.funct_dir.add_to_dictionary(p[-1])
+        self.funct_dir.add_to_scope(p[-1])
+        pass
+
+    def p_remove_constructor_scope(self, p):
+        ''' remove_constructor_scope : '''
+        self.funct_dir.pop_scope()
         pass
 
     def p_var(self, p):
@@ -102,6 +116,10 @@ class QCASQ_Parser:
         save_vars :
         '''
         for element in self.__stack_vars:
+            #print(self.funct_dir.get_current_scope(), element)
+            self.funct_dir.get_function(
+                self.funct_dir.get_current_scope()
+            )["tablevars"].add_to_dictionary(element, p[-1])
             self.var_dir.add_to_dictionary(element, p[-1])
         self.__stack_vars.clear()
         pass
@@ -124,8 +142,7 @@ class QCASQ_Parser:
         '''
         save_var_name :
         '''
-        p[0] = p[-1]
-        self.__stack_vars.append(p[0])
+        self.__stack_vars.append(p[-1])
         pass
 
     def p_function(self, p):
@@ -137,7 +154,7 @@ class QCASQ_Parser:
                  | empty
         alt3func : var alt3func
                  | estatuto alt3func
-                 | CLOSECURLY
+                 | CLOSECURLY remove_function_scope
         '''
         if p[1] == ":":
             p[0] = p[2]
@@ -147,11 +164,15 @@ class QCASQ_Parser:
 
     # Add function name and type to the dictionary
     def p_save_function(self, p):
-        '''
-        save_function :
-        '''
+        ''' save_function : '''
         # Saving function with their type
         self.funct_dir.add_to_dictionary(p[-5], p[-1])
+        self.funct_dir.add_to_scope(p[-5])
+        pass
+
+    def p_remove_function_scope(self, p):
+        ''' remove_function_scope : '''
+        self.funct_dir.pop_scope()
         pass
 
     def p_params(self, p):

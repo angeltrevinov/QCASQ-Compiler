@@ -1,9 +1,9 @@
 program Example;
-class Persona: hola {
+class Persona {
     var edad[9][3]: int;
     var nombre: string;
 
-    func UNO(a: int): int {
+    func UNO(x: int): int {
         return (edad - x);
     }
     constructor() {
@@ -19,7 +19,7 @@ class Persona: hola {
 var i, j, p: int;
 var estudiante: Persona;
 
-func fact(b: int, m: int): int {
+func fact(j: int): int {
     var i: int;
     i = j + (p - j*2+j);
     if (j == 1) {
@@ -29,7 +29,7 @@ func fact(b: int, m: int): int {
     }
 }
 
-func pelos(l: entero) {
+func pelos(y: entero) {
     var x: int;
     input(estudiante);
     x = y;
