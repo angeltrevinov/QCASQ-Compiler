@@ -1,6 +1,5 @@
 from QCASQ_Lexer import *
 from QCSAQ_Parser import *
-from Function_Dir import *
 
 
 def test_from_file():
@@ -18,6 +17,12 @@ def test_from_file():
     # to test parser
     parser = pars.parser
     parser.parse(src_file)
+    pars.funct_dir.print_dictionary()
+    #pars.funct_dir.get_function("Example")["tablevars"].print_dictionary()
+    #print("=============")
+    #pars.var_dir.print_dictionary()
+    #print("=============")
+    #print(pars.funct_dir.get_scope())
     if pars.get_error() == True:
         print("Error")
     else:
@@ -37,10 +42,7 @@ def test_direc():
     test_Func_dir.add_to_dictionary(func_name, func_type)
     test_Func_dir.get_function(func_name)['tablevars'].add_to_dictionary(var_name, var_type)
 
-    print("function:", test_Func_dir.get_function(func_name))
-    print("============")
-    print("var tables:", test_Func_dir.get_function(func_name)['tablevars'].get_variable(var_name))
-    print("============")
+    test_Func_dir.print_dictionary()
 
 
 if __name__ == '__main__':

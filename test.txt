@@ -3,7 +3,7 @@ class Persona {
     var edad[9][3]: int;
     var nombre: string;
 
-    func UNO(x: int): int {
+    func UNO(x: int, m: float): int {
         return (edad - x);
     }
     constructor() {
