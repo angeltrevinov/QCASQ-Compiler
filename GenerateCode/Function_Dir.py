@@ -1,4 +1,4 @@
-from Variables_Dir import *
+from GenerateCode.Variables_Dir import Variables_Dir
 
 class Function_Dir:
 

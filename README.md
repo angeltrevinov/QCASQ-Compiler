@@ -7,6 +7,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Crear cubo semantico                       | Mayo 4      |
 | Guardar variables y params en su tabla     | Abril 26    |
 | Guardar variables y su tipo                | Abril 23    |
 | Guardar funciones y su tipo                | Abril 22    |

@@ -1,7 +1,7 @@
-from QCASQ_Lexer import *
-from QCSAQ_Parser import *
-from SemanticCube import *
-from Types import Types
+from LexYacc.QCASQ_Lexer import QCASQ_Lexer
+from LexYacc.QCSAQ_Parser import QCASQ_Parser
+from GenerateCode.SemanticCube import SemanticCube
+from GenerateCode.Types import Types
 
 
 def test_from_file():

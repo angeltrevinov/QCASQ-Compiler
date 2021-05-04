@@ -1,4 +1,4 @@
-from Types import Types
+from GenerateCode.Types import Types
 
 class SemanticCube:
 

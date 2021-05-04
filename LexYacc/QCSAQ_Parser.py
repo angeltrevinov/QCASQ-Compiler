@@ -1,7 +1,7 @@
 import ply.yacc as yacc
-from QCASQ_Lexer import *
-from Variables_Dir import *
-from Function_Dir import *
+from LexYacc.QCASQ_Lexer import QCASQ_Lexer
+from GenerateCode.Variables_Dir import Variables_Dir
+from GenerateCode.Function_Dir import Function_Dir
 
 
 class QCASQ_Parser:
