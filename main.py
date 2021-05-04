@@ -1,5 +1,7 @@
 from QCASQ_Lexer import *
 from QCSAQ_Parser import *
+from SemanticCube import *
+from Types import Types
 
 
 def test_from_file():
@@ -18,12 +20,7 @@ def test_from_file():
     parser = pars.parser
     parser.parse(src_file)
     pars.funct_dir.print_dictionary()
-    #pars.funct_dir.get_function("Example")["tablevars"].print_dictionary()
-    #print("=============")
-    #pars.var_dir.print_dictionary()
-    #print("=============")
-    #print(pars.funct_dir.get_scope())
-    if pars.get_error() == True:
+    if pars.get_error():
         print("Error")
     else:
         print("todo bien")
@@ -45,6 +42,17 @@ def test_direc():
     test_Func_dir.print_dictionary()
 
 
+def test_semantic_cube():
+    semantic_cube = SemanticCube()
+    result_sum_ints = semantic_cube.get_result("int", "int", "SUM")
+    assert result_sum_ints == Types.INT, "not int"
+    result_int_float = semantic_cube.get_result("int", "float", "DIV")
+    assert result_int_float == Types.FLOAT, "not float"
+    result_class_bool = semantic_cube.get_result("class", "bool", "DIFFERENTTHAN")
+    assert result_class_bool == Types.INVALID, "not invalid"
+
+
 if __name__ == '__main__':
     test_from_file()
     #  test_direc()
+    # test_semantic_cube()
