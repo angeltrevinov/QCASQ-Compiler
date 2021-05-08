@@ -1,9 +1,10 @@
 from GenerateCode.Types import Types
 
+
 class SemanticCube:
 
-    __cube__= {
-        ###### INT
+    __cube__ = {
+        # -----------------  INT ---------------------------
         "int": {
             "int": {
                 "SUM": Types.INT,
@@ -91,7 +92,7 @@ class SemanticCube:
                 "INPUT": Types.INVALID
             }
         },
-        ###### FLOAT
+        # ----------------- FLOAT --------------------------
         "float": {
             "int": {
                 "SUM": Types.FLOAT,
@@ -179,7 +180,7 @@ class SemanticCube:
                 "INPUT": Types.INVALID
             }
         },
-        ####### STR
+        # ---------------- STR -----------------------------
         "string": {
             "int": {
                 "SUM": Types.INVALID,
@@ -267,7 +268,7 @@ class SemanticCube:
                 "INPUT": Types.INVALID
             }
         },
-        ####### CLASS
+        # ------------------- CLASS ------------------------
         "class": {
             "int": {
                 "SUM": Types.INVALID,
@@ -355,7 +356,7 @@ class SemanticCube:
                 "INPUT": Types.INVALID
             }
         },
-        ###### BOOL
+        # ------------------ BOOL --------------------------
         "bool": {
             "int": {
                 "SUM": Types.INVALID,
@@ -445,5 +446,16 @@ class SemanticCube:
         }
     }
 
-    def get_result(self, op1: str, op2: str, oper: str) -> int:
+    def get_result(self, op1: str, op2: str, oper: str) -> Types:
+        """Gets the type result depending on the desire operation.
+
+        :param op1: The first operand variable type
+        :type op1: str
+        :param op2: The second operand variable type
+        :type op2: str
+        :param oper: The name of the operator (check lexer definition)
+        :type oper: str
+        :return: The variable type that results from this operation
+        :rtype: Types
+        """
         return self.__cube__[op1][op2][oper]

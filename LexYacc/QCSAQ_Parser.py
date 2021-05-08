@@ -1,21 +1,18 @@
 import ply.yacc as yacc
 from LexYacc.QCASQ_Lexer import QCASQ_Lexer
-from GenerateCode.Variables_Dir import Variables_Dir
 from GenerateCode.Function_Dir import Function_Dir
 
 
 class QCASQ_Parser:
     __error = False
-    __stack_vars = []   # this is to store if multiple vars came as a list, so we can also add their type
-    __stack_params = [] # to save the params in their corresponding funct dir
+    __stack_vars = []  # this is to store if multiple vars came as a list, so we can also add their type
+    __stack_params = []  # to save the params in their corresponding function directory
     tokens = QCASQ_Lexer.tokens
 
-
-    # initialize function directory
+    # initialize function director
     funct_dir = Function_Dir()
-    var_dir = Variables_Dir()
 
-    # Definition of grammatic rules
+    # --------- Definition of grammatical rules ------------
     def p_program(self, p):
         '''
         program     : PROGRAM ID save_program SEMICOLON altprogram
@@ -49,7 +46,7 @@ class QCASQ_Parser:
         self.funct_dir.add_to_scope(p[-1])
         pass
 
-    # remove main and program from scope
+    # remove main and program from scope (finish reading the file)
     def p_clear_scope(self, p):
         ''' clear_scope : '''
         self.funct_dir.pop_scope()
@@ -117,11 +114,9 @@ class QCASQ_Parser:
         save_vars :
         '''
         for element in self.__stack_vars:
-            #print(self.funct_dir.get_current_scope(), element)
             self.funct_dir.get_function(
                 self.funct_dir.get_current_scope()
             )["tablevars"].add_to_dictionary(element, p[-1])
-            self.var_dir.add_to_dictionary(element, p[-1])
         self.__stack_vars.clear()
         pass
 
@@ -366,15 +361,22 @@ class QCASQ_Parser:
         p[0] = ""
         pass
 
+    # To detect if there is an error
     def p_error(self, p):
         self.__error = True
         print('\n gramatica no apropiada', p)
 
-    # constructor
     def __init__(self, lexer):
+        """The constructor of the parser
 
+        :param lexer: The lexer object to use for our parser
+        """
         self.parser = yacc.yacc(module=self, debug=True)  # To use debug add debug = True
         self.lexer = lexer
 
-    def get_error(self):
+    def get_error(self) -> bool:
+        """
+        :return: if there is an error when parsing
+        :rtype: bool
+        """
         return self.__error
