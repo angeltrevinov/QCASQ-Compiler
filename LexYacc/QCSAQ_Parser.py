@@ -85,7 +85,7 @@ class QCASQ_Parser:
 
     def p_constructor(self, p):
         '''
-        constructor : CONSTRUCTOR save_constructor OPENPAREN altconst add_params_const CLOSEPAREN OPENCURLY alt2const
+        constructor : CONSTRUCTOR save_constructor OPENPAREN altconst store_params CLOSEPAREN OPENCURLY alt2const
         altconst    : params
                     | empty
         alt2const   : var alt2const
@@ -99,16 +99,6 @@ class QCASQ_Parser:
         ''' save_constructor : '''
         self.funct_dir.add_to_dictionary(p[-1])
         self.funct_dir.add_to_scope(p[-1])
-        pass
-
-    def p_add_params_const(self, p):
-        '''add_params_const : '''
-        for param in self.__stack_params:
-            name, type = param
-            self.funct_dir.get_function(
-                self.funct_dir.get_current_scope()
-            )["tablevars"].add_to_dictionary(name, type)
-        self.__stack_params.clear()
         pass
 
     def p_remove_constructor_scope(self, p):
@@ -156,7 +146,7 @@ class QCASQ_Parser:
 
     def p_function(self, p):
         '''
-        function : FUNC ID OPENPAREN altfunc  CLOSEPAREN alt2func save_function OPENCURLY alt3func
+        function : FUNC ID OPENPAREN altfunc  CLOSEPAREN alt2func save_function store_params OPENCURLY alt3func
         altfunc  : params
                  | empty
         alt2func : TWODOTS type
@@ -177,13 +167,16 @@ class QCASQ_Parser:
         # Saving function with their type
         self.funct_dir.add_to_dictionary(p[-5], p[-1])
         self.funct_dir.add_to_scope(p[-5])
+        pass
+
+    def p_store_params(self, p):
+        '''store_params : '''
         for param in self.__stack_params:
             name, type = param
             self.funct_dir.get_function(
                 self.funct_dir.get_current_scope()
             )["tablevars"].add_to_dictionary(name, type)
         self.__stack_params.clear()
-        pass
 
     def p_remove_function_scope(self, p):
         ''' remove_function_scope : '''

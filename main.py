@@ -30,7 +30,7 @@ def test_from_file():
     parser.parse(src_file, tracking=True)
 
     # Prints the function directory generated after finishing reading code
-    #pars.funct_dir.print_dictionary()
+    pars.funct_dir.print_dictionary()
     print(pars.quads.__polish_vector__)
     print(pars.quads.__stack_types__)
 
