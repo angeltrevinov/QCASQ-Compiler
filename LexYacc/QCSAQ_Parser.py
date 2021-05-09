@@ -371,6 +371,7 @@ class QCASQ_Parser:
                 var_found = True
                 vars = vars_table.get_variable(p[-1])
                 self.quads.add_operand(p[-1], vars["type"])
+            # TODO: check better way to check constants
             # Save constants that are not strings
             elif not isinstance(p[-1], str):
                 var_found = True
