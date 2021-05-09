@@ -4,9 +4,15 @@ Angel Odiel Treviño Villanueva A01336559
 
 Julia Margarita Jimenez Herrera A00821428
 
+## Como ejecutar el codigo:
+ - Instala las dependencias, mayormente ply
+ - corre el archivo main.py
+ - selecciona un archivo dentro del folder TestCases
+
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Salvar operandos y checando que existan    | Mayo 8      |
 | Crear cubo semantico                       | Mayo 4      |
 | Guardar variables y params en su tabla     | Abril 26    |
 | Guardar variables y su tipo                | Abril 23    |
@@ -20,7 +26,6 @@ Julia Margarita Jimenez Herrera A00821428
 | Definir la descripcion del proyecto        | Abril 2     |
 
 ## Issues
-- [#3 Agregar codigo para guardar variables](https://github.com/angeltrevinov/QCASQ-Compiler/issues/3)
 
 ## Documentos
 - [Definition](https://www.notion.so/Descripci-n-del-proyecto-c1dfad14ee7949d486b7adef5adeff98)

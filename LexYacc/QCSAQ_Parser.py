@@ -1,6 +1,8 @@
+import sys
 import ply.yacc as yacc
 from LexYacc.QCASQ_Lexer import QCASQ_Lexer
 from GenerateCode.Function_Dir import Function_Dir
+from GenerateCode.QuadruplesManager import QuadrupleManager
 
 
 class QCASQ_Parser:
@@ -11,6 +13,7 @@ class QCASQ_Parser:
 
     # initialize function director
     funct_dir = Function_Dir()
+    quads = QuadrupleManager()
 
     # --------- Definition of grammatical rules ------------
     def p_program(self, p):
@@ -82,8 +85,8 @@ class QCASQ_Parser:
 
     def p_constructor(self, p):
         '''
-        constructor : CONSTRUCTOR save_constructor OPENPAREN altconst CLOSEPAREN OPENCURLY alt2const
-        altconst    : params altconst
+        constructor : CONSTRUCTOR save_constructor OPENPAREN altconst add_params_const CLOSEPAREN OPENCURLY alt2const
+        altconst    : params
                     | empty
         alt2const   : var alt2const
                     | estatuto alt2const
@@ -96,6 +99,16 @@ class QCASQ_Parser:
         ''' save_constructor : '''
         self.funct_dir.add_to_dictionary(p[-1])
         self.funct_dir.add_to_scope(p[-1])
+        pass
+
+    def p_add_params_const(self, p):
+        '''add_params_const : '''
+        for param in self.__stack_params:
+            name, type = param
+            self.funct_dir.get_function(
+                self.funct_dir.get_current_scope()
+            )["tablevars"].add_to_dictionary(name, type)
+        self.__stack_params.clear()
         pass
 
     def p_remove_constructor_scope(self, p):
@@ -200,6 +213,10 @@ class QCASQ_Parser:
         alt2call   : COMMA altcall
                     | empty
         '''
+        if p[1] is not None:
+            # TODO: Fix this so we know is a method
+            #p[0] = p[1]
+            p[0] = None
         pass
 
     def p_type(self, p):
@@ -247,15 +264,18 @@ class QCASQ_Parser:
         varcall : varcte
                 | varcomplicated
         '''
+        p[0] = p[1]
+        pass
 
     def p_varcte(self, p):
         '''
         varcte : TRUE
                 | FALSE
-              | CTEFLOAT
-             | CTESTRING
-             | CTEINT
+                | CTEFLOAT
+                | CTESTRING
+                | CTEINT
         '''
+        p[0] = p[1]
         pass
 
     def p_varcomplicated(self, p):
@@ -268,6 +288,8 @@ class QCASQ_Parser:
         varcomp3        : varcomp1
                         | callfunc
         '''
+        if p[1] is not None:
+            p[0] = p[1]
         pass
 
     def p_expresion(self, p):
@@ -327,8 +349,37 @@ class QCASQ_Parser:
         factor : OPENPAREN expresion CLOSEPAREN  
                 | SUM varcall
                 | SUBTRACT varcall
-                | varcall
+                | varcall save_operand
         '''
+        pass
+
+    def p_save_operand(self, p):
+        '''
+        save_operand :
+        '''
+        var_found = False
+        index = len(self.funct_dir.get_scope()) - 1
+        while index >= 0 and var_found is False:
+            scope = self.funct_dir.get_scope()[index]
+            vars_table = self.funct_dir.get_function(scope)['tablevars']
+            # Found None, which means there is a function call here
+            if p[-1] is None:
+                var_found = True
+                print("found function")
+            # Save constants
+            elif not isinstance(p[-1], str):
+                var_found = True
+                self.quads.add_operand(p[-1], type(p[-1]).__name__)
+            # save variables if they exists
+            elif p[-1] in vars_table.get_dictionary():
+                var_found = True
+                vars = vars_table.get_variable(p[-1])
+                self.quads.add_operand(p[-1], vars["type"])
+            else:
+                index = index - 1
+
+        if index < 0 and var_found is False:
+            sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
         pass
 
     def p_condition(self, p):
@@ -358,7 +409,6 @@ class QCASQ_Parser:
         '''
         empty :
         '''
-        p[0] = ""
         pass
 
     # To detect if there is an error

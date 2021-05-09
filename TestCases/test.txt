@@ -6,7 +6,7 @@ class Persona{
     func UNO(x: int, m: float): int {
         return (edad - x);
     }
-    constructor() {
+    constructor(x: int, i:int, j:int) {
         var edad: int;
         edad = (edad - x);
 
@@ -38,7 +38,7 @@ func pelos(y: entero) {
 main() {
     var all: int;
     input(p);
-    //j = p*2;
+    // This is a comment
     i = fact(p);
     input(estudiante);
     pelos(p);

@@ -27,10 +27,12 @@ def test_from_file():
 
     # Enable the next lines to test parser
     parser = pars.parser
-    parser.parse(src_file)
+    parser.parse(src_file, tracking=True)
 
     # Prints the function directory generated after finishing reading code
-    pars.funct_dir.print_dictionary()
+    #pars.funct_dir.print_dictionary()
+    print(pars.quads.__polish_vector__)
+    print(pars.quads.__stack_types__)
 
     if pars.get_error():
         print("Something went wrong")
@@ -53,8 +55,7 @@ def test_direc():
     # Adds the variable to that function table
     test_Func_dir.get_function(func_name)['tablevars'].add_to_dictionary(var_name, var_type)
     # Prints the function directory that has been generated
-    test_Func_dir.print_dictionary()
-
+    #test_Func_dir.print_dictionary()
 
 def test_semantic_cube():
     """Test that the combinations of the semantic cube work well."""
