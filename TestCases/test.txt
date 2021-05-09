@@ -11,7 +11,7 @@ class Persona{
         edad = (edad - x);
 
         while(i < j) {
-            i = i+j;
+            i = i + "hola";
         }
     }
 };
@@ -32,7 +32,7 @@ func fact(j: int): int {
 func pelos(y: entero) {
     var x: int;
     input(estudiante);
-    x = y;
+    x = y + false;
 }
 
 main() {

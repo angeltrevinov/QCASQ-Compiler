@@ -366,15 +366,23 @@ class QCASQ_Parser:
             if p[-1] is None:
                 var_found = True
                 print("found function")
-            # Save constants
-            elif not isinstance(p[-1], str):
-                var_found = True
-                self.quads.add_operand(p[-1], type(p[-1]).__name__)
             # save variables if they exists
             elif p[-1] in vars_table.get_dictionary():
                 var_found = True
                 vars = vars_table.get_variable(p[-1])
                 self.quads.add_operand(p[-1], vars["type"])
+            # Save constants that are not strings
+            elif not isinstance(p[-1], str):
+                var_found = True
+                self.quads.add_operand(p[-1], type(p[-1]).__name__)
+            # Save constant strings
+            elif isinstance(p[-1], str) and p[-1][0] == '"':
+                var_found = True
+                self.quads.add_operand(p[-1], "string")
+            # Save booleans
+            elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
+                var_found = True
+                self.quads.add_operand(p[-1], "bool")
             else:
                 index = index - 1
 
