@@ -28,7 +28,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Issues
 - [Saber de que scope es la variable que se puso #11](https://github.com/angeltrevinov/QCASQ-Compiler/issues/11)
 - [Crear scope para clases y funciones #10](https://github.com/angeltrevinov/QCASQ-Compiler/issues/10)
-- [Arreglar documentación #9]https://github.com/angeltrevinov/QCASQ-Compiler/issues/9)
+- [Arreglar documentación #9](https://github.com/angeltrevinov/QCASQ-Compiler/issues/9)
 - [Guardar funciones dentro de la semantica #8](https://github.com/angeltrevinov/QCASQ-Compiler/issues/8)
 
 
