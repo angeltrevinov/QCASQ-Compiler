@@ -254,8 +254,8 @@ class QCASQ_Parser:
 
     def p_varcall(self, p):
         '''
-        varcall : varcte
-                | varcomplicated
+        varcall : varcte save_const
+                | varcomplicated save_comp
         '''
         p[0] = p[1]
         pass
@@ -281,8 +281,44 @@ class QCASQ_Parser:
         varcomp3        : varcomp1
                         | callfunc
         '''
+        # TODO: doesn't know id.func() id.id
         if p[1] is not None:
             p[0] = p[1]
+        pass
+
+    def p_save_const(self, p):
+        ''' save_const : '''
+        # Save consts that are int and float
+        if not isinstance(p[-1], str):
+            self.quads.add_operand(p[-1], type(p[-1]).__name__)
+        # save constant strings
+        elif isinstance(p[-1], str) and p[-1][0] == '"':
+            self.quads.add_operand(p[-1], "string")
+        # save booleans
+        elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
+            self.quads.add_operand(p[-1], "bool")
+        pass
+
+    def p_save_comp(self, p):
+        ''' save_comp : '''
+        var_found = False
+        index = len(self.funct_dir.get_scope()) - 1
+        while index >= 0 and var_found is False:
+            scope = self.funct_dir.get_scope()[index] # get scope
+            vars_table = self.funct_dir.get_function(scope)['tablevars']
+            if p[-1] is None:
+                var_found = True
+                print("found function")
+            # Save variables if they are part of the scope
+            elif p[-1] in vars_table.get_dictionary():
+                var_found = True
+                vars = vars_table.get_variable(p[-1])
+                self.quads.add_operand(p[-1], vars["type"])
+            # Get previous scope
+            else:
+                index = index - 1
+        if index < 0 and var_found is False:
+            sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
         pass
 
     def p_expresion(self, p):
@@ -342,46 +378,8 @@ class QCASQ_Parser:
         factor : OPENPAREN expresion CLOSEPAREN  
                 | SUM varcall
                 | SUBTRACT varcall
-                | varcall save_operand
+                | varcall
         '''
-        pass
-
-    def p_save_operand(self, p):
-        '''
-        save_operand :
-        '''
-        var_found = False
-        index = len(self.funct_dir.get_scope()) - 1
-        while index >= 0 and var_found is False:
-            scope = self.funct_dir.get_scope()[index]
-            vars_table = self.funct_dir.get_function(scope)['tablevars']
-            # Found None, which means there is a function call here
-            if p[-1] is None:
-                var_found = True
-                print("found function")
-            # save variables if they exists
-            elif p[-1] in vars_table.get_dictionary():
-                var_found = True
-                vars = vars_table.get_variable(p[-1])
-                self.quads.add_operand(p[-1], vars["type"])
-            # TODO: check better way to check constants
-            # Save constants that are not strings
-            elif not isinstance(p[-1], str):
-                var_found = True
-                self.quads.add_operand(p[-1], type(p[-1]).__name__)
-            # Save constant strings
-            elif isinstance(p[-1], str) and p[-1][0] == '"':
-                var_found = True
-                self.quads.add_operand(p[-1], "string")
-            # Save booleans
-            elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
-                var_found = True
-                self.quads.add_operand(p[-1], "bool")
-            else:
-                index = index - 1
-
-        if index < 0 and var_found is False:
-            sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
         pass
 
     def p_condition(self, p):
