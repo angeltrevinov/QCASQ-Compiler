@@ -15,7 +15,9 @@ class QuadrupleManager:
 
     def add_to_stack_op(self, operator: str):
         # TODO: ADD verifications
-        self.__polish_vector__.append(operator)
+        if operator == ",":
+            operator = "output"
+        self.__stack_operators__.append(operator)
 
     def add_to_quadruplues__(self, operator:str, operand1:str, operand2: str):
         self.__stack_quadruples__.append({

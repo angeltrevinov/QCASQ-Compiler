@@ -41,5 +41,5 @@ main() {
     // This is a comment
     i = fact(p);
     input(estudiante);
-    pelos(p);
+    output(p, all);
 }

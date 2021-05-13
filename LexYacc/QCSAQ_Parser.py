@@ -324,7 +324,7 @@ class QCASQ_Parser:
     def p_expresion(self, p):
         '''
         expresion       : exp altexpresion
-        altexpresion    : altexpresion2 exp
+        altexpresion    : altexpresion2 save_op  exp
                         | empty
         altexpresion2   : SAMEAS
                         | BIGGERTHAN
@@ -335,14 +335,17 @@ class QCASQ_Parser:
                         | AND
                         | OR
         '''
+        if p[1] is not None:
+            #print(p[1])
+            p[0] = p[1]
         pass
 
     def p_exp(self, p):
         '''
         exp     : termino
                 | termino altexp
-        altexp  : SUM termino altexp
-                | SUBTRACT termino altexp
+        altexp  : SUM save_op termino altexp
+                | SUBTRACT save_op termino altexp
                 | empty
         '''
         pass
@@ -351,33 +354,36 @@ class QCASQ_Parser:
         '''
         termino     : factor
                     | factor alttermino
-        alttermino : TIMES factor alttermino
-                    | DIV factor alttermino
+        alttermino : TIMES save_op factor alttermino
+                    | DIV save_op factor alttermino
                     | empty
         '''
         pass
 
+    def p_save_op(self, p):
+        ''' save_op : '''
+        self.quads.add_to_stack_op(p[-1])
+        pass
+
     def p_read(self, p):
         '''
-        read : INPUT OPENPAREN ID CLOSEPAREN SEMICOLON
+        read : INPUT save_op OPENPAREN ID save_comp CLOSEPAREN SEMICOLON
         '''
         pass
 
     def p_write(self, p):
         '''
-        write : OUTPUT OPENPAREN varcall altwrite
-                | OUTPUT OPENPAREN expresion altwrite
-        altwrite : COMMA varcall altwrite
-                | COMMA expresion altwrite
+        write : OUTPUT save_op OPENPAREN varcall altwrite
+                | OUTPUT save_op OPENPAREN expresion altwrite
+        altwrite : COMMA save_op varcall altwrite
+                | COMMA save_op expresion altwrite
                 | CLOSEPAREN SEMICOLON
         '''
         pass
 
     def p_factor(self, p):
         '''
-        factor : OPENPAREN expresion CLOSEPAREN  
-                | SUM varcall
-                | SUBTRACT varcall
+        factor : OPENPAREN expresion CLOSEPAREN
                 | varcall
         '''
         pass
@@ -393,15 +399,13 @@ class QCASQ_Parser:
 
     def p_assign(self, p):
         '''
-        assign : ID assign1 EQUALS expresion SEMICOLON
-        assign1 : DOT ID assign1
-                | empty
+        assign : ID save_comp EQUALS save_op expresion SEMICOLON
         '''
         pass
 
     def p_return(self, p):
         '''
-        return  : RETURN expresion SEMICOLON
+        return  : RETURN save_op expresion SEMICOLON
         '''
         pass
 
