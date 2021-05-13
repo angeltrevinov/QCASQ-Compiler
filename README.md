@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Salvar operadores y vars para guardar      | Mayo 12     |
 | Salvar operandos y checando que existan    | Mayo 8      |
 | Crear cubo semantico                       | Mayo 4      |
 | Guardar variables y params en su tabla     | Abril 26    |
