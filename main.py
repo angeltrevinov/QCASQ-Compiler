@@ -33,6 +33,7 @@ def test_from_file():
     #pars.funct_dir.print_dictionary()
     print(pars.quads.__polish_vector__)
     print(pars.quads.__stack_operators__)
+    print(pars.quads.__stack_quadruples__)
 
     if pars.get_error():
         print("Something went wrong")

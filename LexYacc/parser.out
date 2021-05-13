@@ -126,7 +126,7 @@ Rule 120   write -> OUTPUT save_op OPENPAREN expresion altwrite
 Rule 121   altwrite -> COMMA save_op varcall altwrite
 Rule 122   altwrite -> COMMA save_op expresion altwrite
 Rule 123   altwrite -> CLOSEPAREN SEMICOLON
-Rule 124   factor -> OPENPAREN expresion CLOSEPAREN
+Rule 124   factor -> OPENPAREN save_op expresion CLOSEPAREN save_op
 Rule 125   factor -> varcall
 Rule 126   condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
 Rule 127   condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition
@@ -236,7 +236,7 @@ save_const           : 80
 save_constructor     : 21
 save_function        : 41
 save_main            : 7
-save_op              : 97 109 110 114 115 118 119 120 121 122 130 131
+save_op              : 97 109 110 114 115 118 119 120 121 122 124 124 130 131
 save_params          : 52 53
 save_program         : 1
 save_var_name        : 31
@@ -1364,7 +1364,7 @@ state 97
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -1406,7 +1406,7 @@ state 98
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -1461,7 +1461,7 @@ state 101
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -1501,7 +1501,7 @@ state 102
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -1664,43 +1664,18 @@ state 112
 
 state 113
 
-    (124) factor -> OPENPAREN . expresion CLOSEPAREN
-    (96) expresion -> . exp altexpresion
-    (107) exp -> . termino
-    (108) exp -> . termino altexp
-    (112) termino -> . factor
-    (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
-    (125) factor -> . varcall
-    (80) varcall -> . varcte save_const
-    (81) varcall -> . varcomplicated save_comp
-    (82) varcte -> . TRUE
-    (83) varcte -> . FALSE
-    (84) varcte -> . CTEFLOAT
-    (85) varcte -> . CTESTRING
-    (86) varcte -> . CTEINT
-    (87) varcomplicated -> . varcomp1
-    (88) varcomplicated -> . callfunc
-    (89) varcomp1 -> . ID varcomp2
-    (56) callfunc -> . ID OPENPAREN altcall CLOSEPAREN
+    (124) factor -> OPENPAREN . save_op expresion CLOSEPAREN save_op
+    (117) save_op -> .
 
-    OPENPAREN       shift and go to state 113
-    TRUE            shift and go to state 122
-    FALSE           shift and go to state 123
-    CTEFLOAT        shift and go to state 124
-    CTESTRING       shift and go to state 125
-    CTEINT          shift and go to state 126
-    ID              shift and go to state 112
+    OPENPAREN       reduce using rule 117 (save_op -> .)
+    TRUE            reduce using rule 117 (save_op -> .)
+    FALSE           reduce using rule 117 (save_op -> .)
+    CTEFLOAT        reduce using rule 117 (save_op -> .)
+    CTESTRING       reduce using rule 117 (save_op -> .)
+    CTEINT          reduce using rule 117 (save_op -> .)
+    ID              reduce using rule 117 (save_op -> .)
 
-    expresion                      shift and go to state 146
-    exp                            shift and go to state 116
-    termino                        shift and go to state 117
-    factor                         shift and go to state 118
-    varcall                        shift and go to state 119
-    varcte                         shift and go to state 120
-    varcomplicated                 shift and go to state 121
-    varcomp1                       shift and go to state 127
-    callfunc                       shift and go to state 128
+    save_op                        shift and go to state 146
 
 state 114
 
@@ -1729,7 +1704,7 @@ state 115
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -2390,7 +2365,7 @@ state 130
     (56) callfunc -> . ID OPENPAREN altcall CLOSEPAREN
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
 
     TRUE            shift and go to state 122
@@ -2538,7 +2513,7 @@ state 141
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -2618,7 +2593,7 @@ state 143
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -2708,10 +2683,43 @@ state 145
 
 state 146
 
-    (124) factor -> OPENPAREN expresion . CLOSEPAREN
+    (124) factor -> OPENPAREN save_op . expresion CLOSEPAREN save_op
+    (96) expresion -> . exp altexpresion
+    (107) exp -> . termino
+    (108) exp -> . termino altexp
+    (112) termino -> . factor
+    (113) termino -> . factor alttermino
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
+    (125) factor -> . varcall
+    (80) varcall -> . varcte save_const
+    (81) varcall -> . varcomplicated save_comp
+    (82) varcte -> . TRUE
+    (83) varcte -> . FALSE
+    (84) varcte -> . CTEFLOAT
+    (85) varcte -> . CTESTRING
+    (86) varcte -> . CTEINT
+    (87) varcomplicated -> . varcomp1
+    (88) varcomplicated -> . callfunc
+    (89) varcomp1 -> . ID varcomp2
+    (56) callfunc -> . ID OPENPAREN altcall CLOSEPAREN
 
-    CLOSEPAREN      shift and go to state 193
+    OPENPAREN       shift and go to state 113
+    TRUE            shift and go to state 122
+    FALSE           shift and go to state 123
+    CTEFLOAT        shift and go to state 124
+    CTESTRING       shift and go to state 125
+    CTEINT          shift and go to state 126
+    ID              shift and go to state 112
 
+    expresion                      shift and go to state 193
+    exp                            shift and go to state 116
+    termino                        shift and go to state 117
+    factor                         shift and go to state 118
+    varcall                        shift and go to state 119
+    varcte                         shift and go to state 120
+    varcomplicated                 shift and go to state 121
+    varcomp1                       shift and go to state 127
+    callfunc                       shift and go to state 128
 
 state 147
 
@@ -2771,7 +2779,7 @@ state 150
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3595,37 +3603,9 @@ state 192
 
 state 193
 
-    (124) factor -> OPENPAREN expresion CLOSEPAREN .
+    (124) factor -> OPENPAREN save_op expresion . CLOSEPAREN save_op
 
-    TIMES           reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    DIV             reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    SUM             reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    SUBTRACT        reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    SAMEAS          reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    BIGGERTHAN      reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    BIGGEREQUALSTHAN reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    SMALLTHAN       reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    SMALLEQUALSTHAN reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    DIFFERENTTHAN   reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    AND             reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    OR              reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    COMMA           reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    CLOSEPAREN      reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    OPENPAREN       reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    TRUE            reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    FALSE           reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    CTEFLOAT        reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    CTESTRING       reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    CTEINT          reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    ID              reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    CLOSECURLY      reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    VAR             reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    IF              reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    OUTPUT          reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    INPUT           reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    RETURN          reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    WHILE           reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
-    SEMICOLON       reduce using rule 124 (factor -> OPENPAREN expresion CLOSEPAREN .)
+    CLOSEPAREN      shift and go to state 219
 
 
 state 194
@@ -3656,7 +3636,7 @@ state 195
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3692,7 +3672,7 @@ state 195
   ! ID              [ reduce using rule 132 (empty -> .) ]
   ! CLOSEPAREN      [ reduce using rule 132 (empty -> .) ]
 
-    altcall                        shift and go to state 219
+    altcall                        shift and go to state 220
     expresion                      shift and go to state 147
     empty                          shift and go to state 149
     exp                            shift and go to state 116
@@ -3732,7 +3712,7 @@ state 197
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3769,7 +3749,7 @@ state 197
   ! CLOSEPAREN      [ reduce using rule 132 (empty -> .) ]
 
     expresion                      shift and go to state 147
-    altcall                        shift and go to state 220
+    altcall                        shift and go to state 221
     empty                          shift and go to state 149
     exp                            shift and go to state 116
     termino                        shift and go to state 117
@@ -3802,7 +3782,7 @@ state 199
     (108) exp -> . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3824,7 +3804,7 @@ state 199
     CTEINT          shift and go to state 126
     ID              shift and go to state 112
 
-    exp                            shift and go to state 221
+    exp                            shift and go to state 222
     termino                        shift and go to state 117
     factor                         shift and go to state 118
     varcall                        shift and go to state 119
@@ -3838,42 +3818,7 @@ state 200
     (109) altexp -> SUM save_op . termino altexp
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
-    (125) factor -> . varcall
-    (80) varcall -> . varcte save_const
-    (81) varcall -> . varcomplicated save_comp
-    (82) varcte -> . TRUE
-    (83) varcte -> . FALSE
-    (84) varcte -> . CTEFLOAT
-    (85) varcte -> . CTESTRING
-    (86) varcte -> . CTEINT
-    (87) varcomplicated -> . varcomp1
-    (88) varcomplicated -> . callfunc
-    (89) varcomp1 -> . ID varcomp2
-    (56) callfunc -> . ID OPENPAREN altcall CLOSEPAREN
-
-    OPENPAREN       shift and go to state 113
-    TRUE            shift and go to state 122
-    FALSE           shift and go to state 123
-    CTEFLOAT        shift and go to state 124
-    CTESTRING       shift and go to state 125
-    CTEINT          shift and go to state 126
-    ID              shift and go to state 112
-
-    termino                        shift and go to state 222
-    factor                         shift and go to state 118
-    varcall                        shift and go to state 119
-    varcte                         shift and go to state 120
-    varcomplicated                 shift and go to state 121
-    varcomp1                       shift and go to state 127
-    callfunc                       shift and go to state 128
-
-state 201
-
-    (110) altexp -> SUBTRACT save_op . termino altexp
-    (112) termino -> . factor
-    (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3903,10 +3848,12 @@ state 201
     varcomp1                       shift and go to state 127
     callfunc                       shift and go to state 128
 
-state 202
+state 201
 
-    (114) alttermino -> TIMES save_op . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (110) altexp -> SUBTRACT save_op . termino altexp
+    (112) termino -> . factor
+    (113) termino -> . factor alttermino
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3928,17 +3875,18 @@ state 202
     CTEINT          shift and go to state 126
     ID              shift and go to state 112
 
-    factor                         shift and go to state 224
+    termino                        shift and go to state 224
+    factor                         shift and go to state 118
     varcall                        shift and go to state 119
     varcte                         shift and go to state 120
     varcomplicated                 shift and go to state 121
     varcomp1                       shift and go to state 127
     callfunc                       shift and go to state 128
 
-state 203
+state 202
 
-    (115) alttermino -> DIV save_op . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (114) alttermino -> TIMES save_op . factor alttermino
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
     (80) varcall -> . varcte save_const
     (81) varcall -> . varcomplicated save_comp
@@ -3961,6 +3909,38 @@ state 203
     ID              shift and go to state 112
 
     factor                         shift and go to state 225
+    varcall                        shift and go to state 119
+    varcte                         shift and go to state 120
+    varcomplicated                 shift and go to state 121
+    varcomp1                       shift and go to state 127
+    callfunc                       shift and go to state 128
+
+state 203
+
+    (115) alttermino -> DIV save_op . factor alttermino
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
+    (125) factor -> . varcall
+    (80) varcall -> . varcte save_const
+    (81) varcall -> . varcomplicated save_comp
+    (82) varcte -> . TRUE
+    (83) varcte -> . FALSE
+    (84) varcte -> . CTEFLOAT
+    (85) varcte -> . CTESTRING
+    (86) varcte -> . CTEINT
+    (87) varcomplicated -> . varcomp1
+    (88) varcomplicated -> . callfunc
+    (89) varcomp1 -> . ID varcomp2
+    (56) callfunc -> . ID OPENPAREN altcall CLOSEPAREN
+
+    OPENPAREN       shift and go to state 113
+    TRUE            shift and go to state 122
+    FALSE           shift and go to state 123
+    CTEFLOAT        shift and go to state 124
+    CTESTRING       shift and go to state 125
+    CTEINT          shift and go to state 126
+    ID              shift and go to state 112
+
+    factor                         shift and go to state 226
     varcall                        shift and go to state 119
     varcte                         shift and go to state 120
     varcomplicated                 shift and go to state 121
@@ -3991,7 +3971,7 @@ state 204
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 228
+    CLOSECURLY      shift and go to state 229
     ID              shift and go to state 76
     IF              shift and go to state 77
     OUTPUT          shift and go to state 78
@@ -3999,8 +3979,8 @@ state 204
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    altcondition                   shift and go to state 226
-    estatuto                       shift and go to state 227
+    altcondition                   shift and go to state 227
+    estatuto                       shift and go to state 228
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -4037,13 +4017,13 @@ state 206
     ID              reduce using rule 117 (save_op -> .)
     OPENPAREN       reduce using rule 117 (save_op -> .)
 
-    save_op                        shift and go to state 229
+    save_op                        shift and go to state 230
 
 state 207
 
     (123) altwrite -> CLOSEPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 230
+    SEMICOLON       shift and go to state 231
 
 
 state 208
@@ -4064,7 +4044,7 @@ state 209
 
     (118) read -> INPUT save_op OPENPAREN ID save_comp . CLOSEPAREN SEMICOLON
 
-    CLOSEPAREN      shift and go to state 231
+    CLOSEPAREN      shift and go to state 232
 
 
 state 210
@@ -4090,7 +4070,7 @@ state 210
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 234
+    CLOSECURLY      shift and go to state 235
     ID              shift and go to state 76
     IF              shift and go to state 77
     OUTPUT          shift and go to state 78
@@ -4098,8 +4078,8 @@ state 210
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    altwhile                       shift and go to state 232
-    estatuto                       shift and go to state 233
+    altwhile                       shift and go to state 233
+    estatuto                       shift and go to state 234
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -4112,7 +4092,7 @@ state 211
 
     (21) constructor -> CONSTRUCTOR save_constructor OPENPAREN altconst store_params CLOSEPAREN . OPENCURLY alt2const
 
-    OPENCURLY       shift and go to state 235
+    OPENCURLY       shift and go to state 236
 
 
 state 212
@@ -4130,7 +4110,7 @@ state 213
     COMMA           reduce using rule 55 (save_params -> .)
     CLOSEPAREN      reduce using rule 55 (save_params -> .)
 
-    save_params                    shift and go to state 236
+    save_params                    shift and go to state 237
 
 state 214
 
@@ -4216,6 +4196,43 @@ state 218
 
 state 219
 
+    (124) factor -> OPENPAREN save_op expresion CLOSEPAREN . save_op
+    (117) save_op -> .
+
+    TIMES           reduce using rule 117 (save_op -> .)
+    DIV             reduce using rule 117 (save_op -> .)
+    SUM             reduce using rule 117 (save_op -> .)
+    SUBTRACT        reduce using rule 117 (save_op -> .)
+    SAMEAS          reduce using rule 117 (save_op -> .)
+    BIGGERTHAN      reduce using rule 117 (save_op -> .)
+    BIGGEREQUALSTHAN reduce using rule 117 (save_op -> .)
+    SMALLTHAN       reduce using rule 117 (save_op -> .)
+    SMALLEQUALSTHAN reduce using rule 117 (save_op -> .)
+    DIFFERENTTHAN   reduce using rule 117 (save_op -> .)
+    AND             reduce using rule 117 (save_op -> .)
+    OR              reduce using rule 117 (save_op -> .)
+    COMMA           reduce using rule 117 (save_op -> .)
+    CLOSEPAREN      reduce using rule 117 (save_op -> .)
+    OPENPAREN       reduce using rule 117 (save_op -> .)
+    TRUE            reduce using rule 117 (save_op -> .)
+    FALSE           reduce using rule 117 (save_op -> .)
+    CTEFLOAT        reduce using rule 117 (save_op -> .)
+    CTESTRING       reduce using rule 117 (save_op -> .)
+    CTEINT          reduce using rule 117 (save_op -> .)
+    ID              reduce using rule 117 (save_op -> .)
+    CLOSECURLY      reduce using rule 117 (save_op -> .)
+    VAR             reduce using rule 117 (save_op -> .)
+    IF              reduce using rule 117 (save_op -> .)
+    OUTPUT          reduce using rule 117 (save_op -> .)
+    INPUT           reduce using rule 117 (save_op -> .)
+    RETURN          reduce using rule 117 (save_op -> .)
+    WHILE           reduce using rule 117 (save_op -> .)
+    SEMICOLON       reduce using rule 117 (save_op -> .)
+
+    save_op                        shift and go to state 238
+
+state 220
+
     (59) alt2call -> COMMA altcall .
 
     CLOSECURLY      reduce using rule 59 (alt2call -> COMMA altcall .)
@@ -4229,7 +4246,7 @@ state 219
     CLOSEPAREN      reduce using rule 59 (alt2call -> COMMA altcall .)
 
 
-state 220
+state 221
 
     (75) altcall -> COMMA expresion altcall .
 
@@ -4244,7 +4261,7 @@ state 220
     CLOSEPAREN      reduce using rule 75 (altcall -> COMMA expresion altcall .)
 
 
-state 221
+state 222
 
     (97) altexpresion -> altexpresion2 save_op exp .
 
@@ -4267,7 +4284,7 @@ state 221
     SEMICOLON       reduce using rule 97 (altexpresion -> altexpresion2 save_op exp .)
 
 
-state 222
+state 223
 
     (109) altexp -> SUM save_op termino . altexp
     (109) altexp -> . SUM save_op termino altexp
@@ -4303,10 +4320,10 @@ state 222
     WHILE           reduce using rule 132 (empty -> .)
     SEMICOLON       reduce using rule 132 (empty -> .)
 
-    altexp                         shift and go to state 237
+    altexp                         shift and go to state 239
     empty                          shift and go to state 166
 
-state 223
+state 224
 
     (110) altexp -> SUBTRACT save_op termino . altexp
     (109) altexp -> . SUM save_op termino altexp
@@ -4342,10 +4359,10 @@ state 223
     WHILE           reduce using rule 132 (empty -> .)
     SEMICOLON       reduce using rule 132 (empty -> .)
 
-    altexp                         shift and go to state 238
+    altexp                         shift and go to state 240
     empty                          shift and go to state 166
 
-state 224
+state 225
 
     (114) alttermino -> TIMES save_op factor . alttermino
     (114) alttermino -> . TIMES save_op factor alttermino
@@ -4383,10 +4400,10 @@ state 224
     WHILE           reduce using rule 132 (empty -> .)
     SEMICOLON       reduce using rule 132 (empty -> .)
 
-    alttermino                     shift and go to state 239
+    alttermino                     shift and go to state 241
     empty                          shift and go to state 170
 
-state 225
+state 226
 
     (115) alttermino -> DIV save_op factor . alttermino
     (114) alttermino -> . TIMES save_op factor alttermino
@@ -4424,10 +4441,10 @@ state 225
     WHILE           reduce using rule 132 (empty -> .)
     SEMICOLON       reduce using rule 132 (empty -> .)
 
-    alttermino                     shift and go to state 240
+    alttermino                     shift and go to state 242
     empty                          shift and go to state 170
 
-state 226
+state 227
 
     (126) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .
     (127) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition . ELSE OPENCURLY altcondition
@@ -4440,10 +4457,10 @@ state 226
     INPUT           reduce using rule 126 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
     RETURN          reduce using rule 126 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
     WHILE           reduce using rule 126 (condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition .)
-    ELSE            shift and go to state 241
+    ELSE            shift and go to state 243
 
 
-state 227
+state 228
 
     (128) altcondition -> estatuto . altcondition
     (128) altcondition -> . estatuto altcondition
@@ -4466,7 +4483,7 @@ state 227
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 228
+    CLOSECURLY      shift and go to state 229
     ID              shift and go to state 76
     IF              shift and go to state 77
     OUTPUT          shift and go to state 78
@@ -4474,8 +4491,8 @@ state 227
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    estatuto                       shift and go to state 227
-    altcondition                   shift and go to state 242
+    estatuto                       shift and go to state 228
+    altcondition                   shift and go to state 244
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -4484,7 +4501,7 @@ state 227
     voidcall                       shift and go to state 74
     while                          shift and go to state 75
 
-state 228
+state 229
 
     (129) altcondition -> CLOSECURLY .
 
@@ -4499,7 +4516,7 @@ state 228
     WHILE           reduce using rule 129 (altcondition -> CLOSECURLY .)
 
 
-state 229
+state 230
 
     (121) altwrite -> COMMA save_op . varcall altwrite
     (122) altwrite -> COMMA save_op . expresion altwrite
@@ -4519,7 +4536,7 @@ state 229
     (56) callfunc -> . ID OPENPAREN altcall CLOSEPAREN
     (112) termino -> . factor
     (113) termino -> . factor alttermino
-    (124) factor -> . OPENPAREN expresion CLOSEPAREN
+    (124) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
     (125) factor -> . varcall
 
     TRUE            shift and go to state 122
@@ -4530,8 +4547,8 @@ state 229
     ID              shift and go to state 112
     OPENPAREN       shift and go to state 113
 
-    varcall                        shift and go to state 243
-    expresion                      shift and go to state 244
+    varcall                        shift and go to state 245
+    expresion                      shift and go to state 246
     varcte                         shift and go to state 120
     varcomplicated                 shift and go to state 121
     exp                            shift and go to state 116
@@ -4540,7 +4557,7 @@ state 229
     termino                        shift and go to state 117
     factor                         shift and go to state 118
 
-state 230
+state 231
 
     (123) altwrite -> CLOSEPAREN SEMICOLON .
 
@@ -4554,14 +4571,14 @@ state 230
     WHILE           reduce using rule 123 (altwrite -> CLOSEPAREN SEMICOLON .)
 
 
-state 231
+state 232
 
     (118) read -> INPUT save_op OPENPAREN ID save_comp CLOSEPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 245
+    SEMICOLON       shift and go to state 247
 
 
-state 232
+state 233
 
     (77) while -> WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile .
 
@@ -4575,7 +4592,7 @@ state 232
     WHILE           reduce using rule 77 (while -> WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile .)
 
 
-state 233
+state 234
 
     (78) altwhile -> estatuto . altwhile
     (78) altwhile -> . estatuto altwhile
@@ -4598,7 +4615,7 @@ state 233
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 234
+    CLOSECURLY      shift and go to state 235
     ID              shift and go to state 76
     IF              shift and go to state 77
     OUTPUT          shift and go to state 78
@@ -4606,8 +4623,8 @@ state 233
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    estatuto                       shift and go to state 233
-    altwhile                       shift and go to state 246
+    estatuto                       shift and go to state 234
+    altwhile                       shift and go to state 248
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -4616,7 +4633,7 @@ state 233
     voidcall                       shift and go to state 74
     while                          shift and go to state 75
 
-state 234
+state 235
 
     (79) altwhile -> CLOSECURLY .
 
@@ -4630,7 +4647,7 @@ state 234
     WHILE           reduce using rule 79 (altwhile -> CLOSECURLY .)
 
 
-state 235
+state 236
 
     (21) constructor -> CONSTRUCTOR save_constructor OPENPAREN altconst store_params CLOSEPAREN OPENCURLY . alt2const
     (24) alt2const -> . var alt2const
@@ -4655,7 +4672,7 @@ state 235
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 250
+    CLOSECURLY      shift and go to state 252
     VAR             shift and go to state 12
     ID              shift and go to state 76
     IF              shift and go to state 77
@@ -4664,9 +4681,9 @@ state 235
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    alt2const                      shift and go to state 247
-    var                            shift and go to state 248
-    estatuto                       shift and go to state 249
+    alt2const                      shift and go to state 249
+    var                            shift and go to state 250
+    estatuto                       shift and go to state 251
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -4675,7 +4692,7 @@ state 235
     voidcall                       shift and go to state 74
     while                          shift and go to state 75
 
-state 236
+state 237
 
     (53) altparams -> COMMA ID TWODOTS type save_params . altparams
     (53) altparams -> . COMMA ID TWODOTS type save_params altparams
@@ -4685,10 +4702,45 @@ state 236
     COMMA           shift and go to state 108
     CLOSEPAREN      reduce using rule 132 (empty -> .)
 
-    altparams                      shift and go to state 251
+    altparams                      shift and go to state 253
     empty                          shift and go to state 109
 
-state 237
+state 238
+
+    (124) factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .
+
+    TIMES           reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    DIV             reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    SUM             reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    SUBTRACT        reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    SAMEAS          reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    BIGGERTHAN      reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    BIGGEREQUALSTHAN reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    SMALLTHAN       reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    SMALLEQUALSTHAN reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    DIFFERENTTHAN   reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    AND             reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    OR              reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    COMMA           reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    CLOSEPAREN      reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    OPENPAREN       reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    TRUE            reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    FALSE           reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    CTEFLOAT        reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    CTESTRING       reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    CTEINT          reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    ID              reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    CLOSECURLY      reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    VAR             reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    IF              reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    OUTPUT          reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    INPUT           reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    RETURN          reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    WHILE           reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+    SEMICOLON       reduce using rule 124 (factor -> OPENPAREN save_op expresion CLOSEPAREN save_op .)
+
+
+state 239
 
     (109) altexp -> SUM save_op termino altexp .
 
@@ -4719,7 +4771,7 @@ state 237
     SEMICOLON       reduce using rule 109 (altexp -> SUM save_op termino altexp .)
 
 
-state 238
+state 240
 
     (110) altexp -> SUBTRACT save_op termino altexp .
 
@@ -4750,7 +4802,7 @@ state 238
     SEMICOLON       reduce using rule 110 (altexp -> SUBTRACT save_op termino altexp .)
 
 
-state 239
+state 241
 
     (114) alttermino -> TIMES save_op factor alttermino .
 
@@ -4783,7 +4835,7 @@ state 239
     SEMICOLON       reduce using rule 114 (alttermino -> TIMES save_op factor alttermino .)
 
 
-state 240
+state 242
 
     (115) alttermino -> DIV save_op factor alttermino .
 
@@ -4816,14 +4868,14 @@ state 240
     SEMICOLON       reduce using rule 115 (alttermino -> DIV save_op factor alttermino .)
 
 
-state 241
+state 243
 
     (127) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE . OPENCURLY altcondition
 
-    OPENCURLY       shift and go to state 252
+    OPENCURLY       shift and go to state 254
 
 
-state 242
+state 244
 
     (128) altcondition -> estatuto altcondition .
 
@@ -4838,7 +4890,7 @@ state 242
     WHILE           reduce using rule 128 (altcondition -> estatuto altcondition .)
 
 
-state 243
+state 245
 
     (121) altwrite -> COMMA save_op varcall . altwrite
     (125) factor -> varcall .
@@ -4866,9 +4918,9 @@ state 243
   ! COMMA           [ reduce using rule 125 (factor -> varcall .) ]
   ! CLOSEPAREN      [ reduce using rule 125 (factor -> varcall .) ]
 
-    altwrite                       shift and go to state 253
+    altwrite                       shift and go to state 255
 
-state 244
+state 246
 
     (122) altwrite -> COMMA save_op expresion . altwrite
     (121) altwrite -> . COMMA save_op varcall altwrite
@@ -4878,9 +4930,9 @@ state 244
     COMMA           shift and go to state 206
     CLOSEPAREN      shift and go to state 207
 
-    altwrite                       shift and go to state 254
+    altwrite                       shift and go to state 256
 
-state 245
+state 247
 
     (118) read -> INPUT save_op OPENPAREN ID save_comp CLOSEPAREN SEMICOLON .
 
@@ -4894,7 +4946,7 @@ state 245
     WHILE           reduce using rule 118 (read -> INPUT save_op OPENPAREN ID save_comp CLOSEPAREN SEMICOLON .)
 
 
-state 246
+state 248
 
     (78) altwhile -> estatuto altwhile .
 
@@ -4908,14 +4960,14 @@ state 246
     WHILE           reduce using rule 78 (altwhile -> estatuto altwhile .)
 
 
-state 247
+state 249
 
     (21) constructor -> CONSTRUCTOR save_constructor OPENPAREN altconst store_params CLOSEPAREN OPENCURLY alt2const .
 
     CLOSECURLY      reduce using rule 21 (constructor -> CONSTRUCTOR save_constructor OPENPAREN altconst store_params CLOSEPAREN OPENCURLY alt2const .)
 
 
-state 248
+state 250
 
     (24) alt2const -> var . alt2const
     (24) alt2const -> . var alt2const
@@ -4940,7 +4992,7 @@ state 248
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 250
+    CLOSECURLY      shift and go to state 252
     VAR             shift and go to state 12
     ID              shift and go to state 76
     IF              shift and go to state 77
@@ -4949,9 +5001,9 @@ state 248
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    var                            shift and go to state 248
-    alt2const                      shift and go to state 255
-    estatuto                       shift and go to state 249
+    var                            shift and go to state 250
+    alt2const                      shift and go to state 257
+    estatuto                       shift and go to state 251
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -4960,7 +5012,7 @@ state 248
     voidcall                       shift and go to state 74
     while                          shift and go to state 75
 
-state 249
+state 251
 
     (25) alt2const -> estatuto . alt2const
     (24) alt2const -> . var alt2const
@@ -4985,7 +5037,7 @@ state 249
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 250
+    CLOSECURLY      shift and go to state 252
     VAR             shift and go to state 12
     ID              shift and go to state 76
     IF              shift and go to state 77
@@ -4994,9 +5046,9 @@ state 249
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    estatuto                       shift and go to state 249
-    alt2const                      shift and go to state 256
-    var                            shift and go to state 248
+    estatuto                       shift and go to state 251
+    alt2const                      shift and go to state 258
+    var                            shift and go to state 250
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -5005,23 +5057,23 @@ state 249
     voidcall                       shift and go to state 74
     while                          shift and go to state 75
 
-state 250
+state 252
 
     (26) alt2const -> CLOSECURLY . remove_constructor_scope
     (28) remove_constructor_scope -> .
 
     CLOSECURLY      reduce using rule 28 (remove_constructor_scope -> .)
 
-    remove_constructor_scope       shift and go to state 257
+    remove_constructor_scope       shift and go to state 259
 
-state 251
+state 253
 
     (53) altparams -> COMMA ID TWODOTS type save_params altparams .
 
     CLOSEPAREN      reduce using rule 53 (altparams -> COMMA ID TWODOTS type save_params altparams .)
 
 
-state 252
+state 254
 
     (127) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY . altcondition
     (128) altcondition -> . estatuto altcondition
@@ -5044,7 +5096,7 @@ state 252
     (74) voidcall -> . ID OPENPAREN expresion altcall
     (77) while -> . WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
 
-    CLOSECURLY      shift and go to state 228
+    CLOSECURLY      shift and go to state 229
     ID              shift and go to state 76
     IF              shift and go to state 77
     OUTPUT          shift and go to state 78
@@ -5052,8 +5104,8 @@ state 252
     RETURN          shift and go to state 80
     WHILE           shift and go to state 81
 
-    altcondition                   shift and go to state 258
-    estatuto                       shift and go to state 227
+    altcondition                   shift and go to state 260
+    estatuto                       shift and go to state 228
     assign                         shift and go to state 69
     condition                      shift and go to state 70
     write                          shift and go to state 71
@@ -5062,7 +5114,7 @@ state 252
     voidcall                       shift and go to state 74
     while                          shift and go to state 75
 
-state 253
+state 255
 
     (121) altwrite -> COMMA save_op varcall altwrite .
 
@@ -5076,7 +5128,7 @@ state 253
     WHILE           reduce using rule 121 (altwrite -> COMMA save_op varcall altwrite .)
 
 
-state 254
+state 256
 
     (122) altwrite -> COMMA save_op expresion altwrite .
 
@@ -5090,28 +5142,28 @@ state 254
     WHILE           reduce using rule 122 (altwrite -> COMMA save_op expresion altwrite .)
 
 
-state 255
+state 257
 
     (24) alt2const -> var alt2const .
 
     CLOSECURLY      reduce using rule 24 (alt2const -> var alt2const .)
 
 
-state 256
+state 258
 
     (25) alt2const -> estatuto alt2const .
 
     CLOSECURLY      reduce using rule 25 (alt2const -> estatuto alt2const .)
 
 
-state 257
+state 259
 
     (26) alt2const -> CLOSECURLY remove_constructor_scope .
 
     CLOSECURLY      reduce using rule 26 (alt2const -> CLOSECURLY remove_constructor_scope .)
 
 
-state 258
+state 260
 
     (127) condition -> IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition ELSE OPENCURLY altcondition .
 
@@ -5136,8 +5188,8 @@ WARNING: shift/reduce conflict for CLOSEPAREN in state 195 resolved as shift
 WARNING: shift/reduce conflict for ID in state 195 resolved as shift
 WARNING: shift/reduce conflict for CLOSEPAREN in state 197 resolved as shift
 WARNING: shift/reduce conflict for ID in state 197 resolved as shift
-WARNING: shift/reduce conflict for COMMA in state 243 resolved as shift
-WARNING: shift/reduce conflict for CLOSEPAREN in state 243 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 245 resolved as shift
+WARNING: shift/reduce conflict for CLOSEPAREN in state 245 resolved as shift
 WARNING: reduce/reduce conflict in state 117 resolved using rule (exp -> termino)
 WARNING: rejected rule (empty -> <empty>) in state 117
 WARNING: reduce/reduce conflict in state 118 resolved using rule (termino -> factor)

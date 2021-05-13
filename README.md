@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Crear cuadruplos con * y /                 | Mayo 13     |
 | Salvar operadores y vars para guardar      | Mayo 12     |
 | Salvar operandos y checando que existan    | Mayo 8      |
 | Crear cubo semantico                       | Mayo 4      |

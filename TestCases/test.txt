@@ -4,14 +4,15 @@ class Persona{
     var nombre: string;
 
     func UNO(x: int, m: float): int {
-        return (edad - x);
+        //return (edad - x);
     }
     constructor(x: int, i:int, j:int) {
         var edad: int;
         edad = (edad - x);
 
         while(i < j) {
-            i = i + "hola";
+            //i = i + "hola";
+            i = i + 69;
         }
     }
 };
@@ -23,23 +24,27 @@ func fact(j: int): int {
     var i: int;
     i = j + (p - j*2+j);
     if (j == 1) {
-        return j;
+        // return j;
+        j = j + i;
     } else {
-        return j * fact(j-1);
+        // return j * fact(j-1);
+        j = j * j / 1;
     }
 }
 
 func pelos(y: entero) {
     var x: int;
-    input(estudiante);
-    x = y + false;
+    // input(estudiante);
+    x = 3 * 8 + i;
+    //x = y + false;
 }
 
 main() {
     var all: int;
-    input(p);
+    //input(p);
     // This is a comment
-    i = fact(p);
-    input(estudiante);
-    output(p, all);
+    all = all * 3 / 8 * all;
+    //i = fact(p);
+    //input(estudiante);
+    //output(p, all);
 }

@@ -383,7 +383,7 @@ class QCASQ_Parser:
 
     def p_factor(self, p):
         '''
-        factor : OPENPAREN expresion CLOSEPAREN
+        factor : OPENPAREN save_op expresion CLOSEPAREN save_op
                 | varcall
         '''
         pass
