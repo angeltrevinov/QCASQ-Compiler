@@ -1,21 +1,33 @@
+import enum
+
+
+class Hierarchies(enum.Enum):
+    PARENTESIS  = 0
+    MULTDIV     = 1
+    SUMSUB      = 2
+    COMPARISON  = 3
+    LOGIC       = 4
+    ASSIGN      = 5
+
+
 class Operators():
-    Herarchy = {
-        "(": 0,
-        ")": 0,
-        "*": 1,
-        "/": 1,
-        "+": 2,
-        "-": 2,
-        '<': 3,
-        '<=': 3,
-        '>': 3,
-        '>=' : 3,
-        '==' : 3,
-        '!=' : 3,
-        '&&': 4,
-        '||': 4,
-        "=": 5,
-        "return": 5,
-        "input": 5,
-        "output": 5,
+    OpHierarchy = {
+        "(": Hierarchies.PARENTESIS,
+        ")": Hierarchies.PARENTESIS,
+        "*": Hierarchies.MULTDIV,
+        "/": Hierarchies.MULTDIV,
+        "+": Hierarchies.SUMSUB,
+        "-": Hierarchies.SUMSUB,
+        '<': Hierarchies.COMPARISON,
+        '<=':Hierarchies.COMPARISON,
+        '>': Hierarchies.COMPARISON,
+        '>=' : Hierarchies.COMPARISON,
+        '==' : Hierarchies.COMPARISON,
+        '!=' : Hierarchies.COMPARISON,
+        '&&': Hierarchies.LOGIC,
+        '||': Hierarchies.LOGIC,
+        "=": Hierarchies.ASSIGN,
+        "return": Hierarchies.ASSIGN,
+        "input": Hierarchies.ASSIGN,
+        "output": Hierarchies.ASSIGN,
     }

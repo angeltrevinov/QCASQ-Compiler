@@ -1,8 +1,9 @@
 from GenerateCode.OpHerarchies import Operators
+from GenerateCode.OpHerarchies import Hierarchies
 
 class QuadrupleManager:
 
-    __operators = Operators().Herarchy
+    __operators = Operators().OpHierarchy
 
     """The controller for handling our Quadruples."""
     __stack_quadruples__: list   # to control the order of the quadruples quadruples
@@ -31,10 +32,10 @@ class QuadrupleManager:
 
     def add_to_stack_op(self, operator: str):
         # TODO: ADD verifications
-        if operator == ",":# change commas to outputs
+        if operator == ",":  # change commas to outputs
             operator = "output"
-        if self.__operators[operator] == 1:  # * or / appeared
-            while self.__operators[self.__stack_operators__[-1]] == 1: # check if top of the stack has the same herarchy
+        if self.__operators[operator] == Hierarchies.MULTDIV:  # * or / appeared
+            while self.__operators[self.__stack_operators__[-1]] == Hierarchies.MULTDIV: # check if top of the stack has the same herarchy
                 opr = self.__pop_operator_stack()
                 # TODO Check operands types
                 op2 = self.__pop_operand_stack()
