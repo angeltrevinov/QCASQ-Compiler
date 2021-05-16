@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Crear cuadruplos simples de expresiones    | Mayo 15     |
 | Crear cuadruplos con * y /                 | Mayo 13     |
 | Salvar operadores y vars para guardar      | Mayo 12     |
 | Salvar operandos y checando que existan    | Mayo 8      |
