@@ -225,13 +225,13 @@ class QCASQ_Parser:
 
     def p_estatuto(self, p):
         '''
-        estatuto : assign
-                | condition
-                | write
-                | read
-                | return
-                | voidcall
-                | while
+        estatuto : assign empty_pv
+                | condition empty_pv
+                | write empty_pv
+                | read empty_pv
+                | return empty_pv
+                | voidcall empty_pv
+                | while empty_pv
         '''
         pass
 
@@ -242,6 +242,11 @@ class QCASQ_Parser:
         altcall : COMMA expresion altcall
                 | CLOSEPAREN SEMICOLON
         '''
+        pass
+
+    def p_empty_pv(self, p):
+        ''' empty_pv : '''
+        self.quads.empty_polish_vector()
         pass
 
     def p_while(self, p):
@@ -325,7 +330,7 @@ class QCASQ_Parser:
         '''
         expresion       : exp altexpresion
         altexpresion    : altexpresion2 save_op  exp
-                        | empty empty_pv
+                        | empty
         altexpresion2   : SAMEAS
                         | BIGGERTHAN
                         | BIGGEREQUALSTHAN
@@ -336,13 +341,7 @@ class QCASQ_Parser:
                         | OR
         '''
         if p[1] is not None:
-            #print(p[1])
             p[0] = p[1]
-        pass
-
-    def p_empty_pv(self, p):
-        ''' empty_pv : '''
-        self.quads.empty_polish_vector()
         pass
 
     def p_exp(self, p):

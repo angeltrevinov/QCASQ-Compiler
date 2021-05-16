@@ -2,12 +2,12 @@ import enum
 
 
 class Hierarchies(enum.IntEnum):
-    PARENTESIS  = 0
     MULTDIV     = 1
     SUMSUB      = 2
     COMPARISON  = 3
     LOGIC       = 4
-    ASSIGN      = 5
+    PARENTESIS  = 5
+    ASSIGN      = 6
 
 
 class Operators():

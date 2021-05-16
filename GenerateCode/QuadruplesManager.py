@@ -36,8 +36,12 @@ class QuadrupleManager:
         # change commas to output operators
         if operator == ",":
             operator = "output"
+        if operator == ")":
+            # [ =, (, /]
+            self.__empty_false_stack()
+            # [ = ]
         # Check for * or /
-        if self.__operators[operator] == Hierarchies.MULTDIV:
+        elif self.__operators[operator] == Hierarchies.MULTDIV:
             # Check if top of the stack has the same hierarchy
             while self.__operators[self.__stack_operators__[-1]] == Hierarchies.MULTDIV:
                 opr = self.__pop_operator_stack()
@@ -58,7 +62,8 @@ class QuadrupleManager:
                 op1 = self.__pop_operand_stack()
                 self.__add_to_quadruplues__(opr, op1, op2)
         # insert the incoming operator
-        self.__stack_operators__.append(operator)
+        if operator != ")":
+            self.__stack_operators__.append(operator)
 
     def empty_polish_vector(self):
         """
@@ -73,12 +78,24 @@ class QuadrupleManager:
             # TODO Becareful with assigns
             self.__add_to_quadruplues__(opr, op1, op2)
 
+    def __empty_false_stack(self):
+        while self.__stack_operators__[-1] != "(":
+            opr = self.__pop_operator_stack()
+            # TODO Check operands types
+            op2 = self.__pop_operand_stack()
+            op1 = self.__pop_operand_stack()
+            # TODO Becareful with assigns
+            self.__add_to_quadruplues__(opr, op1, op2)
+        _ = self.__pop_operator_stack()
+
     def __pop_operand_stack(self) -> tuple:
         """
         Pops the operand stack and returns the operand
         :return: The operand that has been pop
         :rtype: tuple
         """
+        #print(self.__polish_vector__)
+        #print(self.__stack_operators__)
         operand = self.__polish_vector__[-1]
         self.__polish_vector__.pop()
         return operand
