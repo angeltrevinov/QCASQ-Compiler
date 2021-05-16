@@ -325,7 +325,7 @@ class QCASQ_Parser:
         '''
         expresion       : exp altexpresion
         altexpresion    : altexpresion2 save_op  exp
-                        | empty
+                        | empty empty_pv
         altexpresion2   : SAMEAS
                         | BIGGERTHAN
                         | BIGGEREQUALSTHAN
@@ -338,6 +338,11 @@ class QCASQ_Parser:
         if p[1] is not None:
             #print(p[1])
             p[0] = p[1]
+        pass
+
+    def p_empty_pv(self, p):
+        ''' empty_pv : '''
+        self.quads.empty_polish_vector()
         pass
 
     def p_exp(self, p):

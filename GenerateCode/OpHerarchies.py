@@ -1,7 +1,7 @@
 import enum
 
 
-class Hierarchies(enum.Enum):
+class Hierarchies(enum.IntEnum):
     PARENTESIS  = 0
     MULTDIV     = 1
     SUMSUB      = 2

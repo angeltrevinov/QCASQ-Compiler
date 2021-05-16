@@ -1,0 +1,6 @@
+program Example;
+
+main() {
+    var all: int;
+    all = 2*3+2/5;
+}
