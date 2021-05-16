@@ -60,7 +60,44 @@ class QuadrupleManager:
                 # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                self.__add_to_quadruplues__(opr, op1, op2)
+                self.__add_to_quadruplues__(
+                    opr,
+                    op1,
+                    op2,
+                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+        # check for comparisons
+        elif self.__operators[operator] == Hierarchies.COMPARISON:
+            # Check if top of the stack has the same hierarchy or higher
+            while (
+                    self.__operators[self.__stack_operators__[-1]] == Hierarchies.COMPARISON or
+                    self.__operators[self.__stack_operators__[-1]] < Hierarchies.COMPARISON
+            ):
+                opr = self.__pop_operator_stack()
+                # TODO Check operands types
+                op2 = self.__pop_operand_stack()
+                op1 = self.__pop_operand_stack()
+                self.__add_to_quadruplues__(
+                    opr,
+                    op1,
+                    op2,
+                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+        # check for logic
+        elif self.__operators[operator] == Hierarchies.LOGIC:
+            # Check if top of the stack has the same hierarchy or higher
+            while (
+                    self.__operators[self.__stack_operators__[-1]] == Hierarchies.LOGIC or
+                    self.__operators[self.__stack_operators__[-1]] < Hierarchies.LOGIC
+            ):
+                opr = self.__pop_operator_stack()
+                # TODO Check operands types
+                op2 = self.__pop_operand_stack()
+                op1 = self.__pop_operand_stack()
+                self.__add_to_quadruplues__(
+                    opr,
+                    op1,
+                    op2,
+                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+
         # insert the incoming operator
         if operator != ")":
             self.__stack_operators__.append(operator)
@@ -71,12 +108,25 @@ class QuadrupleManager:
         """
         # until  the stack operator is empty
         while len(self.__stack_operators__) > 0:
-            opr = self.__pop_operator_stack()
-            # TODO Check operands types
-            op2 = self.__pop_operand_stack()
-            op1 = self.__pop_operand_stack()
-            # TODO Becareful with assigns
-            self.__add_to_quadruplues__(opr, op1, op2)
+            if self.__operators[self.__stack_operators__[-1]] == Hierarchies.OUTPUT:
+                opr = self.__pop_operator_stack()
+                op = self.__pop_operand_stack()
+                self.__add_to_quadruplues__(
+                    opr,
+                    (),
+                    op,
+                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+            else:
+                opr = self.__pop_operator_stack()
+                # TODO Check operands types
+                op2 = self.__pop_operand_stack()
+                op1 = self.__pop_operand_stack()
+                # TODO Becareful with assigns
+                self.__add_to_quadruplues__(
+                    opr,
+                    op1,
+                    op2,
+                    ("t" + str(len(self.__stack_quadruples__)), "int"))
 
     def __empty_false_stack(self):
         while self.__stack_operators__[-1] != "(":
@@ -85,7 +135,11 @@ class QuadrupleManager:
             op2 = self.__pop_operand_stack()
             op1 = self.__pop_operand_stack()
             # TODO Becareful with assigns
-            self.__add_to_quadruplues__(opr, op1, op2)
+            self.__add_to_quadruplues__(
+                opr,
+                op1,
+                op2,
+                ("t" + str(len(self.__stack_quadruples__)), "int"))
         _ = self.__pop_operator_stack()
 
     def __pop_operand_stack(self) -> tuple:
@@ -94,8 +148,6 @@ class QuadrupleManager:
         :return: The operand that has been pop
         :rtype: tuple
         """
-        #print(self.__polish_vector__)
-        #print(self.__stack_operators__)
         operand = self.__polish_vector__[-1]
         self.__polish_vector__.pop()
         return operand
@@ -110,7 +162,7 @@ class QuadrupleManager:
         self.__stack_operators__.pop()
         return holder
 
-    def __add_to_quadruplues__(self, operator:str, operand1: tuple, operand2: tuple):
+    def __add_to_quadruplues__(self, operator:str, operand1: tuple, operand2: tuple, storage: tuple):
         """
         Creates the quadruple and inserts it to the stack
         :param operator: the operator for the quadruple
@@ -124,6 +176,7 @@ class QuadrupleManager:
             "operator": operator,
             "operand1": operand1,
             "operand2": operand2,
-            "storage": "t" + str(len(self.__stack_quadruples__)) # TODO: This needs to be a memory
+            "storage": storage
         })
-        self.add_operand(self.__stack_quadruples__[-1]["storage"], "int")
+        if self.__operators[operator] != Hierarchies.OUTPUT:
+            self.add_operand(storage[0], storage[1])

@@ -377,10 +377,8 @@ class QCASQ_Parser:
 
     def p_write(self, p):
         '''
-        write : OUTPUT save_op OPENPAREN varcall altwrite
-                | OUTPUT save_op OPENPAREN expresion altwrite
-        altwrite : COMMA save_op varcall altwrite
-                | COMMA save_op expresion altwrite
+        write :  OUTPUT save_op OPENPAREN expresion altwrite
+        altwrite : COMMA save_op expresion altwrite
                 | CLOSEPAREN SEMICOLON
         '''
         pass

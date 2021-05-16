@@ -8,6 +8,7 @@ class Hierarchies(enum.IntEnum):
     LOGIC       = 4
     PARENTESIS  = 5
     ASSIGN      = 6
+    OUTPUT      = 7
 
 
 class Operators():
@@ -29,5 +30,5 @@ class Operators():
         "=": Hierarchies.ASSIGN,
         "return": Hierarchies.ASSIGN,
         "input": Hierarchies.ASSIGN,
-        "output": Hierarchies.ASSIGN,
+        "output": Hierarchies.OUTPUT,
     }

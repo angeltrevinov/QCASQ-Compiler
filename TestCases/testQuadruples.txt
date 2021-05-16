@@ -2,5 +2,7 @@ program Example;
 
 main() {
     var all: int;
-    all = 3*((2+5) - 2)/2;
+    //all = (2 < 5) && 2 + 5;
+   output(2+3*3, 2);
+    //out 2+1 out 3+3 out 4+4
 }
