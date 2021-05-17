@@ -420,7 +420,7 @@ class QCASQ_Parser:
     # To detect if there is an error
     def p_error(self, p):
         self.__error = True
-        print('\n gramatica no apropiada', p)
+        sys.exit(f"ERROR: illegal token found: {p.value[0]} in line { p.lineno}")
 
     def __init__(self, lexer):
         """The constructor of the parser

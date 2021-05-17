@@ -1,10 +1,12 @@
 from GenerateCode.OpHerarchies import Operators
 from GenerateCode.OpHerarchies import Hierarchies
+from GenerateCode.SemanticCube import SemanticCube
 
 class QuadrupleManager:
     """The controller for handling our Quadruples."""
 
     # So we can search the hierarchies of incoming operators
+    semantic_cube = SemanticCube()
     __operators = Operators().OpHierarchy
     __stack_quadruples__: list   # to control the order of the quadruples quadruples (This needs to be virtual memory)
     __polish_vector__: list    # the help of the polish vector to store our variables
@@ -45,10 +47,11 @@ class QuadrupleManager:
             # Check if top of the stack has the same hierarchy
             while self.__operators[self.__stack_operators__[-1]] == Hierarchies.MULTDIV:
                 opr = self.__pop_operator_stack()
-                # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                self.__add_to_quadruplues__(opr, op1, op2)
+                type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+                print(type)
+                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), "int"))
         # Check for + or -
         elif self.__operators[operator] == Hierarchies.SUMSUB:
             # Check if top of the stack has the same hierarchy or higher
@@ -97,6 +100,12 @@ class QuadrupleManager:
                     op1,
                     op2,
                     ("t" + str(len(self.__stack_quadruples__)), "int"))
+        # check for OUTPUT
+        elif (
+                self.__operators[operator] == Hierarchies.OUTPUT and
+                len(self.__stack_operators__) > 0
+        ):
+            self.empty_polish_vector()
 
         # insert the incoming operator
         if operator != ")":
@@ -114,14 +123,23 @@ class QuadrupleManager:
                 self.__add_to_quadruplues__(
                     opr,
                     (),
-                    op,
-                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+                    (),
+                    op)
+            elif self.__operators[self.__stack_operators__[-1]] == Hierarchies.ASSIGN:
+                opr = self.__pop_operator_stack()
+                op1 = self.__pop_operand_stack()  # the data to save
+                op2 = self.__pop_operand_stack()  # where to save data
+                self.__add_to_quadruplues__(opr, op1, (), op2)
+            elif self.__operators[self.__stack_operators__[-1]] == Hierarchies.INPUT:
+                opr = self.__pop_operator_stack()
+                op  = self.__pop_operand_stack()
+                self.__add_to_quadruplues__(opr, (), (), op)
+            # TODO: check returns, if, while and functions
             else:
                 opr = self.__pop_operator_stack()
                 # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                # TODO Becareful with assigns
                 self.__add_to_quadruplues__(
                     opr,
                     op1,
@@ -152,7 +170,7 @@ class QuadrupleManager:
         self.__polish_vector__.pop()
         return operand
 
-    def __pop_operator_stack(self) -> tuple:
+    def __pop_operator_stack(self) -> str:
         """
         pops the operator in top of the stack
         :return: the operator that has been pop
@@ -178,5 +196,5 @@ class QuadrupleManager:
             "operand2": operand2,
             "storage": storage
         })
-        if self.__operators[operator] != Hierarchies.OUTPUT:
+        if self.__operators[operator] <= Hierarchies.LOGIC:
             self.add_operand(storage[0], storage[1])
