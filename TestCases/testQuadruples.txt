@@ -2,7 +2,6 @@
 program Example;
 
 main() {
-    var one: float;
+    var one[2*3]: float;
     var two: string;
-    one = 1;
 }

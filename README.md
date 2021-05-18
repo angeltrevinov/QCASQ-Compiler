@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Corregir declaraciones de array            | Mayo 17     |
 | Guardar cuadruplos lineales y checar tipos | Mayo 17     |
 | Crear cuadruplos simples de expresiones    | Mayo 15     |
 | Crear cuadruplos con * y /                 | Mayo 13     |

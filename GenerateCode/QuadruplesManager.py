@@ -41,11 +41,9 @@ class QuadrupleManager:
         if operator == ",":
             operator = "output"
         if operator == ")":
-            # [ =, (, /]
             self.__empty_false_stack()
-            # [ = ]
         # Check for * or /
-        elif self.__operators[operator] == Hierarchies.MULTDIV:
+        elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
             while self.__operators[self.__stack_operators__[-1]] == Hierarchies.MULTDIV:
                 opr = self.__pop_operator_stack()
@@ -56,7 +54,7 @@ class QuadrupleManager:
                     sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
                 self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # Check for + or -
-        elif self.__operators[operator] == Hierarchies.SUMSUB:
+        elif self.__operators[operator] == Hierarchies.SUMSUB and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy or higher
             while (
                     self.__operators[self.__stack_operators__[-1]] == Hierarchies.SUMSUB or
@@ -71,7 +69,7 @@ class QuadrupleManager:
                     sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
                 self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # check for comparisons
-        elif self.__operators[operator] == Hierarchies.COMPARISON:
+        elif self.__operators[operator] == Hierarchies.COMPARISON and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy or higher
             while (
                     self.__operators[self.__stack_operators__[-1]] == Hierarchies.COMPARISON or
@@ -85,7 +83,7 @@ class QuadrupleManager:
                     sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
                 self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # check for logic
-        elif self.__operators[operator] == Hierarchies.LOGIC:
+        elif self.__operators[operator] == Hierarchies.LOGIC and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy or higher
             while (
                     self.__operators[self.__stack_operators__[-1]] == Hierarchies.LOGIC or
