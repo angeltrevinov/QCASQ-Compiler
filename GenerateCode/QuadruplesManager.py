@@ -118,11 +118,19 @@ class QuadrupleManager:
             if self.__operators[self.__stack_operators__[-1]] == Hierarchies.OUTPUT:
                 opr = self.__pop_operator_stack()
                 op = self.__pop_operand_stack()
+                if (
+                        op[1] != Types.BOOL.value and
+                        op[1] != Types.INT.value and
+                        op[1] != Types.FLOAT.value and
+                        op[1] != Types.STRING.value
+                ):
+                    sys.exit(f"You cannot print a class object")
                 self.__add_to_quadruplues__(
                     opr,
                     (),
                     (),
-                    op)
+                    op
+                )
             elif self.__operators[self.__stack_operators__[-1]] == Hierarchies.ASSIGN:
                 opr = self.__pop_operator_stack()
                 op1 = self.__pop_operand_stack()  # the data to save
@@ -134,6 +142,7 @@ class QuadrupleManager:
             elif self.__operators[self.__stack_operators__[-1]] == Hierarchies.INPUT:
                 opr = self.__pop_operator_stack()
                 op  = self.__pop_operand_stack()
+                # TODO: check input send
                 self.__add_to_quadruplues__(opr, (), (), op)
             # TODO: check returns, if, while and functions
             else:
