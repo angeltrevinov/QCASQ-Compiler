@@ -1,6 +1,8 @@
 from GenerateCode.OpHerarchies import Operators
 from GenerateCode.OpHerarchies import Hierarchies
 from GenerateCode.SemanticCube import SemanticCube
+from GenerateCode.Types import Types
+import sys
 
 class QuadrupleManager:
     """The controller for handling our Quadruples."""
@@ -50,8 +52,9 @@ class QuadrupleManager:
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
                 type = self.semantic_cube.get_result(op1[1], op2[1], opr)
-                print(type)
-                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), "int"))
+                if type == Types.INVALID.value:
+                    sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
+                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # Check for + or -
         elif self.__operators[operator] == Hierarchies.SUMSUB:
             # Check if top of the stack has the same hierarchy or higher
@@ -60,14 +63,13 @@ class QuadrupleManager:
                     self.__operators[self.__stack_operators__[-1]] < Hierarchies.SUMSUB
             ):
                 opr = self.__pop_operator_stack()
-                # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                self.__add_to_quadruplues__(
-                    opr,
-                    op1,
-                    op2,
-                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+
+                type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+                if type == Types.INVALID.value:
+                    sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
+                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # check for comparisons
         elif self.__operators[operator] == Hierarchies.COMPARISON:
             # Check if top of the stack has the same hierarchy or higher
@@ -76,14 +78,12 @@ class QuadrupleManager:
                     self.__operators[self.__stack_operators__[-1]] < Hierarchies.COMPARISON
             ):
                 opr = self.__pop_operator_stack()
-                # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                self.__add_to_quadruplues__(
-                    opr,
-                    op1,
-                    op2,
-                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+                type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+                if type == Types.INVALID.value:
+                    sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
+                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # check for logic
         elif self.__operators[operator] == Hierarchies.LOGIC:
             # Check if top of the stack has the same hierarchy or higher
@@ -92,14 +92,12 @@ class QuadrupleManager:
                     self.__operators[self.__stack_operators__[-1]] < Hierarchies.LOGIC
             ):
                 opr = self.__pop_operator_stack()
-                # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                self.__add_to_quadruplues__(
-                    opr,
-                    op1,
-                    op2,
-                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+                type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+                if type == Types.INVALID.value:
+                    sys.exit(f"You cannot use the operation {opr} with {op1[1]} and {op2[1]}")
+                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # check for OUTPUT
         elif (
                 self.__operators[operator] == Hierarchies.OUTPUT and
@@ -129,6 +127,9 @@ class QuadrupleManager:
                 opr = self.__pop_operator_stack()
                 op1 = self.__pop_operand_stack()  # the data to save
                 op2 = self.__pop_operand_stack()  # where to save data
+                type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+                if type == Types.INVALID.value:
+                    sys.exit(f"You cannot assign {op1[1]} to {op2[1]}")
                 self.__add_to_quadruplues__(opr, op1, (), op2)
             elif self.__operators[self.__stack_operators__[-1]] == Hierarchies.INPUT:
                 opr = self.__pop_operator_stack()
@@ -137,27 +138,22 @@ class QuadrupleManager:
             # TODO: check returns, if, while and functions
             else:
                 opr = self.__pop_operator_stack()
-                # TODO Check operands types
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-                self.__add_to_quadruplues__(
-                    opr,
-                    op1,
-                    op2,
-                    ("t" + str(len(self.__stack_quadruples__)), "int"))
+                type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+                if type == Types.INVALID.value:
+                    sys.exit(f"You cannot use the operation {opr} with {op1[1]} and {op2[1]}")
+                self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
 
     def __empty_false_stack(self):
         while self.__stack_operators__[-1] != "(":
             opr = self.__pop_operator_stack()
-            # TODO Check operands types
             op2 = self.__pop_operand_stack()
             op1 = self.__pop_operand_stack()
-            # TODO Becareful with assigns
-            self.__add_to_quadruplues__(
-                opr,
-                op1,
-                op2,
-                ("t" + str(len(self.__stack_quadruples__)), "int"))
+            type = self.semantic_cube.get_result(op1[1], op2[1], opr)
+            if type == Types.INVALID.value:
+                sys.exit(f"You cannot use the operation {opr} with {op1[1]} and {op2[1]}")
+            self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         _ = self.__pop_operator_stack()
 
     def __pop_operand_stack(self) -> tuple:

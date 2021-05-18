@@ -19,9 +19,9 @@ class SemanticCube():
                 ">=": Types.BOOL,
                 ">": Types.BOOL,
                 "==": Types.BOOL,
-                "=": Types.INT,
-                "output": Types.STRING,
-                "input": Types.INT
+                "=": Types.INT
+                # #"output": Types.STRING,
+                # # "input": Types.INT
             },
             "float": {
                 "+": Types.FLOAT,
@@ -37,8 +37,8 @@ class SemanticCube():
                 ">": Types.BOOL,
                 "==": Types.BOOL,
                 "=": Types.INVALID,
-                "output": Types.STRING,
-                "input": Types.INVALID
+                ##"output": Types.STRING,
+                #"input": Types.INVALID
             },
             "string": {
                 "+": Types.INVALID,
@@ -54,8 +54,8 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
-                "input": Types.INVALID
+                ##"output": Types.STRING,
+                #"input": Types.INVALID
             },
             "class": {
                 "+": Types.INVALID,
@@ -88,7 +88,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             }
         },
@@ -108,7 +108,7 @@ class SemanticCube():
                 ">": Types.BOOL,
                 "==": Types.BOOL,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "float": {
@@ -125,7 +125,7 @@ class SemanticCube():
                 ">": Types.BOOL,
                 "==": Types.BOOL,
                 "=": Types.FLOAT,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.FLOAT
             },
             "string": {
@@ -142,7 +142,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "class": {
@@ -176,7 +176,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             }
         },
@@ -196,7 +196,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "float": {
@@ -213,7 +213,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "string": {
@@ -230,7 +230,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.BOOL,
                 "=": Types.STRING,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.STRING
             },
             "class": {
@@ -264,7 +264,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             }
         },
@@ -372,7 +372,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "float": {
@@ -389,7 +389,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "string": {
@@ -406,7 +406,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.INVALID,
                 "=": Types.INVALID,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.INVALID
             },
             "class": {
@@ -440,7 +440,7 @@ class SemanticCube():
                 ">": Types.INVALID,
                 "==": Types.BOOL,
                 "=": Types.BOOL,
-                "output": Types.STRING,
+                #"output": Types.STRING,
                 "input": Types.BOOL
             }
         }

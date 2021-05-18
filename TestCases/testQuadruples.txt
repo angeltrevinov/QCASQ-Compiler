@@ -1,7 +1,8 @@
+//testCases/testQuadruples.txt
 program Example;
 
 main() {
     var one: float;
-    var two: int;
-    one = 2/one*two;
+    var two: string;
+    one = 1;
 }
