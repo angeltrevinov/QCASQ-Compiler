@@ -1,7 +1,7 @@
 import sys
 import ply.yacc as yacc
 from LexYacc.QCASQ_Lexer import QCASQ_Lexer
-from GenerateCode.Function_Dir import Function_Dir
+from GenerateCode.Class_Dir import Class_Dir
 from GenerateCode.QuadruplesManager import QuadrupleManager
 
 
@@ -12,7 +12,7 @@ class QCASQ_Parser:
     tokens = QCASQ_Lexer.tokens
 
     # initialize function director
-    funct_dir = Function_Dir()
+    class_dir = Class_Dir()
     quads = QuadrupleManager()
 
     # --------- Definition of grammatical rules ------------
@@ -29,8 +29,8 @@ class QCASQ_Parser:
     # Add the program name to the dictionary
     def p_save_program(self, p):
         ''' save_program : '''
-        self.funct_dir.add_to_dictionary(p[-1])
-        self.funct_dir.add_to_scope(p[-1])
+        self.class_dir.add_to_dictionary(p[-1])
+        self.class_dir.add_to_scope(p[-1])
         pass
 
     def p_main(self, p):
@@ -45,15 +45,20 @@ class QCASQ_Parser:
     # Add the main to function dictionary
     def p_save_main(self, p):
         ''' save_main : '''
-        self.funct_dir.add_to_dictionary(p[-1])
-        self.funct_dir.add_to_scope(p[-1])
+        # adds main to the function directory of the program
+        self.class_dir.get_class(
+            self.class_dir.get_current_scope()
+        )["function_dir"].add_to_dictionary(p[-1])
+        # sets the scope as main for the program class
+        self.class_dir.get_class(
+            self.class_dir.get_current_scope()
+        )["function_dir"].add_to_scope(p[-1])
         pass
 
-    # remove main and program from scope (finish reading the file)
+    # remove program from scope (finish reading the file)
     def p_clear_scope(self, p):
         ''' clear_scope : '''
-        self.funct_dir.pop_scope()
-        self.funct_dir.pop_scope()
+        self.class_dir.pop_scope()
         pass
 
     def p_class(self, p):
@@ -73,14 +78,14 @@ class QCASQ_Parser:
     # Add the class and its inheritance to the dictionary
     def p_save_class(self, p):
         ''' save_class : '''
-        self.funct_dir.add_to_dictionary(p[-2], p[-1])
-        self.funct_dir.add_to_scope(p[-2])
+        self.class_dir.add_to_dictionary(p[-2], p[-1])
+        self.class_dir.add_to_scope(p[-2])
         pass
 
     # Removes the class from the scope
     def p_remove_class_scope(self, p):
         ''' remove_class_scope : '''
-        self.funct_dir.pop_scope()
+        self.class_dir.pop_scope()
         pass
 
     def p_constructor(self, p):
@@ -97,13 +102,18 @@ class QCASQ_Parser:
     # Add the construction to the dictionary
     def p_save_constructor(self, p):
         ''' save_constructor : '''
-        self.funct_dir.add_to_dictionary(p[-1])
-        self.funct_dir.add_to_scope(p[-1])
+        self.class_dir.get_class(
+            self.class_dir.get_current_scope()
+        )["function_dir"].add_to_dictionary(p[-1])
+
+        self.class_dir.get_class(
+            self.class_dir.get_current_scope()
+        )["function_dir"].add_to_scope(p[-1])
         pass
 
     def p_remove_constructor_scope(self, p):
         ''' remove_constructor_scope : '''
-        self.funct_dir.pop_scope()
+        self.class_dir.pop_scope()
         pass
 
     def p_var(self, p):
@@ -116,10 +126,21 @@ class QCASQ_Parser:
         '''
         save_vars :
         '''
+        class_func_scope_length = len(self.class_dir.get_class(self.class_dir.get_current_scope())["function_dir"].get_scope())
+        class_scope = self.class_dir.get_current_scope()
+        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
         for element in self.__stack_vars:
-            self.funct_dir.get_function(
-                self.funct_dir.get_current_scope()
-            )["tablevars"].add_to_dictionary(element, p[-1])
+            # Global variables for that class
+            if class_func_scope_length == 0:
+                self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1])
+            else:
+                # local variables for a class
+                self.class_dir.get_class(
+                    class_scope
+                )["function_dir"].get_function(
+                    func_scope
+                )["tablevars"].add_to_dictionary(element, p[-1])
+
         self.__stack_vars.clear()
         pass
 
@@ -167,22 +188,28 @@ class QCASQ_Parser:
     def p_save_function(self, p):
         ''' save_function : '''
         # Saving function with their type
-        self.funct_dir.add_to_dictionary(p[-5], p[-1])
-        self.funct_dir.add_to_scope(p[-5])
+        class_scope = self.class_dir.get_current_scope()
+        self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
+        self.class_dir.get_class(class_scope)["function_dir"].add_to_scope(p[-5])
         pass
 
     def p_store_params(self, p):
         '''store_params : '''
+        class_scope = self.class_dir.get_current_scope()
+        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
         for param in self.__stack_params:
             name, type = param
-            self.funct_dir.get_function(
-                self.funct_dir.get_current_scope()
-            )["tablevars"].add_to_dictionary(name, type)
+            self.class_dir.get_class(
+                class_scope
+            )["function_dir"].get_function(
+                func_scope
+            )["params"].add_to_dictionary(name, type)
         self.__stack_params.clear()
 
     def p_remove_function_scope(self, p):
         ''' remove_function_scope : '''
-        self.funct_dir.pop_scope()
+        class_scope = self.class_dir.get_current_scope()
+        self.class_dir.get_class(class_scope)["function_dir"].pop_scope()
         pass
 
     def p_params(self, p):
@@ -327,6 +354,13 @@ class QCASQ_Parser:
         if index < 0 and var_found is False:
             sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
         pass
+
+    def check_variable_exists(self, p):
+        # TODO: check if variable is declared in scope for class and functions
+        print(p)
+
+
+
 
     def p_expresion(self, p):
         '''
