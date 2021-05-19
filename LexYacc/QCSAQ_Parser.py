@@ -2,6 +2,8 @@ import sys
 import ply.yacc as yacc
 from LexYacc.QCASQ_Lexer import QCASQ_Lexer
 from GenerateCode.Class_Dir import Class_Dir
+from GenerateCode.Function_Dir import Function_Dir
+from GenerateCode.Variables_Dir import Variables_Dir
 from GenerateCode.QuadruplesManager import QuadrupleManager
 
 
@@ -22,7 +24,7 @@ class QCASQ_Parser:
         altprogram  : class altprogram
                     | var altprogram
                     | function altprogram
-                    | main
+                    | main remove_class_scope
         '''
         pass
 
@@ -38,7 +40,7 @@ class QCASQ_Parser:
         main    : MAIN save_main OPENPAREN CLOSEPAREN OPENCURLY altmain
         altmain : var altmain
                 | estatuto altmain
-                | CLOSECURLY clear_scope
+                | CLOSECURLY
         '''
         pass
 
@@ -53,12 +55,6 @@ class QCASQ_Parser:
         self.class_dir.get_class(
             self.class_dir.get_current_scope()
         )["function_dir"].add_to_scope(p[-1])
-        pass
-
-    # remove program from scope (finish reading the file)
-    def p_clear_scope(self, p):
-        ''' clear_scope : '''
-        self.class_dir.pop_scope()
         pass
 
     def p_class(self, p):
@@ -95,7 +91,7 @@ class QCASQ_Parser:
                     | empty
         alt2const   : var alt2const
                     | estatuto alt2const
-                    | CLOSECURLY remove_constructor_scope
+                    | CLOSECURLY
         '''
         pass
 
@@ -111,11 +107,6 @@ class QCASQ_Parser:
         )["function_dir"].add_to_scope(p[-1])
         pass
 
-    def p_remove_constructor_scope(self, p):
-        ''' remove_constructor_scope : '''
-        self.class_dir.pop_scope()
-        pass
-
     def p_var(self, p):
         '''
         var : VAR listids TWODOTS type save_vars SEMICOLON
@@ -128,13 +119,14 @@ class QCASQ_Parser:
         '''
         class_func_scope_length = len(self.class_dir.get_class(self.class_dir.get_current_scope())["function_dir"].get_scope())
         class_scope = self.class_dir.get_current_scope()
-        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        # TODO check that variables are save correctly
         for element in self.__stack_vars:
             # Global variables for that class
             if class_func_scope_length == 0:
                 self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1])
             else:
                 # local variables for a class
+                func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
                 self.class_dir.get_class(
                     class_scope
                 )["function_dir"].get_function(
@@ -335,32 +327,52 @@ class QCASQ_Parser:
 
     def p_save_comp(self, p):
         ''' save_comp : '''
-        var_found = False
-        index = len(self.funct_dir.get_scope()) - 1
-        while index >= 0 and var_found is False:
-            scope = self.funct_dir.get_scope()[index] # get scope
-            vars_table = self.funct_dir.get_function(scope)['tablevars']
-            if p[-1] is None:
-                var_found = True
-                print("found function")
-            # Save variables if they are part of the scope
-            elif p[-1] in vars_table.get_dictionary():
-                var_found = True
-                vars = vars_table.get_variable(p[-1])
-                self.quads.add_operand(p[-1], vars["type"])
-            # Get previous scope
-            else:
-                index = index - 1
-        if index < 0 and var_found is False:
-            sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
+        self.check_variable_exists(p)
         pass
 
     def check_variable_exists(self, p):
-        # TODO: check if variable is declared in scope for class and functions
-        print(p)
+        var_found = False
+        index_scope_class = len(self.class_dir.get_scope()) - 1
+        while index_scope_class >= 0 and var_found is False:
+            if p[-1] is None:
+                var_found = True
+                print("function is found")
+            else:
+                scope_class = self.class_dir.get_scope()[index_scope_class]  # get class scope we are checking
+                current_class = self.class_dir.get_class(scope_class) # get class object
+                var = self.check_var_exists_function(current_class["function_dir"], p[-1])
+                if var is None:
+                    tablevars = current_class["tablevars"]
+                    var = self.check_table_vars(tablevars, p[-1])
+                if var is not None:
+                    var_found = True
+                    self.quads.add_operand(var[0], var[1])
+                else:
+                    index_scope_class = index_scope_class - 1
+        if index_scope_class < 0 and var_found is False:
+            sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
 
+    def check_var_exists_function(self, function_dir: Function_Dir, var_name: str) -> tuple:
+        index_scope_func = len(function_dir.get_scope()) - 1
+        while index_scope_func >= 0:
+            scope_func = function_dir.get_scope()[index_scope_func]
+            current_func = function_dir.get_function(scope_func)
+            var = self.check_table_vars(current_func["tablevars"], var_name)
+            if var is not None:
+                return var
+            else:
+                var = self.check_table_vars(current_func["params"], var_name)
+                if var is not None:
+                    return var
+            index_scope_func = index_scope_func - 1
+        return None
 
-
+    def check_table_vars(self, tablevars: Variables_Dir, var_name: str) -> tuple: #( var , type)
+        if var_name in tablevars.get_dictionary():
+            var = tablevars.get_variable(var_name)
+            return var_name, var["type"]
+        else:
+            return None
 
     def p_expresion(self, p):
         '''
