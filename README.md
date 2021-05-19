@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Añadir funcionalidad para scope de clases  | Mayo 18     |
 | Corregir declaraciones de array            | Mayo 17     |
 | Guardar cuadruplos lineales y checar tipos | Mayo 17     |
 | Crear cuadruplos simples de expresiones    | Mayo 15     |

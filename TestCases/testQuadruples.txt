@@ -1,7 +1,22 @@
 //testCases/testQuadruples.txt
 program Example;
 
+var x: int;
+
+class Persona {
+    var y: int;
+
+    func Uno(z: int) {
+      z = y + z;
+    }
+
+    constructor() {
+        y = x + y;
+    }
+};
+
 main() {
-    var one[2*3]: float;
-    var two: string;
+    var one[2*3]: int;
+    var two: int;
+    one = two * one + x;
 }
