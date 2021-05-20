@@ -119,7 +119,6 @@ class QCASQ_Parser:
         '''
         class_func_scope_length = len(self.class_dir.get_class(self.class_dir.get_current_scope())["function_dir"].get_scope())
         class_scope = self.class_dir.get_current_scope()
-        # TODO check that variables are save correctly
         for element in self.__stack_vars:
             # Global variables for that class
             if class_func_scope_length == 0:

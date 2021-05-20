@@ -5,6 +5,6 @@ class VM:
     memory: Memory
     def __init__(self, directory, quadruples):
         self.memory = Memory()
-        self.memory.transformDir(directory)
+        self.memory.save_global_vars(directory)
         self.memory.print_memory()
 

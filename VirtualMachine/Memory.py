@@ -42,21 +42,26 @@ class Memory:
             # key(numero) : value
         }
 
-    def transformDir(self, directory: Class_Dir):
-        #directory.print_dictionary()
-        conts = {
-            "int" : 0,
-            "float" : 0,
-            "string" : 0,
-            "bool" : 0
-        }
+    def save_global_vars(self, directory: Class_Dir, scope: str = "G"):
+        for index, element in enumerate(directory.get_dictionary()):
+            if index == 0:
+                self.get_vars(directory, element, scope)
+                return
 
-        for element in directory.get_dictionary():
-            vars = directory.get_class(element)["tablevars"].get_dictionary()
-            for var in vars:
-                tipo = vars[var]["type"]
-                self.__memory__[conts[tipo]+self.offsets[tipo+"G"]] = None
-                conts[tipo] = conts[tipo] + 1
+
+    def get_vars(self, directory: Class_Dir, element: str, scope: str):
+        conts = {
+            "int": 0,
+            "float": 0,
+            "string": 0,
+            "bool": 0
+        }
+        vars = directory.get_class(element)["tablevars"].get_dictionary()
+        for var in vars:
+            tipo = vars[var]["type"]
+            self.__memory__[conts[tipo] + self.offsets[tipo + scope]] = None
+            conts[tipo] = conts[tipo] + 1
+
 
     def print_memory(self):
         dictionary_items = self.__memory__.items()

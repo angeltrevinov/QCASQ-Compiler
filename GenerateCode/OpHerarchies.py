@@ -1,6 +1,6 @@
 import enum
 
-
+# TODO: Crear tabla de operaciones
 class Hierarchies(enum.IntEnum):
     MULTDIV     = 1
     SUMSUB      = 2

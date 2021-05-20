@@ -3,9 +3,6 @@ program Example;
 
 var x: int;
 var j: float;
-var i: int;
-var s: string;
-var b: bool;
 
 main() {
     x = 3;

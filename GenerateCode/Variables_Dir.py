@@ -22,10 +22,16 @@ class Variables_Dir:
         :param type: The type of the variable
         :type type: str
         """
+        #TODO: Add memory field
         self.__var_dict__[name_var] = {
             "type": type
         }
 
+#TODO: function to add to corresponding section of memory
+# Son las referencias de compilacion, aun no tiene que ver nada ejecucion ni guardar valores
+# Crear tabla de constantes globales
+# Temporales se dividen en globales y locales
+# Clases definir divisiones con sus divisiones de global y local
     def get_dictionary(self) -> dict:
         """Returns the variable dictionary object
 

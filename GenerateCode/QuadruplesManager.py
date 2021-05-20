@@ -37,6 +37,8 @@ class QuadrupleManager:
         :param operator: the operator that is coming
         :type operator: str
         """
+        #TODO: change vars name to virtual memory
+
         # change commas to output operators
         if operator == ",":
             operator = "output"
