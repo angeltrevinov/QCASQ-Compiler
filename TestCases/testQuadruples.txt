@@ -2,21 +2,16 @@
 program Example;
 
 var x: int;
-
-class Persona {
-    var y: int;
-
-    func Uno(z: int) {
-      z = y + z;
-    }
-
-    constructor() {
-        y = x + y;
-    }
-};
+var j: float;
+var i: int;
+var s: string;
+var b: bool;
 
 main() {
-    var one[2*3]: int;
+    x = 3;
+    var one: int;
     var two: int;
+    one = 1;
+    two = 2;
     one = two * one + x;
 }

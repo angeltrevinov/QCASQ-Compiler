@@ -48,6 +48,7 @@ class Function_Dir:
                 "\nTable Vars:"
             )
             self.get_function(element)["tablevars"].print_dictionary()
+            self.get_function(element)["params"].print_dictionary()
 
     def add_to_scope(self, scope: str):
         """Adds the name of the func, class or program to the top of the scope stack

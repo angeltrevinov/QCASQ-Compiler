@@ -152,6 +152,15 @@ class QuadrupleManager:
                     sys.exit(f"You cannot use the operation {opr} with {op1[1]} and {op2[1]}")
                 self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
 
+    def print_quadruples(self):
+        for index, quadruple in enumerate(self.__stack_quadruples__):
+            print(index+1, ".-", quadruple)
+
+
+    def get_quadruples(self):
+        return self.__stack_quadruples__
+
+
     def __empty_false_stack(self):
         while self.__stack_operators__[-1] != "(":
             opr = self.__pop_operator_stack()
@@ -201,3 +210,4 @@ class QuadrupleManager:
         })
         if self.__operators[operator] <= Hierarchies.LOGIC:
             self.add_operand(storage[0], storage[1])
+

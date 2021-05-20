@@ -23,13 +23,15 @@ class Class_Dir:
 
     def print_dictionary(self):
         """Prints the whole dictionary with the definition of the table vars for each function saved"""
-        for element in self.__class_dir___:
+        for element in self.__class_dir__:
+            print("#### CLASS ####")
             print(
                 element + ":",
-                self.get_function(element),
-                "\nTable Vars:"
-            )
-            self.get_function(element)["tablevars"].print_dictionary()
+                self.get_class(element))
+            print("#### CLASS FUNCTIONS ####")
+            self.get_class(element)["function_dir"].print_dictionary()
+            print("##### CLASS GLOBAL VARIABLES ####")
+            self.get_class(element)["tablevars"].print_dictionary()
 
 
     def add_to_scope(self, scope: str):

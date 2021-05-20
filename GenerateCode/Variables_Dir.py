@@ -23,8 +23,7 @@ class Variables_Dir:
         :type type: str
         """
         self.__var_dict__[name_var] = {
-            "type": type,
-            "value": None
+            "type": type
         }
 
     def get_dictionary(self) -> dict:
@@ -39,4 +38,3 @@ class Variables_Dir:
         """Prints the contents of the variable dictionary object"""
         for element in self.__var_dict__:
             print("\t" + element + ":", self.get_variable(element))
-        print("\n")
