@@ -5,6 +5,7 @@ from GenerateCode.Class_Dir import Class_Dir
 from GenerateCode.Function_Dir import Function_Dir
 from GenerateCode.Variables_Dir import Variables_Dir
 from GenerateCode.QuadruplesManager import QuadrupleManager
+from VirtualMachine.Memory import Memory
 
 
 class QCASQ_Parser:
@@ -16,6 +17,7 @@ class QCASQ_Parser:
     # initialize function director
     class_dir = Class_Dir()
     quads = QuadrupleManager()
+    memory = Memory()
 
     # --------- Definition of grammatical rules ------------
     def p_program(self, p):
@@ -122,15 +124,24 @@ class QCASQ_Parser:
         for element in self.__stack_vars:
             # Global variables for that class
             if class_func_scope_length == 0:
-                self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1])
+                if len(self.class_dir.get_scope()) == 1:
+                    tipo = p[-1] + "G"
+                    address = self.memory.getAddress(tipo) + self.memory.getCont(tipo)
+                    self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1], address)
+                    self.memory.upCont(tipo)
+                else:
+                    self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1], 0)
             else:
                 # local variables for a class
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+                tipo = p[-1] + "L"
+                address = self.memory.getAddress(tipo) + self.memory.getCont(tipo)
                 self.class_dir.get_class(
                     class_scope
                 )["function_dir"].get_function(
                     func_scope
-                )["tablevars"].add_to_dictionary(element, p[-1])
+                )["tablevars"].add_to_dictionary(element, p[-1],address)
+                self.memory.upCont(tipo)
 
         self.__stack_vars.clear()
         pass
@@ -190,11 +201,13 @@ class QCASQ_Parser:
         func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
         for param in self.__stack_params:
             name, type = param
+            address = self.memory.getAddress(type + "L") + self.memory.getCont(type + "L")
             self.class_dir.get_class(
                 class_scope
             )["function_dir"].get_function(
                 func_scope
-            )["params"].add_to_dictionary(name, type)
+            )["params"].add_to_dictionary(name, type, address)
+            self.memory.upCont(type + "L")
         self.__stack_params.clear()
 
     def p_remove_function_scope(self, p):

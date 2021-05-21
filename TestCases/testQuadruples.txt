@@ -3,12 +3,20 @@ program Example;
 
 var x: int;
 var j: float;
+var k: int;
+var s: string;
+
+func adios(z:int, k:float){
+    var x: string;
+    var y: int;
+    y = y + z;
+}
 
 main() {
     x = 3;
     var one: int;
-    var two: int;
+    var two: float;
     one = 1;
-    two = 2;
-    one = two * one + x;
+    two = 2.0;
+    two = two * one + x;
 }

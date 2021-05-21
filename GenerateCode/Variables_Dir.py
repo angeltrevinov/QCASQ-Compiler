@@ -14,7 +14,7 @@ class Variables_Dir:
         """
         return self.__var_dict__[name_var]
 
-    def add_to_dictionary(self, name_var: str, type: str):
+    def add_to_dictionary(self, name_var: str, type: str, cont: int):
         """ Adds the incoming variable with its type to the variable directory.
 
         :param name_var: Name of the variable
@@ -22,9 +22,9 @@ class Variables_Dir:
         :param type: The type of the variable
         :type type: str
         """
-        #TODO: Add memory field
         self.__var_dict__[name_var] = {
-            "type": type
+            "type": type,
+            "address": cont
         }
 
 #TODO: function to add to corresponding section of memory

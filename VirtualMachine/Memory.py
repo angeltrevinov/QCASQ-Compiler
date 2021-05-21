@@ -1,70 +1,66 @@
-from GenerateCode.Class_Dir import Class_Dir
+
 # TODO: Add to memory class divisions
 '''
-    //// 0 - 999
-    int globals -> 0 249
-    float globals -> 250 - 499
-    string globals -> 500 - 749
-    bool globals -> 750 - 999
-
-    //// 1000 - 1999
-    int local -> 1000 - 1249
-    float local -> 1250 - 1499
-    string local -> 1500 - 1749
-    bool local -> 1750 - 1999
-
-    //// 2000 - 2999
-    int temp -> 2000 - 2249
-    float temp -> 2250 - 2499
-    string temp -> 2500 - 2749
-    bool temp -> 2750 - 2999
-
     Structure to use = Dict
 '''
 class Memory:
     offsets =  {
+        ## Globales
         "intG" : 0,
-        "floatG" : 250,
-        "stringG" : 500,
-        "boolG" : 750,
-        "intL": 1000,
-        "floatL": 1250,
-        "stringL": 1500,
-        "boolL": 1750,
-        "intT": 2000,
-        "floatT": 2250,
-        "stringT": 2500,
-        "boolT": 2750,
+        "intGT" : 200,
+        "floatG" : 400,
+        "floatGT" : 600,
+        "stringG" : 800,
+        "stringGT": 1000,
+        "boolG" : 1200,
+        "boolGT": 1400,
+        ## Locales
+        "intL": 1600,
+        "intLT": 1800,
+        "floatL": 2000,
+        "floatLT": 2200,
+        "stringL": 2400,
+        "stringLT": 2600,
+        "boolL": 2800,
+        "boolLT": 3000,
+        ## Constantes
+        "intC": 3200,
+        "floatC": 3400,
+        "stringC": 3600,
+        "boolC": 3800
     }
 
-    def __init__(self):
-        self.__memory__ = {
-            # key(numero) : value
-        }
+    cont = {
+        ## Globales
+        "intG": 0,
+        "intGT": 0,
+        "floatG": 0,
+        "floatGT": 0,
+        "stringG": 0,
+        "stringGT": 0,
+        "boolG": 0,
+        "boolGT": 0,
+        ## Locales
+        "intL": 0,
+        "intLT": 0,
+        "floatL": 0,
+        "floatLT": 0,
+        "stringL": 0,
+        "stringLT": 0,
+        "boolL": 0,
+        "boolLT": 0,
+        ## Constantes
+        "intC": 0,
+        "floatC": 0,
+        "stringC": 0,
+        "boolC": 0
+    }
 
-    def save_global_vars(self, directory: Class_Dir, scope: str = "G"):
-        for index, element in enumerate(directory.get_dictionary()):
-            if index == 0:
-                self.get_vars(directory, element, scope)
-                return
+    def getAddress(self, type: str):
+        return self.offsets[type]
 
+    def upCont(self, type: str):
+        self.cont[type] = self.cont[type] + 1
 
-    def get_vars(self, directory: Class_Dir, element: str, scope: str):
-        conts = {
-            "int": 0,
-            "float": 0,
-            "string": 0,
-            "bool": 0
-        }
-        vars = directory.get_class(element)["tablevars"].get_dictionary()
-        for var in vars:
-            tipo = vars[var]["type"]
-            self.__memory__[conts[tipo] + self.offsets[tipo + scope]] = None
-            conts[tipo] = conts[tipo] + 1
-
-
-    def print_memory(self):
-        dictionary_items = self.__memory__.items()
-        sorted_items = sorted(dictionary_items)
-        for element in sorted_items:
-            print(element)
+    def getCont(self, type: str):
+        return self.cont[type]

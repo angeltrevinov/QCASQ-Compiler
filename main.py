@@ -1,6 +1,5 @@
 from LexYacc.QCASQ_Lexer import QCASQ_Lexer
 from LexYacc.QCSAQ_Parser import QCASQ_Parser
-from VirtualMachine.VM import VM
 
 def test_from_file():
     """Read from a file and tries to compile it.
@@ -29,9 +28,6 @@ def test_from_file():
     # Prints the function directory generated after finishing reading code
     pars.class_dir.print_dictionary()
     pars.quads.print_quadruples()
-
-    print("Starts VM")
-    vm = VM(pars.class_dir, pars.quads)
 
     if pars.get_error():
         print("Something went wrong")
