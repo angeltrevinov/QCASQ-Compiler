@@ -27,10 +27,8 @@ class Variables_Dir:
             "address": cont
         }
 
-#TODO: function to add to corresponding section of memory
-# Son las referencias de compilacion, aun no tiene que ver nada ejecucion ni guardar valores
+#TODO:
 # Crear tabla de constantes globales
-# Temporales se dividen en globales y locales
 # Clases definir divisiones con sus divisiones de global y local
     def get_dictionary(self) -> dict:
         """Returns the variable dictionary object

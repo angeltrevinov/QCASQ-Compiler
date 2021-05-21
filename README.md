@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Agregar tabla de ctes                      | Mayo 20     |
 | Agregar direccion virtual a vars           | Mayo 20     |
 | Crear VM y agregar vars globales           | Mayo 19     |
 | Añadir funcionalidad para scope de clases  | Mayo 18     |

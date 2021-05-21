@@ -9,6 +9,7 @@ var s: string;
 func adios(z:int, k:float){
     var x: string;
     var y: int;
+    x = "Hola";
     y = y + z;
 }
 
@@ -18,5 +19,5 @@ main() {
     var two: float;
     one = 1;
     two = 2.0;
-    two = two * one + x;
+    two = two * one + 3;
 }

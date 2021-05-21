@@ -6,6 +6,7 @@ from GenerateCode.Function_Dir import Function_Dir
 from GenerateCode.Variables_Dir import Variables_Dir
 from GenerateCode.QuadruplesManager import QuadrupleManager
 from VirtualMachine.Memory import Memory
+from GenerateCode.CteTable import CteTable
 
 
 class QCASQ_Parser:
@@ -18,6 +19,7 @@ class QCASQ_Parser:
     class_dir = Class_Dir()
     quads = QuadrupleManager()
     memory = Memory()
+    ctes = CteTable()
 
     # --------- Definition of grammatical rules ------------
     def p_program(self, p):
@@ -328,12 +330,26 @@ class QCASQ_Parser:
         ''' save_const : '''
         # Save consts that are int and float
         if not isinstance(p[-1], str):
+            if  type(p[-1]).__name__ == "int":
+                address = self.memory.getAddress("intC") + self.memory.getCont("intC")
+                self.ctes.addInt(str(p[-1]), address)
+                self.memory.upCont("intC")
+            else:
+                address = self.memory.getAddress("floatC") + self.memory.getCont("floatC")
+                self.ctes.addFloat(str(p[-1]), address)
+                self.memory.upCont("floatC")
             self.quads.add_operand(p[-1], type(p[-1]).__name__)
         # save constant strings
         elif isinstance(p[-1], str) and p[-1][0] == '"':
+            address = self.memory.getAddress("stringC") + self.memory.getCont("stringC")
+            self.ctes.addString(p[-1], address)
+            self.memory.upCont("stringC")
             self.quads.add_operand(p[-1], "string")
         # save booleans
         elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
+            address = self.memory.getAddress("boolC") + self.memory.getCont("boolC")
+            self.ctes.addBool(str(p[-1]), address)
+            self.memory.upCont("boolC")
             self.quads.add_operand(p[-1], "bool")
         pass
 
