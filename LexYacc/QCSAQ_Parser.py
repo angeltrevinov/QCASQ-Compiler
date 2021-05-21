@@ -5,7 +5,7 @@ from GenerateCode.Class_Dir import Class_Dir
 from GenerateCode.Function_Dir import Function_Dir
 from GenerateCode.Variables_Dir import Variables_Dir
 from GenerateCode.QuadruplesManager import QuadrupleManager
-from VirtualMachine.Memory import Memory
+from VirtualMachine.Limits import Limits
 from GenerateCode.CteTable import CteTable
 
 
@@ -18,7 +18,7 @@ class QCASQ_Parser:
     # initialize function director
     class_dir = Class_Dir()
     quads = QuadrupleManager()
-    memory = Memory()
+    limits = Limits()
     ctes = CteTable()
 
     # --------- Definition of grammatical rules ------------
@@ -128,22 +128,22 @@ class QCASQ_Parser:
             if class_func_scope_length == 0:
                 if len(self.class_dir.get_scope()) == 1:
                     tipo = p[-1] + "G"
-                    address = self.memory.getAddress(tipo) + self.memory.getCont(tipo)
+                    address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
                     self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1], address)
-                    self.memory.upCont(tipo)
+                    self.limits.upCont(tipo)
                 else:
                     self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1], 0)
             else:
                 # local variables for a class
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
                 tipo = p[-1] + "L"
-                address = self.memory.getAddress(tipo) + self.memory.getCont(tipo)
+                address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
                 self.class_dir.get_class(
                     class_scope
                 )["function_dir"].get_function(
                     func_scope
                 )["tablevars"].add_to_dictionary(element, p[-1],address)
-                self.memory.upCont(tipo)
+                self.limits.upCont(tipo)
 
         self.__stack_vars.clear()
         pass
@@ -203,13 +203,13 @@ class QCASQ_Parser:
         func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
         for param in self.__stack_params:
             name, type = param
-            address = self.memory.getAddress(type + "L") + self.memory.getCont(type + "L")
+            address = self.limits.getAddress(type + "L") + self.limits.getCont(type + "L")
             self.class_dir.get_class(
                 class_scope
             )["function_dir"].get_function(
                 func_scope
             )["params"].add_to_dictionary(name, type, address)
-            self.memory.upCont(type + "L")
+            self.limits.upCont(type + "L")
         self.__stack_params.clear()
 
     def p_remove_function_scope(self, p):
@@ -331,28 +331,28 @@ class QCASQ_Parser:
         # Save consts that are int and float
         if not isinstance(p[-1], str):
             if  type(p[-1]).__name__ == "int":
-                address = self.memory.getAddress("intC") + self.memory.getCont("intC")
+                address = self.limits.getAddress("intC") + self.limits.getCont("intC")
                 self.ctes.addInt(str(p[-1]), address)
-                self.memory.upCont("intC")
+                self.limits.upCont("intC")
                 address = self.ctes.getInt(str(p[-1]))
             else:
-                address = self.memory.getAddress("floatC") + self.memory.getCont("floatC")
+                address = self.limits.getAddress("floatC") + self.limits.getCont("floatC")
                 self.ctes.addFloat(str(p[-1]), address)
-                self.memory.upCont("floatC")
+                self.limits.upCont("floatC")
                 address = self.ctes.getFloat(str(p[-1]))
             self.quads.add_operand(address, type(p[-1]).__name__)
         # save constant strings
         elif isinstance(p[-1], str) and p[-1][0] == '"':
-            address = self.memory.getAddress("stringC") + self.memory.getCont("stringC")
+            address = self.limits.getAddress("stringC") + self.limits.getCont("stringC")
             self.ctes.addString(p[-1], address)
-            self.memory.upCont("stringC")
+            self.limits.upCont("stringC")
             address = self.ctes.getString(p[-1])
             self.quads.add_operand(address, "string")
         # save booleans
         elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
-            address = self.memory.getAddress("boolC") + self.memory.getCont("boolC")
+            address = self.limits.getAddress("boolC") + self.limits.getCont("boolC")
             self.ctes.addBool(str(p[-1]), address)
-            self.memory.upCont("boolC")
+            self.limits.upCont("boolC")
             address = self.ctes.getBool(p[-1])
             self.quads.add_operand(address, "bool")
         pass

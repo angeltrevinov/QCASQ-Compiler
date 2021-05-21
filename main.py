@@ -1,6 +1,5 @@
 from LexYacc.QCASQ_Lexer import QCASQ_Lexer
 from LexYacc.QCSAQ_Parser import QCASQ_Parser
-from GenerateCode.CteTable import CteTable
 
 def test_from_file():
     """Read from a file and tries to compile it.
@@ -17,7 +16,6 @@ def test_from_file():
     # Creates the Lex and Parser objects
     lexer = QCASQ_Lexer()
     pars = QCASQ_Parser(lexer)
-    ctes = CteTable()
 
     # Enable only this lines to test the lexer
     # lex = lexer.lexer
@@ -30,7 +28,6 @@ def test_from_file():
     # Prints the function directory generated after finishing reading code
     pars.class_dir.print_dictionary()
     pars.quads.print_quadruples()
-    ctes.print_ctes()
 
     if pars.get_error():
         print("Something went wrong")
