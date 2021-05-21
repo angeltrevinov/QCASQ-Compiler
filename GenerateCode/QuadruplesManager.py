@@ -1,5 +1,6 @@
 from GenerateCode.OpHerarchies import Operators
 from GenerateCode.OpHerarchies import Hierarchies
+from GenerateCode.OpHerarchies import OprTranslator
 from GenerateCode.SemanticCube import SemanticCube
 from GenerateCode.Types import Types
 import sys
@@ -9,6 +10,7 @@ class QuadrupleManager:
 
     # So we can search the hierarchies of incoming operators
     semantic_cube = SemanticCube()
+    oprTrans = OprTranslator()
     __operators = Operators().OpHierarchy
     __stack_quadruples__: list   # to control the order of the quadruples quadruples (This needs to be virtual memory)
     __polish_vector__: list    # the help of the polish vector to store our variables
@@ -20,7 +22,7 @@ class QuadrupleManager:
         self.__polish_vector__ = []
         self.__stack_operators__ = []
 
-    def add_operand(self, variable:str, type: str):
+    def add_operand(self, variable:int, type: str):
         """
         Method that adds the operand and its type to the polish vector
 
@@ -37,7 +39,6 @@ class QuadrupleManager:
         :param operator: the operator that is coming
         :type operator: str
         """
-        #TODO: change vars name to virtual memory
 
         # change commas to output operators
         if operator == ",":
@@ -69,6 +70,7 @@ class QuadrupleManager:
                 type = self.semantic_cube.get_result(op1[1], op2[1], opr)
                 if type == Types.INVALID.value:
                     sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
+
                 self.__add_to_quadruplues__(opr, op1, op2, ("t" + str(len(self.__stack_quadruples__)), type))
         # check for comparisons
         elif self.__operators[operator] == Hierarchies.COMPARISON and len(self.__stack_operators__) > 0:
@@ -156,7 +158,7 @@ class QuadrupleManager:
 
     def print_quadruples(self):
         for index, quadruple in enumerate(self.__stack_quadruples__):
-            print(index+1, ".-", quadruple)
+            print(index+1, ".-", quadruple["operator"], quadruple["operand1"], quadruple["operand2"], quadruple["storage"])
 
 
     def get_quadruples(self):
@@ -205,7 +207,7 @@ class QuadrupleManager:
         :type operand2: tuple
         """
         self.__stack_quadruples__.append({
-            "operator": operator,
+            "operator": self.oprTrans.translate(operator),
             "operand1": operand1,
             "operand2": operand2,
             "storage": storage

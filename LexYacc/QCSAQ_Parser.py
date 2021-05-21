@@ -334,23 +334,27 @@ class QCASQ_Parser:
                 address = self.memory.getAddress("intC") + self.memory.getCont("intC")
                 self.ctes.addInt(str(p[-1]), address)
                 self.memory.upCont("intC")
+                address = self.ctes.getInt(str(p[-1]))
             else:
                 address = self.memory.getAddress("floatC") + self.memory.getCont("floatC")
                 self.ctes.addFloat(str(p[-1]), address)
                 self.memory.upCont("floatC")
-            self.quads.add_operand(p[-1], type(p[-1]).__name__)
+                address = self.ctes.getFloat(str(p[-1]))
+            self.quads.add_operand(address, type(p[-1]).__name__)
         # save constant strings
         elif isinstance(p[-1], str) and p[-1][0] == '"':
             address = self.memory.getAddress("stringC") + self.memory.getCont("stringC")
             self.ctes.addString(p[-1], address)
             self.memory.upCont("stringC")
-            self.quads.add_operand(p[-1], "string")
+            address = self.ctes.getString(p[-1])
+            self.quads.add_operand(address, "string")
         # save booleans
         elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
             address = self.memory.getAddress("boolC") + self.memory.getCont("boolC")
             self.ctes.addBool(str(p[-1]), address)
             self.memory.upCont("boolC")
-            self.quads.add_operand(p[-1], "bool")
+            address = self.ctes.getBool(p[-1])
+            self.quads.add_operand(address, "bool")
         pass
 
     def p_save_comp(self, p):
@@ -398,7 +402,7 @@ class QCASQ_Parser:
     def check_table_vars(self, tablevars: Variables_Dir, var_name: str) -> tuple: #( var , type)
         if var_name in tablevars.get_dictionary():
             var = tablevars.get_variable(var_name)
-            return var_name, var["type"]
+            return var["address"], var["type"]
         else:
             return None
 

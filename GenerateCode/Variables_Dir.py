@@ -28,7 +28,6 @@ class Variables_Dir:
         }
 
 #TODO:
-# Crear tabla de constantes globales
 # Clases definir divisiones con sus divisiones de global y local
     def get_dictionary(self) -> dict:
         """Returns the variable dictionary object
