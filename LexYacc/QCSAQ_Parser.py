@@ -470,13 +470,24 @@ class QCASQ_Parser:
         '''
         pass
 
+# TODO: change endif in else
     def p_condition(self, p):
         '''
-        condition : IF OPENPAREN expresion CLOSEPAREN OPENCURLY altcondition
-                    | IF OPENPAREN expresion CLOSEPAREN  OPENCURLY  altcondition ELSE OPENCURLY altcondition
+        condition : IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if
+                    | IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if ELSE OPENCURLY altcondition
         altcondition : estatuto altcondition
                     | CLOSECURLY
         '''
+        pass
+
+    def p_add_gotof(self, p):
+        ''' add_gotof : '''
+        self.quads.add_to_stack_op("gotof")
+        pass
+
+    def p_add_end_if(self, p):
+        ''' add_end_if : '''
+        self.quads.completeGotoF()
         pass
 
     def p_assign(self, p):

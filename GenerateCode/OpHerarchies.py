@@ -10,6 +10,8 @@ class Hierarchies(enum.IntEnum):
     RETURN      = 7
     OUTPUT      = 8
     INPUT       = 9
+    GOTOF       = 10
+    GOTO        = 11
 
 class OprTranslator():
     OprTrans = {
@@ -28,7 +30,9 @@ class OprTranslator():
         "=": 13,
         "return": 14,
         "input": 15,
-        "output": 16
+        "output": 16,
+        "gotof" : 17,
+        "goto": 18,
     }
 
     def translate(self, opr: str):
@@ -55,4 +59,6 @@ class Operators():
         "return": Hierarchies.RETURN,
         "input": Hierarchies.INPUT,
         "output": Hierarchies.OUTPUT,
+        "gotof": Hierarchies.GOTOF,
+        "goto": Hierarchies.GOTO,
     }

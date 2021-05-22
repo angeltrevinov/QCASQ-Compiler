@@ -17,12 +17,14 @@ class QuadrupleManager:
     __stack_quadruples__: list   # to control the order of the quadruples quadruples (This needs to be virtual memory)
     __polish_vector__: list    # the help of the polish vector to store our variables
     __stack_operators__: list    # to help for the hierarchy of our operations
+    __stack_jumps__: list   # help to control the jumps of non-lineal states
 
     def __init__(self):
         # create empty arrays to fill while reading the code
         self.__stack_quadruples__ = []
         self.__polish_vector__ = []
         self.__stack_operators__ = []
+        self.__stack_jumps__ = []
 
     def add_operand(self, variable:int, type: str):
         """
@@ -47,6 +49,14 @@ class QuadrupleManager:
             operator = "output"
         if operator == ")":
             self.__empty_false_stack()
+        elif self.__operators[operator] == Hierarchies.GOTOF:
+            self.empty_polish_vector()
+            op = self.__pop_operand_stack()
+            print(op)
+            if op[1] != Types.BOOL.value:
+                sys.exit(f"The result of an if must be boolean")
+            self.__add_to_quadruplues__(operator, op, (), ())
+            self.__stack_jumps__.append(len(self.__stack_quadruples__) - 1)
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
@@ -104,13 +114,13 @@ class QuadrupleManager:
                 self.__add_to_quadruplues__(opr, op1, op2, (None, type))
         # check for OUTPUT
         elif (
-                self.__operators[operator] == Hierarchies.OUTPUT and
-                len(self.__stack_operators__) > 0
+                self.__operators[operator] == Hierarchies.OUTPUT
+                and len(self.__stack_operators__) > 0
         ):
             self.empty_polish_vector()
 
         # insert the incoming operator
-        if operator != ")":
+        if operator != ")" and self.__operators[operator] != Hierarchies.GOTOF:
             self.__stack_operators__.append(operator)
 
     def empty_polish_vector(self):
@@ -118,6 +128,7 @@ class QuadrupleManager:
         Empty the polish vector when we are at the end of the expresion
         """
         # until  the stack operator is empty
+        print(self.__stack_operators__)
         while len(self.__stack_operators__) > 0:
             if self.__operators[self.__stack_operators__[-1]] == Hierarchies.OUTPUT:
                 opr = self.__pop_operator_stack()
@@ -160,11 +171,15 @@ class QuadrupleManager:
 
     def print_quadruples(self):
         for index, quadruple in enumerate(self.__stack_quadruples__):
-            print(index+1, ".-", quadruple["operator"], quadruple["operand1"], quadruple["operand2"], quadruple["storage"])
+            print(index, ".-", quadruple["operator"], quadruple["operand1"], quadruple["operand2"], quadruple["storage"])
 
 
     def get_quadruples(self):
         return self.__stack_quadruples__
+
+    def completeGotoF(self):
+        destino = self.__pop_jumps_stack()
+        self.__stack_quadruples__[destino]["storage"] = (len(self.__stack_quadruples__))
 
 
     def __empty_false_stack(self):
@@ -210,7 +225,7 @@ class QuadrupleManager:
         """
         #print("Here ",storage)
         #print(self.__stack_quadruples__)
-        if storage[0] == None:
+        if len(storage) > 0 and storage[0] == None:
             address = self.limits.getAddress(str(storage[1]) + "T") + self.limits.getCont(str(storage[1]) + "T")
             self.limits.upCont(str(storage[1]) + "T")
             storage = (address, storage[1])
@@ -223,4 +238,10 @@ class QuadrupleManager:
         })
         if self.__operators[operator] <= Hierarchies.LOGIC:
             self.add_operand(storage[0], storage[1])
+
+    def __pop_jumps_stack(self) -> int:
+        jump = self.__stack_jumps__[-1]
+        self.__stack_jumps__.pop()
+        return jump
+
 

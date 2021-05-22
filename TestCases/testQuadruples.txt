@@ -3,21 +3,19 @@ program Example;
 
 var x: int;
 var j: float;
-var k: int;
-var s: string;
 
-func adios(z:int, k:float){
-    var x: string;
-    var y: int;
-    x = "Hola";
-    y = y + z;
+func adios(){
+    if (3 < 5) {
+        x = 2;
+        if (true) {
+            x = 4;
+        }
+    }
 }
 
 main() {
     x = 3;
     var one: int;
     var two: float;
-    one = 1;
-    two = 2.0;
     two = two * one + 3;
 }
