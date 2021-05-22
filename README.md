@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Agregar estatutos if else a quads          | Mayo 21     |
 | Agregar estatutos if simples a quads       | Mayo 21     |    
 | Cambio de temporales a dir virtual en quads| Mayo 20     |
 | Cambio de name a direccion en quadruples   | Mayo 20     |

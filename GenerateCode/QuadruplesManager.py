@@ -52,10 +52,12 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.GOTOF:
             self.empty_polish_vector()
             op = self.__pop_operand_stack()
-            print(op)
             if op[1] != Types.BOOL.value:
                 sys.exit(f"The result of an if must be boolean")
             self.__add_to_quadruplues__(operator, op, (), ())
+            self.__stack_jumps__.append(len(self.__stack_quadruples__) - 1)
+        elif self.__operators[operator] == Hierarchies.GOTO:
+            self.__add_to_quadruplues__(operator, (), (), ())
             self.__stack_jumps__.append(len(self.__stack_quadruples__) - 1)
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
@@ -120,7 +122,7 @@ class QuadrupleManager:
             self.empty_polish_vector()
 
         # insert the incoming operator
-        if operator != ")" and self.__operators[operator] != Hierarchies.GOTOF:
+        if operator != ")" and self.__operators[operator] != Hierarchies.GOTOF and self.__operators[operator] != Hierarchies.GOTO:
             self.__stack_operators__.append(operator)
 
     def empty_polish_vector(self):
@@ -128,7 +130,6 @@ class QuadrupleManager:
         Empty the polish vector when we are at the end of the expresion
         """
         # until  the stack operator is empty
-        print(self.__stack_operators__)
         while len(self.__stack_operators__) > 0:
             if self.__operators[self.__stack_operators__[-1]] == Hierarchies.OUTPUT:
                 opr = self.__pop_operator_stack()
@@ -177,9 +178,13 @@ class QuadrupleManager:
     def get_quadruples(self):
         return self.__stack_quadruples__
 
-    def completeGotoF(self):
-        destino = self.__pop_jumps_stack()
-        self.__stack_quadruples__[destino]["storage"] = (len(self.__stack_quadruples__))
+    def completeGoto(self, tipo: str):
+        if self.__operators[tipo] == Hierarchies.GOTOF:
+            destino = self.__pop_jumps_stack()
+            self.__stack_quadruples__[destino]["storage"] = (len(self.__stack_quadruples__))
+        else:
+            destino = self.__pop_jumps_stack()
+            self.__stack_quadruples__[destino]["storage"] = (len(self.__stack_quadruples__) + 1)
 
 
     def __empty_false_stack(self):

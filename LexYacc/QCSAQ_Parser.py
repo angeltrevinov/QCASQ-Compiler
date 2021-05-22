@@ -474,7 +474,7 @@ class QCASQ_Parser:
     def p_condition(self, p):
         '''
         condition : IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if
-                    | IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if ELSE OPENCURLY altcondition
+                    | IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if
         altcondition : estatuto altcondition
                     | CLOSECURLY
         '''
@@ -487,7 +487,13 @@ class QCASQ_Parser:
 
     def p_add_end_if(self, p):
         ''' add_end_if : '''
-        self.quads.completeGotoF()
+        self.quads.completeGoto("gotof")
+        pass
+
+    def p_generate_goto(self, p):
+        ''' generate_goto : '''
+        self.quads.completeGoto("goto")
+        self.quads.add_to_stack_op("goto")
         pass
 
     def p_assign(self, p):

@@ -7,9 +7,6 @@ var j: float;
 func adios(){
     if (3 < 5) {
         x = 2;
-        if (true) {
-            x = 4;
-        }
     }
 }
 
