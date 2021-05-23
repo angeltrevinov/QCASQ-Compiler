@@ -58,3 +58,9 @@ class Limits:
 
     def getCont(self, type: str):
         return self.cont[type]
+
+    def reset_locals(self):
+        self.cont["intL"] = 0
+        self.cont["floatL"] = 0
+        self.cont["stringL"] = 0
+        self.cont["boolL"] = 0

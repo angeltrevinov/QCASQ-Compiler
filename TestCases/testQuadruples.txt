@@ -5,12 +5,13 @@ var x: int;
 var j: float;
 
 func adios(){
-    while(5 < 3){
-        if(3>5){
-            x = 6;
-        }
-        x = 4;
-    }
+    var j: int;
+    var f: float;
+}
+
+func hola(){
+    var j: int;
+    var f: float;
 }
 
 main() {

@@ -27,8 +27,7 @@ class Variables_Dir:
             "address": cont
         }
 
-#TODO:
-# Clases definir divisiones con sus divisiones de global y local
+#TODO: Clases definir divisiones con sus divisiones de global y local
     def get_dictionary(self) -> dict:
         """Returns the variable dictionary object
 

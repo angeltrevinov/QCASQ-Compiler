@@ -167,7 +167,7 @@ class QuadrupleManager:
                 op  = self.__pop_operand_stack()
                 # TODO: check input send
                 self.__add_to_quadruplues__(opr, (), (), op)
-            # TODO: check returns, if, while and functions
+            # TODO: check functions
             else:
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
@@ -196,6 +196,8 @@ class QuadrupleManager:
     def add_jump_stack(self):
         self.__stack_jumps__.append((len(self.__stack_quadruples__)))
 
+    #TODO: Pars data to send to VM
+    
     def __empty_false_stack(self):
         while self.__stack_operators__[-1] != "(":
             opr = self.__pop_operator_stack()

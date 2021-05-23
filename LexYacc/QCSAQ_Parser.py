@@ -59,6 +59,7 @@ class QCASQ_Parser:
         self.class_dir.get_class(
             self.class_dir.get_current_scope()
         )["function_dir"].add_to_scope(p[-1])
+        self.limits.reset_locals()
         pass
 
     def p_class(self, p):
@@ -109,6 +110,7 @@ class QCASQ_Parser:
         self.class_dir.get_class(
             self.class_dir.get_current_scope()
         )["function_dir"].add_to_scope(p[-1])
+        self.limits.reset_locals()
         pass
 
     def p_var(self, p):
@@ -195,6 +197,7 @@ class QCASQ_Parser:
         class_scope = self.class_dir.get_current_scope()
         self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
         self.class_dir.get_class(class_scope)["function_dir"].add_to_scope(p[-5])
+        self.limits.reset_locals()
         pass
 
     def p_store_params(self, p):
