@@ -5,8 +5,11 @@ var x: int;
 var j: float;
 
 func adios(){
-    if (3 < 5) {
-        x = 2;
+    while(5 < 3){
+        if(3>5){
+            x = 6;
+        }
+        x = 4;
     }
 }
 

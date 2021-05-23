@@ -286,10 +286,20 @@ class QCASQ_Parser:
 
     def p_while(self, p):
         '''
-        while    : WHILE OPENPAREN expresion CLOSEPAREN OPENCURLY altwhile
+        while    : WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while
         altwhile : estatuto altwhile
                 | CLOSECURLY
         '''
+        pass
+
+    def p_add_stack_jump(self, p):
+        ''' add_stack_jump : '''
+        self.quads.add_jump_stack()
+        pass
+
+    def p_end_while(self, p):
+        ''' end_while : '''
+        self.quads.add_to_stack_op("gotow")
         pass
 
     def p_varcall(self, p):
@@ -470,7 +480,6 @@ class QCASQ_Parser:
         '''
         pass
 
-# TODO: change endif in else
     def p_condition(self, p):
         '''
         condition : IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if
