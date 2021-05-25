@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Hace el parseo hacia la VM                 | Mayo 23     |
 | Agregar estatutos while a quads            | Mayo 22     |
 | Agregar estatutos if else a quads          | Mayo 21     |
 | Agregar estatutos if simples a quads       | Mayo 21     |    

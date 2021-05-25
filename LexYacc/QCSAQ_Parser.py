@@ -7,6 +7,7 @@ from GenerateCode.Variables_Dir import Variables_Dir
 from GenerateCode.QuadruplesManager import QuadrupleManager
 from VirtualMachine.Limits import Limits
 from GenerateCode.CteTable import CteTable
+import json
 
 
 class QCASQ_Parser:
@@ -86,6 +87,10 @@ class QCASQ_Parser:
     # Removes the class from the scope
     def p_remove_class_scope(self, p):
         ''' remove_class_scope : '''
+        class_scope = self.class_dir.get_current_scope()
+        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        count = self.limits.get_local_vars_count()
+        self.class_dir.get_class(class_scope)["function_dir"].add_num_vars(count, func_scope)
         self.class_dir.pop_scope()
         pass
 
@@ -218,7 +223,11 @@ class QCASQ_Parser:
     def p_remove_function_scope(self, p):
         ''' remove_function_scope : '''
         class_scope = self.class_dir.get_current_scope()
+        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        count = self.limits.get_local_vars_count()
+        self.class_dir.get_class(class_scope)["function_dir"].add_num_vars(count, func_scope)
         self.class_dir.get_class(class_scope)["function_dir"].pop_scope()
+
         pass
 
     def p_params(self, p):
@@ -538,6 +547,20 @@ class QCASQ_Parser:
         """
         self.parser = yacc.yacc(module=self, debug=True)  # To use debug add debug = True
         self.lexer = lexer
+
+    def pars_data_vm(self):
+        counts = self.limits.get_global_vars_count()
+        self.class_dir.add_num_vars(counts)
+        obj = {
+            "ClassDir"   : self.class_dir.get_dictionary(),
+            "Constants"  : self.ctes.get_ctes_table(),
+            "Quadruples" : self.quads.get_quadruples()
+        }
+
+        return obj
+
+
+
 
     def get_error(self) -> bool:
         """

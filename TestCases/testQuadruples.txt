@@ -12,11 +12,12 @@ func adios(){
 func hola(){
     var j: int;
     var f: float;
+    x = j + x / 4 - (j * 3 + x);
 }
 
 main() {
     x = 3;
     var one: int;
-    var two: float;
+    var two: int;
     two = two * one + 3;
 }

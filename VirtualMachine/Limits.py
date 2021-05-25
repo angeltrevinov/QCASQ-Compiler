@@ -59,8 +59,41 @@ class Limits:
     def getCont(self, type: str):
         return self.cont[type]
 
+    def get_global_vars_count(self):
+        ints = self.cont["intG"]
+        floats = self.cont["floatG"]
+        string = self.cont["stringG"]
+        bool = self.cont["boolG"]
+
+        obj = {
+            "int" : ints,
+            "float" : floats,
+            "string" : string,
+            "bool" : bool
+        }
+        return obj
+
+    def get_local_vars_count(self):
+        ints = self.cont["intL"] + self.cont["intT"]
+        floats = self.cont["floatL"] + self.cont["floatT"]
+        string = self.cont["stringL"] + self.cont["stringT"]
+        bool = self.cont["boolL"] + self.cont["boolT"]
+
+        obj = {
+            "int": ints,
+            "float": floats,
+            "string": string,
+            "bool": bool
+        }
+        return obj
+
     def reset_locals(self):
         self.cont["intL"] = 0
         self.cont["floatL"] = 0
         self.cont["stringL"] = 0
         self.cont["boolL"] = 0
+        self.cont["intT"] = 0
+        self.cont["floatT"] = 0
+        self.cont["stringT"] = 0
+        self.cont["boolT"] = 0
+

@@ -28,7 +28,7 @@ class Function_Dir:
         self.__func_dict__[name_function] = {
             "tablevars": Variables_Dir(),
             "params": Variables_Dir(),
-            "type": type
+            "type": type,
         }
 
     def get_dictionary(self) -> dict:
@@ -76,3 +76,6 @@ class Function_Dir:
         :rtype: list
         """
         return self.__scope_controller
+
+    def add_num_vars(self, count : dict, name_function: str):
+        self.__func_dict__[name_function]["varsNum"] = count

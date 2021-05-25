@@ -36,6 +36,16 @@ class CteTable:
     def getBool(self, value: str):
         return self.bools[value]
 
+    def get_ctes_table(self):
+        obj = {
+            "int" : self.ints,
+            "float" : self.floats,
+            "string" : self.strings,
+            "bool" : self.bools
+        }
+
+        return obj
+
     def print_ctes(self):
         print("Aqui empiezan los INT")
         self.print_tipo(self.ints)

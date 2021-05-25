@@ -60,3 +60,6 @@ class Class_Dir:
         :rtype: list
         """
         return self.__scope_controller
+
+    def add_num_vars(self, count : dict):
+        self.__class_dir__["varsNum"] = count
