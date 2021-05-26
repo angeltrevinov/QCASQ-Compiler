@@ -11,6 +11,7 @@ class VM:
     operadores = OprTranslator().OprTrans
     quadruples = []
     semanticCube = SemanticCube()
+    IP: int
 
     def __init__(self, obj: dict):
         #print(obj)
@@ -27,11 +28,13 @@ class VM:
 
     def execute_quadruples(self):
         #TODO: change to IP
-        for quad in self.quadruples:
-            self.resolve_quad(quad)
+        self.IP = 0
+        while self.IP < len(self.quadruples):
+            self.resolve_quad(self.quadruples[self.IP])
 
 
     def resolve_quad(self, quad: dict):
+        #print("IP :", self.IP, quad)
         if self.operadores["*"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -40,6 +43,7 @@ class VM:
             storage = quad["storage"]
             res = op1 * op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["/"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -48,6 +52,7 @@ class VM:
             storage = quad["storage"]
             res = op1 / op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["+"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -56,6 +61,7 @@ class VM:
             storage = quad["storage"]
             res = op1 + op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["-"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -64,6 +70,7 @@ class VM:
             storage = quad["storage"]
             res = op1 - op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["<"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -72,6 +79,7 @@ class VM:
             storage = quad["storage"]
             res = op1 < op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["<="] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -80,6 +88,7 @@ class VM:
             storage = quad["storage"]
             res = op1 <= op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores[">"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -88,6 +97,7 @@ class VM:
             storage = quad["storage"]
             res = op1 > op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores[">="] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -96,6 +106,7 @@ class VM:
             storage = quad["storage"]
             res = op1 >= op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["=="] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -104,6 +115,7 @@ class VM:
             storage = quad["storage"]
             res = op1 == op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["!="] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -112,6 +124,7 @@ class VM:
             storage = quad["storage"]
             res = op1 != op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["&&"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -120,6 +133,7 @@ class VM:
             storage = quad["storage"]
             res = op1 and op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["||"] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
@@ -128,19 +142,32 @@ class VM:
             storage = quad["storage"]
             res = op1 or op2
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["output"] == quad["operator"]:
             storage = quad["storage"]
             print(self.ex.get_value(storage[0], storage[1]))
+            self.IP = self.IP + 1
         elif self.operadores["input"] == quad["operator"]:
             storage = quad["storage"]
             res = input()
             res = self.ex.cast_type(storage[1], res)
             self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
         elif self.operadores["="] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
             storage = quad["storage"]
             self.ex.save_value(storage[0], storage[1], op1)
+            self.IP = self.IP + 1
+        elif self.operadores["gotof"] == quad["operator"]:
+            op1 = quad["operand1"]
+            op1 = self.ex.get_value(op1[0], op1[1])
+            if op1 == False:
+                self.IP = quad["storage"]
+            else:
+                self.IP = self.IP + 1
+        elif self.operadores["goto"] == quad["operator"]:
+            self.IP = quad["storage"]
 
 
 

@@ -1,12 +1,17 @@
 //testCases/testQuadruples.txt
 program Example;
 
-var x: string;
+var x: int;
 var j: int;
 
 main() {
-    x = "hola";
-    //j = x * x + 4 - 6 / 3;
-    output(x);
-    output("adios");
+    x = 0;
+    output("Dame un valor para 'j'");
+    input(j);
+    while(j >= x){
+        output(j);
+        j = j - 1;
+    }
+    //output(x);
+    output("Estoy fuera del while");
 }

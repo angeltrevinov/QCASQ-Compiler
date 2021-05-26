@@ -1,6 +1,7 @@
 from GenerateCode.Function_Dir import Function_Dir
 from GenerateCode.Variables_Dir import Variables_Dir
 from VirtualMachine.Limits import Limits
+import sys
 
 class ExecutionMemory:
     base = Limits().offsets
@@ -87,11 +88,6 @@ class ExecutionMemory:
                 return int(var)
             elif value_type == 'float':
                 return float(var)
-            elif value_type == 'bool':
-                if var == 'false':
-                    return False
-                else:
-                    return True
             else:
                 return var
         except ValueError:
