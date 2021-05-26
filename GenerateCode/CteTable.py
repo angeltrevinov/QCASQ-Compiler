@@ -1,8 +1,14 @@
 
 class CteTable:
+    """
+    Class that manages our constants used and reserves a
+    space in our memory.
+    """
+
     ints = {}
     floats = {}
     strings = {}
+    # Set them right now because we only had two.
     bools = {
         "true" : 2200,
         "false" : 2201

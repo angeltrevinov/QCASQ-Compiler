@@ -11,16 +11,22 @@ import json
 
 
 class QCASQ_Parser:
+    """
+    The parser of our compiler. Here we are making sure the
+    input has a valid structure, create our func and vars
+    tables and creating quadruples.
+    """
+
     __error = False
     __stack_vars = []  # this is to store if multiple vars came as a list, so we can also add their type
     __stack_params = []  # to save the params in their corresponding function directory
-    tokens = QCASQ_Lexer.tokens
+    tokens = QCASQ_Lexer.tokens  # add the lexer
 
-    # initialize function director
+    # initialize Objects that we need
     class_dir = Class_Dir()
     quads = QuadrupleManager()
-    limits = Limits()
-    ctes = CteTable()
+    limits = Limits()  # where every type of variable starts in memory
+    ctes = CteTable()  # to save the constants that appear.
 
     # --------- Definition of grammatical rules ------------
     def p_program(self, p):
@@ -89,6 +95,7 @@ class QCASQ_Parser:
         ''' remove_class_scope : '''
         class_scope = self.class_dir.get_current_scope()
         func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        # save how many variables we have in the constructor
         count = self.limits.get_local_vars_count()
         self.class_dir.get_class(class_scope)["function_dir"].add_num_vars(count, func_scope)
         self.class_dir.pop_scope()
@@ -128,18 +135,31 @@ class QCASQ_Parser:
         '''
         save_vars :
         '''
-        class_func_scope_length = len(self.class_dir.get_class(self.class_dir.get_current_scope())["function_dir"].get_scope())
+        class_func_scope_length = len(
+            self.class_dir.get_class(
+                self.class_dir.get_current_scope()
+            )["function_dir"].get_scope()
+        )
         class_scope = self.class_dir.get_current_scope()
         for element in self.__stack_vars:
             # Global variables for that class
             if class_func_scope_length == 0:
+                # Check if we are in the global scope
                 if len(self.class_dir.get_scope()) == 1:
                     tipo = p[-1] + "G"
                     address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
-                    self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1], address)
+                    # Add the variable to global vars
+                    self.class_dir.get_class(
+                        class_scope
+                    )["tablevars"].add_to_dictionary(
+                        element, p[-1], address
+                    )
                     self.limits.upCont(tipo)
                 else:
-                    self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(element, p[-1], 0)
+                    # Checks if we are inside a class
+                    self.class_dir.get_class(
+                        class_scope
+                    )["tablevars"].add_to_dictionary(element, p[-1], 0)
             else:
                 # local variables for a class
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
@@ -198,7 +218,7 @@ class QCASQ_Parser:
     # Add function name and type to the dictionary
     def p_save_function(self, p):
         ''' save_function : '''
-        # Saving function with their type
+        # Saving function with their type to the function dir
         class_scope = self.class_dir.get_current_scope()
         self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
         self.class_dir.get_class(class_scope)["function_dir"].add_to_scope(p[-5])
@@ -224,6 +244,7 @@ class QCASQ_Parser:
         ''' remove_function_scope : '''
         class_scope = self.class_dir.get_current_scope()
         func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        # Save how many variables we used
         count = self.limits.get_local_vars_count()
         self.class_dir.get_class(class_scope)["function_dir"].add_num_vars(count, func_scope)
         self.class_dir.get_class(class_scope)["function_dir"].pop_scope()
@@ -352,7 +373,7 @@ class QCASQ_Parser:
         ''' save_const : '''
         # Save consts that are int and float
         if not isinstance(p[-1], str):
-            if  type(p[-1]).__name__ == "int":
+            if type(p[-1]).__name__ == "int":
                 address = self.limits.getAddress("intC") + self.limits.getCont("intC")
                 self.ctes.addInt(str(p[-1]), address)
                 self.limits.upCont("intC")
@@ -385,6 +406,7 @@ class QCASQ_Parser:
         pass
 
     def check_variable_exists(self, p):
+        """ Checks if the variable exists in any scope """
         var_found = False
         index_scope_class = len(self.class_dir.get_scope()) - 1
         while index_scope_class >= 0 and var_found is False:
@@ -393,7 +415,7 @@ class QCASQ_Parser:
                 print("function is found")
             else:
                 scope_class = self.class_dir.get_scope()[index_scope_class]  # get class scope we are checking
-                current_class = self.class_dir.get_class(scope_class) # get class object
+                current_class = self.class_dir.get_class(scope_class)  # get class object
                 var = self.check_var_exists_function(current_class["function_dir"], p[-1])
                 if var is None:
                     tablevars = current_class["tablevars"]
@@ -407,6 +429,15 @@ class QCASQ_Parser:
             sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
 
     def check_var_exists_function(self, function_dir: Function_Dir, var_name: str) -> tuple:
+        """ Check that the var exists inside the function
+
+        :param function_dir: The function dictionary to look at
+        :type function_dir: Function_Dir
+        :param var_name: variable name to search for
+        :type var_name: str
+        :return: The variable info if found
+        :rtype: tuple
+        """
         index_scope_func = len(function_dir.get_scope()) - 1
         while index_scope_func >= 0:
             scope_func = function_dir.get_scope()[index_scope_func]
@@ -422,6 +453,15 @@ class QCASQ_Parser:
         return None
 
     def check_table_vars(self, tablevars: Variables_Dir, var_name: str) -> tuple: #( var , type)
+        """ Check that the variable exists inside the tables var
+
+        :param tablevars: The tables var to check at
+        :type tablevars: Variables_Dir
+        :param var_name:The var to look for
+        :type var_name: str
+        :return: The variables information
+        :rtype: tuple
+        """
         if var_name in tablevars.get_dictionary():
             var = tablevars.get_variable(var_name)
             return var["address"], var["type"]
@@ -549,6 +589,13 @@ class QCASQ_Parser:
         self.lexer = lexer
 
     def pars_data_vm(self):
+        """
+        Transform the collected data to an object our virtual
+        machine can understand.
+        :return:
+        :rtype:
+        """
+        # save the number of variables our global scope used.
         counts = self.limits.get_global_vars_count()
         self.class_dir.add_num_vars(counts)
         obj = {
@@ -556,11 +603,7 @@ class QCASQ_Parser:
             "Constants"  : self.ctes.get_ctes_table(),
             "Quadruples" : self.quads.get_quadruples()
         }
-
         return obj
-
-
-
 
     def get_error(self) -> bool:
         """

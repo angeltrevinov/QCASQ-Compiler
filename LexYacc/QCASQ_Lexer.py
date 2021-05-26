@@ -3,6 +3,10 @@ import ply.lex as lex
 
 
 class QCASQ_Lexer(object):
+    '''
+    Class that defines the tokens that are accepted.
+    The Lexer of our compiler.
+    '''
     # --------------- Definition of tokens -----------------
     tokens = [
         'SEMICOLON',            # ;

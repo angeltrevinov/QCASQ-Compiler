@@ -1,17 +1,36 @@
 from GenerateCode.Function_Dir import Function_Dir
 from GenerateCode.Variables_Dir import Variables_Dir
 
+
 class Class_Dir:
+    """
+    Class that manages the class directory, here we maintain
+    control of the scope of classes and add them to the
+    directory.
+    """
 
     def __init__(self):
-        self.__class_dir__ = {}
+        self.__class_dir__ = {}  # Were we are going to save all our classes
         self.__scope_controller = []  # the stack that controls the current scope
 
-
     def get_class(self, name_class: str) -> dict:
+        """
+        Gets the information of a class based on the name
+        :param name_class: name of class
+        :type name_class: str
+        :return: the information of the class
+        :rtype: dict
+        """
         return self.__class_dir__[name_class]
 
-    def add_to_dictionary(self, name_class: str, herencia: str= ""):
+    def add_to_dictionary(self, name_class: str, herencia: str = ""):
+        """
+        Adds the class to the dictionary of classes
+        :param name_class: the name of the class to add
+        :type name_class: str
+        :param herencia: if it has any inheritance
+        :type herencia: str
+        """
         self.__class_dir__[name_class] = {
             "function_dir": Function_Dir(),
             "tablevars": Variables_Dir(),
@@ -19,6 +38,10 @@ class Class_Dir:
         }
 
     def get_dictionary(self) -> dict:
+        """
+        :return: Returns the whole dictionary of our classes
+        :rtype: dict
+        """
         return self.__class_dir__
 
     def print_dictionary(self):
@@ -33,9 +56,8 @@ class Class_Dir:
             print("##### CLASS GLOBAL VARIABLES ####")
             self.get_class(element)["tablevars"].print_dictionary()
 
-
     def add_to_scope(self, scope: str):
-        """Adds the name of the func, class or program to the top of the scope stack
+        """Adds the name of the class or program to the top of the scope stack
         :param scope: The name of the current scope to add
         :type scope: str
         """
@@ -61,5 +83,10 @@ class Class_Dir:
         """
         return self.__scope_controller
 
-    def add_num_vars(self, count : dict):
+    def add_num_vars(self, count: dict):
+        """
+        Adds the number of variables that the scope used
+        :param count: the count object
+        :type count: dict
+        """
         self.__class_dir__["varsNum"] = count

@@ -6,9 +6,8 @@ def test_from_file():
     """Read from a file and tries to compile it.
 
     Tests from a file and tries to execute the following:
-        - Lex and Parser
-        - Function Directory & Var tables
-        - Semantic cube
+        - Parser
+        - Executed
     """
     file_name = input('Ingresa el nombre del archivo: \n')
     file = open(file_name, 'r')
@@ -31,7 +30,8 @@ def test_from_file():
     #pars.quads.print_quadruples()
     #print(pars.pars_data_vm())
 
-    # Ejecuta Execution Memory
+    # Executing the program
+    print("Ejecución empieza")
     em = VM(pars.pars_data_vm())
 
     if pars.get_error():
@@ -43,5 +43,3 @@ def test_from_file():
 
 if __name__ == '__main__':
     test_from_file()
-    #  test_direc()
-    # test_semantic_cube()
