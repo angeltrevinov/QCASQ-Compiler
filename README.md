@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Ejecuta input                              | Mayo 24     |
 | Ejecuta expresiones aritmeticas y output   | Mayo 24     |
 | Crea los espacios de memoria global/local  | Mayo 24     |
 | Hace el parseo hacia la VM                 | Mayo 23     |

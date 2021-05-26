@@ -1,12 +1,16 @@
 from VirtualMachine.ExecutionMemory import ExecutionMemory
 from GenerateCode.Function_Dir import Function_Dir
 from GenerateCode.OpHerarchies import OprTranslator
+from GenerateCode.SemanticCube import SemanticCube
+from GenerateCode.Types import Types
+import sys
 
 class VM:
 
     ex = ExecutionMemory()
     operadores = OprTranslator().OprTrans
     quadruples = []
+    semanticCube = SemanticCube()
 
     def __init__(self, obj: dict):
         #print(obj)
@@ -127,12 +131,16 @@ class VM:
         elif self.operadores["output"] == quad["operator"]:
             storage = quad["storage"]
             print(self.ex.get_value(storage[0], storage[1]))
+        elif self.operadores["input"] == quad["operator"]:
+            storage = quad["storage"]
+            res = input()
+            res = self.ex.cast_type(storage[1], res)
+            self.ex.save_value(storage[0], storage[1], res)
         elif self.operadores["="] == quad["operator"]:
             op1 = quad["operand1"]
             op1 = self.ex.get_value(op1[0], op1[1])
             storage = quad["storage"]
             self.ex.save_value(storage[0], storage[1], op1)
-
 
 
 
