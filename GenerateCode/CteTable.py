@@ -4,8 +4,8 @@ class CteTable:
     floats = {}
     strings = {}
     bools = {
-        "true" : 3800,
-        "false" : 3801
+        "true" : 2200,
+        "false" : 2201
     }
 
     def addInt(self, value: str, address: int):

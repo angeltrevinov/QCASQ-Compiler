@@ -2,22 +2,14 @@
 program Example;
 
 var x: int;
-var j: float;
+var j: int;
 
-func adios(){
-    var j: int;
-    var f: float;
-}
-
-func hola(){
-    var j: int;
-    var f: float;
-    x = j + x / 4 - (j * 3 + x);
+func uno(){
+    var i: int;
+    i = 3;
+    i = i * x;
 }
 
 main() {
-    x = 3;
-    var one: int;
-    var two: int;
-    two = two * one + 3;
+    j = x * x + 4 + 5 + 3;
 }

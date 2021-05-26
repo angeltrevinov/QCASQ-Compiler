@@ -241,8 +241,8 @@ class QuadrupleManager:
         #print("Here ",storage)
         #print(self.__stack_quadruples__)
         if len(storage) > 0 and storage[0] == None:
-            address = self.limits.getAddress(str(storage[1]) + "T") + self.limits.getCont(str(storage[1]) + "T")
-            self.limits.upCont(str(storage[1]) + "T")
+            address = self.limits.getAddress(str(storage[1]) + "L") + self.limits.getCont(str(storage[1]) + "L")
+            self.limits.upCont(str(storage[1]) + "L")
             storage = (address, storage[1])
 
         self.__stack_quadruples__.append({

@@ -19,12 +19,7 @@ class Limits:
         "intC": 1600,
         "floatC": 1800,
         "stringC": 2000,
-        "boolC": 2200,
-        ## Temporales
-        "intT": 2400,
-        "floatT": 2600,
-        "stringT": 2800,
-        "boolT": 3000
+        "boolC": 2200
     }
 
     cont = {
@@ -42,12 +37,7 @@ class Limits:
         "intC": 0,
         "floatC": 0,
         "stringC": 0,
-        "boolC": 0,
-        ## Temporales
-        "intT": 0,
-        "floatT": 0,
-        "stringT": 0,
-        "boolT": 0
+        "boolC": 0
     }
 
     def getAddress(self, type: str):
@@ -74,10 +64,10 @@ class Limits:
         return obj
 
     def get_local_vars_count(self):
-        ints = self.cont["intL"] + self.cont["intT"]
-        floats = self.cont["floatL"] + self.cont["floatT"]
-        string = self.cont["stringL"] + self.cont["stringT"]
-        bool = self.cont["boolL"] + self.cont["boolT"]
+        ints = self.cont["intL"]
+        floats = self.cont["floatL"]
+        string = self.cont["stringL"]
+        bool = self.cont["boolL"]
 
         obj = {
             "int": ints,
@@ -92,8 +82,4 @@ class Limits:
         self.cont["floatL"] = 0
         self.cont["stringL"] = 0
         self.cont["boolL"] = 0
-        self.cont["intT"] = 0
-        self.cont["floatT"] = 0
-        self.cont["stringT"] = 0
-        self.cont["boolT"] = 0
 
