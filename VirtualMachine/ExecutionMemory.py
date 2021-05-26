@@ -90,4 +90,13 @@ class ExecutionMemory:
             return self.memory["local"][self.base[tipo + "L"]][offset]
         elif dir >= 1600 and dir < 2400:
             offset = dir - self.base[tipo + "C"]
-            return self.memory["con"][self.base[tipo + "C"]][offset]
+            return self.memory["constant"][self.base[tipo + "C"]][offset]
+
+    def save_value(self, dir: int, tipo: str, value):
+        value = self.cast_to_type(tipo + "x", value) # 'x' will be removed by the function
+        if dir >= 0 and dir < 800:
+            offset = dir - self.base[tipo + "G"]
+            self.memory["global"][self.base[tipo + "G"]][offset] = value
+        elif dir >= 800 and dir < 1600:
+            offset = dir - self.base[tipo + "L"]
+            self.memory["local"][self.base[tipo + "L"]][offset] = value

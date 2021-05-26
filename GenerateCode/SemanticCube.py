@@ -107,7 +107,7 @@ class SemanticCube():
                 ">=": Types.BOOL,
                 ">": Types.BOOL,
                 "==": Types.BOOL,
-                "=": Types.INVALID,
+                "=": Types.FLOAT,
                 #"output": Types.STRING,
                 "input": Types.INVALID
             },

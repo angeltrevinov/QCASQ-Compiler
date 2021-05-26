@@ -4,12 +4,8 @@ program Example;
 var x: int;
 var j: int;
 
-func uno(){
-    var i: int;
-    i = 3;
-    i = i * x;
-}
-
 main() {
-    j = x * x + 4 + 5 + 3;
+    x = 3;
+    j = x * x + 4 - 6 / 3;
+    output(j);
 }

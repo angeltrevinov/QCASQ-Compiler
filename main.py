@@ -27,12 +27,12 @@ def test_from_file():
     parser.parse(src_file, tracking=True)
 
     # Prints the function directory generated after finishing reading code
-    pars.class_dir.print_dictionary()
-    pars.quads.print_quadruples()
+    #pars.class_dir.print_dictionary()
+    #pars.quads.print_quadruples()
     #print(pars.pars_data_vm())
 
     # Ejecuta Execution Memory
-    #em = VM(pars.pars_data_vm())
+    em = VM(pars.pars_data_vm())
 
     if pars.get_error():
         print("Something went wrong")
