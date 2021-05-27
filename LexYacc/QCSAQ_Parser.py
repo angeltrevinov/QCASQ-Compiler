@@ -25,6 +25,8 @@ class QCASQ_Parser:
     # initialize Objects that we need
     class_dir = Class_Dir()
     quads = QuadrupleManager()
+    stack_params = []
+    count_params = 0
     limits = Limits()  # where every type of variable starts in memory
     ctes = CteTable()  # to save the constants that appear.
 
@@ -272,17 +274,59 @@ class QCASQ_Parser:
 
     def p_callfunc(self, p):
         '''
-        callfunc    : ID OPENPAREN altcall CLOSEPAREN
-        altcall     : expresion alt2call
+        callfunc    : ID check_exists_func OPENPAREN altcall CLOSEPAREN
+        altcall     : expresion generate_param_quad alt2call
                     | empty
         alt2call   : COMMA altcall
                     | empty
         '''
+        #TODO: Check count params equals params in paramTable
+        #TODO: Check types ares the same in params
         if p[1] is not None:
-            # TODO: Fix this so we know is a method
             #p[0] = p[1]
             p[0] = None
         pass
+
+
+
+    def p_generate_param_quad(self, p):
+        ''' generate_param_quad : '''
+        #print(self.stack_params)
+        self.quads.empty_polish_vector()
+        self.quads.add_operand(self.stack_params[self.count_params]["address"], self.stack_params[self.count_params]["type"] )
+        self.quads.add_to_stack_op("params")
+        self.count_params = self.count_params + 1
+
+
+    def create_era(self, function: dict):
+        size = function["varsNum"]["int"] + function["varsNum"]["float"] + function["varsNum"]["string"] + function["varsNum"]["bool"]
+        self.quads.add_operand(size, "")
+        self.quads.add_to_stack_op("era")
+        params = function["params"].get_dictionary()
+        for param in params:
+            self.stack_params.append(params[param])
+
+
+
+
+
+    def p_check_exists_func(self, p):
+        ''' check_exists_func : '''
+        func_found = False
+        index_scope_class = len(self.class_dir.get_scope()) - 1
+        while index_scope_class >= 0 and func_found is False:
+            scope_class = self.class_dir.get_scope()[index_scope_class]
+            func_dir = self.class_dir.get_class(scope_class)["function_dir"].get_dictionary()
+            function = self.check_function_dir(func_dir, p[-1])
+            index_scope_class = index_scope_class-1
+            if function == None:
+                sys.exit(f"ERROR: couldn't find declaration of function {p[-1]} in line {p.lineno(-1)}")
+        self.create_era(function)
+        pass
+
+    def check_function_dir(self, func_dir: dict, func_name: str):
+        if func_name in func_dir:
+            return func_dir[func_name]
 
     def p_type(self, p):
         '''
@@ -309,10 +353,8 @@ class QCASQ_Parser:
 
     def p_voidcall(self, p):
         '''
-        voidcall : ID OPENPAREN CLOSEPAREN
-                | ID OPENPAREN expresion altcall
-        altcall : COMMA expresion altcall
-                | CLOSEPAREN SEMICOLON
+        voidcall : callfunc SEMICOLON
+                | ID DOT voidcall
         '''
         pass
 

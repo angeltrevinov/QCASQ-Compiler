@@ -4,22 +4,21 @@ program Example;
 var x: int;
 var j: int;
 
-func hola(){
-    output("hola");
-    output("hola");
+func hola(i:int, k:float){
+    output(i);
 }
 
-func adios(){
-    output("adios");
-    output("adios");
+func adios(i:int, k:int){
+    output(k);
 }
-
 main() {
     x = 0;
+    hola(x + 1, j);
     while(x + j >= x * 3){
         output(j);
         j = j - 1;
     }
+    adios(x, j);
     //output(x);
     output("Estoy fuera del while");
 }

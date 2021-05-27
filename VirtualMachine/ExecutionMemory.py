@@ -27,8 +27,6 @@ class ExecutionMemory:
         }
     }
 
-    #TODO: add funtions to load data
-
     def reserve_global_memory(self, varsNum : dict):
         self.memory["global"][self.base["intG"]] = [None] * varsNum["int"]
         self.memory["global"][self.base["floatG"]] = [None] * varsNum["float"]

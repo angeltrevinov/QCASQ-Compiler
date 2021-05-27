@@ -24,10 +24,8 @@ class VM:
         self.execute_quadruples()
         #print("Despues de ejecutar quads")
         #self.ex.print_memory()
-        # TODO: add for to execute quads
 
     def execute_quadruples(self):
-        #TODO: change to IP
         self.IP = 0
         while self.IP < len(self.quadruples):
             self.resolve_quad(self.quadruples[self.IP])
