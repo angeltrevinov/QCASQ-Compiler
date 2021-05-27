@@ -79,3 +79,6 @@ class Function_Dir:
 
     def add_num_vars(self, count : dict, name_function: str):
         self.__func_dict__[name_function]["varsNum"] = count
+
+    def add_quad_dir(self, dir: int, name_function: str):
+        self.__func_dict__[name_function]["startQuad"] = dir

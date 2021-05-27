@@ -17,6 +17,7 @@ class CteTable:
     def addInt(self, value: str, address: int):
         if value not in self.ints:
             self.ints[value] = address
+            return True
 
     def getInt(self, value: str):
         return self.ints[value]
@@ -24,6 +25,7 @@ class CteTable:
     def addFloat(self, value: str, address: int):
         if value not in self.floats:
             self.floats[value] = address
+            return True
 
     def getFloat(self, value: str):
         return self.floats[value]
@@ -31,6 +33,7 @@ class CteTable:
     def addString(self, value: str, address: int):
         if value not in self.strings:
             self.strings[value] = address
+            return True
 
     def getString(self, value: str):
         return self.strings[value]
@@ -38,6 +41,7 @@ class CteTable:
     def addBool(self, value: str, address: int):
         if value not in self.bools:
             self.bools[value] = address
+            return True
 
     def getBool(self, value: str):
         return self.bools[value]

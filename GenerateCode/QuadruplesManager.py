@@ -25,6 +25,8 @@ class QuadrupleManager:
         self.__polish_vector__ = []
         self.__stack_operators__ = []
         self.__stack_jumps__ = []
+        self.__add_to_quadruplues__("goto", (), (), ())
+        self.__stack_jumps__.append(len(self.__stack_quadruples__) - 1)
 
     def add_operand(self, variable:int, type: str):
         """
@@ -65,6 +67,8 @@ class QuadrupleManager:
             self.__add_to_quadruplues__("goto", (), (), ())
             self.__stack_quadruples__[len(self.__stack_quadruples__) - 1]["storage"] = ret
             self.__stack_quadruples__[falso]["storage"] = (len(self.__stack_quadruples__))
+        elif self.__operators[operator] == Hierarchies.ENDFUNC:
+            self.__add_to_quadruplues__("endfunc", (), (), ())
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
@@ -96,8 +100,9 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.COMPARISON and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy or higher
             while (
-                    self.__operators[self.__stack_operators__[-1]] == Hierarchies.COMPARISON or
-                    self.__operators[self.__stack_operators__[-1]] < Hierarchies.COMPARISON
+                    len(self.__stack_operators__) > 0 and
+                    (self.__operators[self.__stack_operators__[-1]] == Hierarchies.COMPARISON or
+                     self.__operators[self.__stack_operators__[-1]] < Hierarchies.COMPARISON)
             ):
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
@@ -128,8 +133,13 @@ class QuadrupleManager:
             self.empty_polish_vector()
 
         # insert the incoming operator
-        if operator != ")" and self.__operators[operator] != Hierarchies.GOTOF and self.__operators[operator] != Hierarchies.GOTO\
-                and self.__operators[operator] != Hierarchies.GOTOW:
+        if (
+                operator != ")" and
+                self.__operators[operator] != Hierarchies.GOTOF and
+                self.__operators[operator] != Hierarchies.GOTO and
+                self.__operators[operator] != Hierarchies.GOTOW and
+                self.__operators[operator] != Hierarchies.ENDFUNC
+        ):
             self.__stack_operators__.append(operator)
 
     def empty_polish_vector(self):
@@ -185,7 +195,7 @@ class QuadrupleManager:
     def get_quadruples(self):
         return self.__stack_quadruples__
 
-    def completeGoto(self, tipo: str):
+    def completeGoto(self, tipo: str = ""):
         if self.__operators[tipo] == Hierarchies.GOTOF:
             destino = self.__pop_jumps_stack()
             self.__stack_quadruples__[destino]["storage"] = (len(self.__stack_quadruples__))

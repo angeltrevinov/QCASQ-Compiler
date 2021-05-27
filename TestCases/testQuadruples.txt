@@ -4,11 +4,19 @@ program Example;
 var x: int;
 var j: int;
 
+func hola(){
+    output("hola");
+    output("hola");
+}
+
+func adios(){
+    output("adios");
+    output("adios");
+}
+
 main() {
     x = 0;
-    output("Dame un valor para 'j'");
-    input(j);
-    while(j >= x){
+    while(x + j >= x * 3){
         output(j);
         j = j - 1;
     }

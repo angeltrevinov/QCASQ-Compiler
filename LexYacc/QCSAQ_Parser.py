@@ -58,6 +58,7 @@ class QCASQ_Parser:
     # Add the main to function dictionary
     def p_save_main(self, p):
         ''' save_main : '''
+        self.quads.completeGoto("gotof")
         # adds main to the function directory of the program
         self.class_dir.get_class(
             self.class_dir.get_current_scope()
@@ -222,6 +223,8 @@ class QCASQ_Parser:
         class_scope = self.class_dir.get_current_scope()
         self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
         self.class_dir.get_class(class_scope)["function_dir"].add_to_scope(p[-5])
+        cont_quad = len(self.quads.get_quadruples())
+        self.class_dir.get_class(class_scope)["function_dir"].add_quad_dir(cont_quad, p[-5])
         self.limits.reset_locals()
         pass
 
@@ -248,6 +251,7 @@ class QCASQ_Parser:
         count = self.limits.get_local_vars_count()
         self.class_dir.get_class(class_scope)["function_dir"].add_num_vars(count, func_scope)
         self.class_dir.get_class(class_scope)["function_dir"].pop_scope()
+        self.quads.add_to_stack_op("endfunc")
 
         pass
 
@@ -375,27 +379,31 @@ class QCASQ_Parser:
         if not isinstance(p[-1], str):
             if type(p[-1]).__name__ == "int":
                 address = self.limits.getAddress("intC") + self.limits.getCont("intC")
-                self.ctes.addInt(str(p[-1]), address)
-                self.limits.upCont("intC")
+                added = self.ctes.addInt(str(p[-1]), address)
+                if added == True:
+                    self.limits.upCont("intC")
                 address = self.ctes.getInt(str(p[-1]))
             else:
                 address = self.limits.getAddress("floatC") + self.limits.getCont("floatC")
-                self.ctes.addFloat(str(p[-1]), address)
-                self.limits.upCont("floatC")
+                added = self.ctes.addFloat(str(p[-1]), address)
+                if added == True:
+                    self.limits.upCont("floatC")
                 address = self.ctes.getFloat(str(p[-1]))
             self.quads.add_operand(address, type(p[-1]).__name__)
         # save constant strings
         elif isinstance(p[-1], str) and p[-1][0] == '"':
             address = self.limits.getAddress("stringC") + self.limits.getCont("stringC")
-            self.ctes.addString(p[-1], address)
-            self.limits.upCont("stringC")
+            added = self.ctes.addString(p[-1], address)
+            if added == True:
+                self.limits.upCont("stringC")
             address = self.ctes.getString(p[-1])
             self.quads.add_operand(address, "string")
         # save booleans
         elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
             address = self.limits.getAddress("boolC") + self.limits.getCont("boolC")
-            self.ctes.addBool(str(p[-1]), address)
-            self.limits.upCont("boolC")
+            added = self.ctes.addBool(str(p[-1]), address)
+            if added == True:
+                self.limits.upCont("boolC")
             address = self.ctes.getBool(p[-1])
             self.quads.add_operand(address, "bool")
         pass

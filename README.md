@@ -12,11 +12,12 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Agregar quads de func definition           | Mayo 26     |
 | Ejecuta estatutos no lineales (while/if)   | Mayo 26     |
-| Ejecuta input                              | Mayo 24     |
-| Ejecuta expresiones aritmeticas y output   | Mayo 24     |
-| Crea los espacios de memoria global/local  | Mayo 24     |
-| Hace el parseo hacia la VM                 | Mayo 23     |
+| Ejecuta input                              | Mayo 25     |
+| Ejecuta expresiones aritmeticas y output   | Mayo 25     |
+| Crea los espacios de memoria global/local  | Mayo 25     |
+| Hace el parseo hacia la VM                 | Mayo 24     |
 | Agregar estatutos while a quads            | Mayo 22     |
 | Agregar estatutos if else a quads          | Mayo 21     |
 | Agregar estatutos if simples a quads       | Mayo 21     |    
