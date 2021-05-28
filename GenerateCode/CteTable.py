@@ -14,10 +14,21 @@ class CteTable:
         "false" : 2201
     }
 
-    def addInt(self, value: str, address: int):
+    def addInt(self, value: str, address: int) -> bool:
+        """Method that adds the constant int to the table
+
+        :param value: constant to add
+        :type value: str
+        :param address: address to store at
+        :type address:int
+        :return: If it could added
+        :rtype: bool
+        """
         if value not in self.ints:
             self.ints[value] = address
             return True
+        else:
+            return False
 
     def getInt(self, value: str):
         return self.ints[value]
