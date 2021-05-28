@@ -18,7 +18,6 @@ class QuadrupleManager:
     __polish_vector__: list    # the help of the polish vector to store our variables
     __stack_operators__: list    # to help for the hierarchy of our operations
     __stack_jumps__: list   # help to control the jumps of non-lineal states
-    __stack_types__: list
 
     def __init__(self):
         # create empty arrays to fill while reading the code
@@ -26,7 +25,6 @@ class QuadrupleManager:
         self.__polish_vector__ = []
         self.__stack_operators__ = []
         self.__stack_jumps__ = []
-        self.__stack_types__ = []
         self.__add_to_quadruplues__("goto", (), (), ())
         self.__stack_jumps__.append(len(self.__stack_quadruples__) - 1)
 
@@ -75,9 +73,10 @@ class QuadrupleManager:
             size = self.__pop_operand_stack()
             self.__add_to_quadruplues__(operator, (), (), size)
         elif self.__operators[operator] == Hierarchies.PARAMS:
-            #print(self.__polish_vector__)
             param_dir = self.__pop_operand_stack()
             value = self.__pop_operand_stack()
+            if value[1] != param_dir[1]:
+                sys.exit(f"Expecting param of type {param_dir[1]} but got {value[1]}")
             self.__add_to_quadruplues__(operator, value, (), param_dir)
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
@@ -216,9 +215,6 @@ class QuadrupleManager:
 
     def add_jump_stack(self):
         self.__stack_jumps__.append((len(self.__stack_quadruples__)))
-
-    def add_types_stack(self, tipo: str):
-        self.__stack_types__.append(tipo)
 
 
     def __empty_false_stack(self):

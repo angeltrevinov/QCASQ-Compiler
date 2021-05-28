@@ -281,7 +281,6 @@ class QCASQ_Parser:
                     | empty
         '''
         #TODO: Check count params equals params in paramTable
-        #TODO: Check types ares the same in params
         if p[1] is not None:
             #p[0] = p[1]
             p[0] = None
@@ -305,9 +304,6 @@ class QCASQ_Parser:
         params = function["params"].get_dictionary()
         for param in params:
             self.stack_params.append(params[param])
-
-
-
 
 
     def p_check_exists_func(self, p):
