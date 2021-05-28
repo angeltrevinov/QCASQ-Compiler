@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Verifica que los params sean el mismo tipo | Mayo 28     |
 | Agregar quads ERA y PARAMS                 | Mayo 26     |
 | Agregar quads de func definition           | Mayo 26     |
 | Ejecuta estatutos no lineales (while/if)   | Mayo 26     |

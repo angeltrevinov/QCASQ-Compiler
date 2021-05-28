@@ -13,7 +13,7 @@ class ExecutionMemory:
             base["boolG"]: [],
 
         },
-        "local": {
+        "local": { # tuple-> [dict : {}, dict]
             base["intL"]: [],
             base["floatL"]: [],
             base["stringL"]: [],
@@ -94,13 +94,17 @@ class ExecutionMemory:
     def get_value(self, dir: int, tipo: str):
         if dir >= 0 and dir < 800:
             offset = dir - self.base[tipo + "G"]
-            return self.memory["global"][self.base[tipo + "G"]][offset]
+            obtain_var = self.memory["global"][self.base[tipo + "G"]][offset]
         elif dir >= 800 and dir < 1600:
             offset = dir - self.base[tipo + "L"]
-            return self.memory["local"][self.base[tipo + "L"]][offset]
+            obtain_var = self.memory["local"][self.base[tipo + "L"]][offset]
         elif dir >= 1600 and dir < 2400:
             offset = dir - self.base[tipo + "C"]
-            return self.memory["constant"][self.base[tipo + "C"]][offset]
+            obtain_var = self.memory["constant"][self.base[tipo + "C"]][offset]
+
+        if obtain_var == None:
+            sys.exit(f"Error: trying to do operations with None")
+        return obtain_var
 
     def save_value(self, dir: int, tipo: str, value):
         value = self.cast_type(tipo, value) # 'x' will be removed by the function
