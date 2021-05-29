@@ -4,9 +4,15 @@ program Example;
 var x: int;
 var j: int;
 
+func hola(x:int, y:int){
+    output("hola");
+}
+
 main() {
+    var f: float;
     x = 3;
     j = 5;
+    hola(2+x, 3+x);
     j = j + x;
     output(j);
 }

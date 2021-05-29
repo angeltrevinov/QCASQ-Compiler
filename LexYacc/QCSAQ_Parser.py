@@ -25,7 +25,7 @@ class QCASQ_Parser:
     # initialize Objects that we need
     class_dir = Class_Dir()
     quads = QuadrupleManager()
-    stack_params = []
+    params_call = []
     count_params = 0
     limits = Limits()  # where every type of variable starts in memory
     ctes = CteTable()  # to save the constants that appear.
@@ -212,6 +212,7 @@ class QCASQ_Parser:
                  | estatuto alt3func
                  | CLOSECURLY remove_function_scope
         '''
+        #TODO: if it has a type it must have a return -> add to function table a boolean if has return
         if p[1] == ":":
             p[0] = p[2]
         if p[1] == "":
@@ -274,16 +275,24 @@ class QCASQ_Parser:
 
     def p_callfunc(self, p):
         '''
-        callfunc    : ID check_exists_func OPENPAREN altcall CLOSEPAREN
+        callfunc    : ID check_exists_func OPENPAREN altcall check_params CLOSEPAREN
         altcall     : expresion generate_param_quad alt2call
                     | empty
         alt2call   : COMMA altcall
                     | empty
         '''
-        #TODO: Check count params equals params in paramTable
+        #TODO: Generate GOSUB
+        #TODO: Deal with returns functions later...
         if p[1] is not None:
             #p[0] = p[1]
             p[0] = None
+        pass
+
+    def p_check_params(self, p):
+        ''' check_params : '''
+        # Get fucntion we are calling
+        if self.count_params < len(self.params_call):
+            sys.exit(f"ERROR: Missing {len(self.params_call) - self.count_params} param(s) in line {p.lineno(-1)}")
         pass
 
 
@@ -292,9 +301,12 @@ class QCASQ_Parser:
         ''' generate_param_quad : '''
         #print(self.stack_params)
         self.quads.empty_polish_vector()
-        self.quads.add_operand(self.stack_params[self.count_params]["address"], self.stack_params[self.count_params]["type"] )
-        self.quads.add_to_stack_op("params")
-        self.count_params = self.count_params + 1
+        if self.count_params < len(self.params_call):
+            self.quads.add_operand(self.params_call[self.count_params]["address"], self.params_call[self.count_params]["type"] )
+            self.quads.add_to_stack_op("params")
+            self.count_params = self.count_params + 1
+        else:
+            sys.exit(f"ERROR: Too many params in line {p.lineno(-1)}")
 
 
     def create_era(self, function: dict):
@@ -303,7 +315,7 @@ class QCASQ_Parser:
         self.quads.add_to_stack_op("era")
         params = function["params"].get_dictionary()
         for param in params:
-            self.stack_params.append(params[param])
+            self.params_call.append(params[param])
 
 
     def p_check_exists_func(self, p):
