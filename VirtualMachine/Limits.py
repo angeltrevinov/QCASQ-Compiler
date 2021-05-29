@@ -1,25 +1,26 @@
-
+import sys
 # TODO: Add to memory class divisions
 '''
     Structure to use = Dict
 '''
 class Limits:
+    division = 200
     offsets =  {
         ## Globales
-        "intG" : 0,
-        "floatG" : 200,
-        "stringG" : 400,
-        "boolG" : 600,
+        "intG" : 0 * division,
+        "floatG" : 1 * division,
+        "stringG" : 2 * division,
+        "boolG" : 3 * division,
         ## Locales
-        "intL": 800,
-        "floatL": 1000,
-        "stringL": 1200,
-        "boolL": 1400,
+        "intL": 4 * division,
+        "floatL": 5 * division,
+        "stringL": 6 * division,
+        "boolL": 7 * division,
         ## Constantes
-        "intC": 1600,
-        "floatC": 1800,
-        "stringC": 2000,
-        "boolC": 2200
+        "intC": 8 * division,
+        "floatC": 9 * division,
+        "stringC": 10 * division,
+        "boolC": 11 * division
     }
 
     cont = {
@@ -48,6 +49,14 @@ class Limits:
 
     def getCont(self, type: str):
         return self.cont[type]
+
+    def check_limits(self, address:int, tipo: str):
+        in_limits = False
+        if address >= self.offsets[tipo] and address < self.offsets[tipo] + self.division:
+            in_limits = True
+
+        if in_limits == False:
+            sys.exit(f"ERROR: Too many variables")
 
     def get_global_vars_count(self):
         ints = self.cont["intG"]

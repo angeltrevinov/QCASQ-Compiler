@@ -193,7 +193,6 @@ class QuadrupleManager:
                 opr = self.__pop_operator_stack()
                 op  = self.__pop_operand_stack()
                 self.__add_to_quadruplues__(opr, (), (), op)
-            # TODO: Create GOSUB
             else:
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
@@ -268,6 +267,7 @@ class QuadrupleManager:
         #print(self.__stack_quadruples__)
         if len(storage) > 0 and storage[0] == None:
             address = self.limits.getAddress(str(storage[1]) + "L") + self.limits.getCont(str(storage[1]) + "L")
+            self.limits.check_limits(address, str(storage[1]) + "L")
             self.limits.upCont(str(storage[1]) + "L")
             storage = (address, storage[1])
         elif operator == "era" or operator == "params" or operator == "gosub":

@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Verifica la cantidad de variables (compilacion) | Mayo 29|
 | Ejecuta void functions                     | Mayo 28     |
 | Verifica que tenga la cantidad correcta de params| Mayo 28|
 | Verifica que los params sean el mismo tipo | Mayo 28     |

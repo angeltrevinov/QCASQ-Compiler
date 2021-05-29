@@ -152,6 +152,7 @@ class QCASQ_Parser:
                     tipo = p[-1] + "G"
                     address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
                     # Add the variable to global vars
+                    self.limits.check_limits(address, tipo)
                     self.class_dir.get_class(
                         class_scope
                     )["tablevars"].add_to_dictionary(
@@ -168,6 +169,7 @@ class QCASQ_Parser:
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
                 tipo = p[-1] + "L"
                 address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
+                self.limits.check_limits(address, tipo)
                 self.class_dir.get_class(
                     class_scope
                 )["function_dir"].get_function(
@@ -238,6 +240,7 @@ class QCASQ_Parser:
         for param in self.__stack_params:
             name, type = param
             address = self.limits.getAddress(type + "L") + self.limits.getCont(type + "L")
+            self.limits.check_limits(address, type + "L")
             self.class_dir.get_class(
                 class_scope
             )["function_dir"].get_function(
@@ -281,7 +284,6 @@ class QCASQ_Parser:
         alt2call   : COMMA altcall
                     | empty
         '''
-        #TODO: Generate GOSUB
         #TODO: Deal with returns functions later...
         if p[1] is not None:
             #p[0] = p[1]
@@ -438,12 +440,14 @@ class QCASQ_Parser:
         if not isinstance(p[-1], str):
             if type(p[-1]).__name__ == "int":
                 address = self.limits.getAddress("intC") + self.limits.getCont("intC")
+                self.limits.check_limits(address, "intC")
                 added = self.ctes.addInt(str(p[-1]), address)
                 if added == True:
                     self.limits.upCont("intC")
                 address = self.ctes.getInt(str(p[-1]))
             else:
                 address = self.limits.getAddress("floatC") + self.limits.getCont("floatC")
+                self.limits.check_limits(address, "floatC")
                 added = self.ctes.addFloat(str(p[-1]), address)
                 if added == True:
                     self.limits.upCont("floatC")
@@ -452,6 +456,7 @@ class QCASQ_Parser:
         # save constant strings
         elif isinstance(p[-1], str) and p[-1][0] == '"':
             address = self.limits.getAddress("stringC") + self.limits.getCont("stringC")
+            self.limits.check_limits(address, "stringC")
             added = self.ctes.addString(p[-1], address)
             if added == True:
                 self.limits.upCont("stringC")
@@ -460,6 +465,7 @@ class QCASQ_Parser:
         # save booleans
         elif isinstance(p[-1], str) and (p[-1] == 'false' or p[-1] == 'true'):
             address = self.limits.getAddress("boolC") + self.limits.getCont("boolC")
+            self.limits.check_limits(address, "boolC")
             added = self.ctes.addBool(str(p[-1]), address)
             if added == True:
                 self.limits.upCont("boolC")

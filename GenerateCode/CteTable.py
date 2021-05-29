@@ -1,17 +1,17 @@
-
+from VirtualMachine.Limits import Limits
 class CteTable:
     """
     Class that manages our constants used and reserves a
     space in our memory.
     """
-
+    division = Limits().division
     ints = {}
     floats = {}
     strings = {}
     # Set them right now because we only had two.
     bools = {
-        "true" : 2200,
-        "false" : 2201
+        "true" : 11 * division,
+        "false" : 11 * division + 1
     }
 
     def addInt(self, value: str, address: int) -> bool:

@@ -5,6 +5,7 @@ import sys
 
 class ExecutionMemory:
     base = Limits().offsets
+    division = Limits().division
     sleeping_memory = [] # to store the accumulated memories
     new_memory_to_be_set =  {
         base["intL"]: [],
@@ -117,13 +118,13 @@ class ExecutionMemory:
             sys.exit(f"Wrong type of variable recived")
 
     def get_value(self, dir: int, tipo: str):
-        if dir >= 0 and dir < 800:
+        if dir >= 0 * self.division and dir < 4 * self.division:
             offset = dir - self.base[tipo + "G"]
             obtain_var = self.memory["global"][self.base[tipo + "G"]][offset]
-        elif dir >= 800 and dir < 1600:
+        elif dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
             obtain_var = self.memory["local"][self.base[tipo + "L"]][offset]
-        elif dir >= 1600 and dir < 2400:
+        elif dir >= 8 * self.division and dir < 12 * self.division:
             offset = dir - self.base[tipo + "C"]
             obtain_var = self.memory["constant"][self.base[tipo + "C"]][offset]
 
@@ -133,17 +134,17 @@ class ExecutionMemory:
 
     def save_value(self, dir: int, tipo: str, value):
         value = self.cast_type(tipo, value) # 'x' will be removed by the function
-        if dir >= 0 and dir < 800:
+        if dir >= 0  * self.division and dir < 4 * self.division:
             offset = dir - self.base[tipo + "G"]
             self.memory["global"][self.base[tipo + "G"]][offset] = value
-        elif dir >= 800 and dir < 1600:
+        elif dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
             self.memory["local"][self.base[tipo + "L"]][offset] = value
 
 
     def pass_params_to_new(self, dir: int, tipo: str, value):
         value = self.cast_type(tipo, value)  # 'x' will be removed by the function
-        if dir >= 800 and dir < 1600:
+        if dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
             self.new_memory_to_be_set[self.base[tipo + "L"]][offset] = value
 
