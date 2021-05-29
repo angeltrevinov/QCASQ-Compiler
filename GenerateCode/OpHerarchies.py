@@ -16,6 +16,7 @@ class Hierarchies(enum.IntEnum):
     ENDFUNC     = 13
     ERA         = 14
     PARAMS      = 15
+    GOSUB       = 16
 
 class OprTranslator():
     OprTrans = {
@@ -39,7 +40,8 @@ class OprTranslator():
         "goto": 18,
         "endfunc" : 19,
         "era" : 20,
-        "params" : 21
+        "params" : 21,
+        "gosub" : 22
     }
 
     def translate(self, opr: str):
@@ -71,5 +73,6 @@ class Operators():
         "gotow": Hierarchies.GOTOW,
         "endfunc": Hierarchies.ENDFUNC,
         "era" : Hierarchies.ERA,
-        "params" : Hierarchies.PARAMS
+        "params" : Hierarchies.PARAMS,
+        "gosub" : Hierarchies.GOSUB
     }

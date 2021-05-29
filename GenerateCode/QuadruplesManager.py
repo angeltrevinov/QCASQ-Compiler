@@ -78,10 +78,13 @@ class QuadrupleManager:
             if value[1] != param_dir[1]:
                 sys.exit(f"Expecting param of type {param_dir[1]} but got {value[1]}")
             self.__add_to_quadruplues__(operator, value, (), param_dir)
+        elif self.__operators[operator] == Hierarchies.GOSUB:
+            quad_name = self.__pop_operand_stack()
+            self.__add_to_quadruplues__(operator, (quad_name[1], ""), (), (quad_name[0], ""))
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
-            while self.__operators[self.__stack_operators__[-1]] == Hierarchies.MULTDIV:
+            while len(self.__stack_operators__) > 0 and self.__operators[self.__stack_operators__[-1]] == Hierarchies.MULTDIV:
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
@@ -93,8 +96,9 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.SUMSUB and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy or higher
             while (
-                    self.__operators[self.__stack_operators__[-1]] == Hierarchies.SUMSUB or
-                    self.__operators[self.__stack_operators__[-1]] < Hierarchies.SUMSUB
+                    len(self.__stack_operators__) > 0 and
+                    (self.__operators[self.__stack_operators__[-1]] == Hierarchies.SUMSUB or
+                     self.__operators[self.__stack_operators__[-1]] < Hierarchies.SUMSUB)
             ):
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
@@ -124,8 +128,9 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.LOGIC and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy or higher
             while (
-                    self.__operators[self.__stack_operators__[-1]] == Hierarchies.LOGIC or
-                    self.__operators[self.__stack_operators__[-1]] < Hierarchies.LOGIC
+                    len(self.__stack_operators__) > 0 and
+                    (self.__operators[self.__stack_operators__[-1]] == Hierarchies.LOGIC or
+                     self.__operators[self.__stack_operators__[-1]] < Hierarchies.LOGIC)
             ):
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
@@ -149,7 +154,8 @@ class QuadrupleManager:
                 self.__operators[operator] != Hierarchies.GOTOW and
                 self.__operators[operator] != Hierarchies.ENDFUNC and
                 self.__operators[operator] != Hierarchies.ERA and
-                self.__operators[operator] != Hierarchies.PARAMS
+                self.__operators[operator] != Hierarchies.PARAMS and
+                self.__operators[operator] != Hierarchies.GOSUB
         ):
             self.__stack_operators__.append(operator)
 
@@ -264,7 +270,7 @@ class QuadrupleManager:
             address = self.limits.getAddress(str(storage[1]) + "L") + self.limits.getCont(str(storage[1]) + "L")
             self.limits.upCont(str(storage[1]) + "L")
             storage = (address, storage[1])
-        elif operator == "era" or operator == "params":
+        elif operator == "era" or operator == "params" or operator == "gosub":
             storage = storage[0]
 
         self.__stack_quadruples__.append({

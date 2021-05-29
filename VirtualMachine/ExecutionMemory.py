@@ -5,6 +5,13 @@ import sys
 
 class ExecutionMemory:
     base = Limits().offsets
+    sleeping_memory = [] # to store the accumulated memories
+    new_memory_to_be_set =  {
+        base["intL"]: [],
+        base["floatL"]: [],
+        base["stringL"]: [],
+        base["boolL"]: []
+    }
     memory = {
         "global": {
             base["intG"]: [],
@@ -67,10 +74,28 @@ class ExecutionMemory:
             return var[1:-1]
 
     def reserve_local_memory(self, varsNum):
+        self.new_memory_to_be_set[self.base["intL"]] = [None] * varsNum["int"]
+        self.new_memory_to_be_set[self.base["floatL"]] = [None] * varsNum["float"]
+        self.new_memory_to_be_set[self.base["stringL"]] = [None] * varsNum["string"]
+        self.new_memory_to_be_set[self.base["boolL"]] = [None] * varsNum["bool"]
+        ''''
         self.memory["local"][self.base["intL"]] = [None] * varsNum["int"]
         self.memory["local"][self.base["floatL"]] = [None] * varsNum["float"]
         self.memory["local"][self.base["stringL"]] = [None] * varsNum["string"]
-        self.memory["local"][self.base["boolL"]] = [None] * varsNum["bool"]
+        self.memory["local"][self.base["boolL"]] = [None] * varsNum["bool"]'''
+
+    def set_new_memory_to_local(self):
+        self.memory["local"] = self.new_memory_to_be_set.copy()
+
+    def get_local_memory(self):
+        return self.memory["local"]
+
+    def save_memory(self, ip: int):
+        data = {
+            "memory": self.get_local_memory().copy(),
+            "ip": ip
+        }
+        self.sleeping_memory.append(data)
 
     def print_memory(self):
         print("This are constants")
@@ -114,3 +139,16 @@ class ExecutionMemory:
         elif dir >= 800 and dir < 1600:
             offset = dir - self.base[tipo + "L"]
             self.memory["local"][self.base[tipo + "L"]][offset] = value
+
+
+    def pass_params_to_new(self, dir: int, tipo: str, value):
+        value = self.cast_type(tipo, value)  # 'x' will be removed by the function
+        if dir >= 800 and dir < 1600:
+            offset = dir - self.base[tipo + "L"]
+            self.new_memory_to_be_set[self.base[tipo + "L"]][offset] = value
+
+    def restore_previous_memory(self) -> int:
+        previous_memory = self.sleeping_memory[-1]
+        self.memory["local"] = previous_memory["memory"]
+        self.sleeping_memory.pop()
+        return previous_memory["ip"]

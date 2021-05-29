@@ -4,15 +4,23 @@ program Example;
 var x: int;
 var j: int;
 
-func hola(x:int, y:int){
+func adios(h:string){
+    output(j);
+    output(h);
+    input(x);
+}
+
+func hola(g:int, y:int){
     output("hola");
+    adios("adios");
+    x = x + y;
 }
 
 main() {
     var f: float;
     x = 3;
     j = 5;
-    hola(2+x, 3+x);
+    hola(3+4+6, j);
     j = j + x;
     output(j);
 }

@@ -28,12 +28,12 @@ def test_from_file():
     # Prints the function directory generated after finishing reading code
     #pars.ctes.print_ctes()
     #pars.class_dir.print_dictionary()
-    pars.quads.print_quadruples()
+    #pars.quads.print_quadruples()
     #print(pars.pars_data_vm())
 
     # Executing the program
     #print("Ejecución empieza")
-    #em = VM(pars.pars_data_vm())
+    em = VM(pars.pars_data_vm())
 
     if pars.get_error():
         print("Something went wrong")

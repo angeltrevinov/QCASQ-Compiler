@@ -275,7 +275,7 @@ class QCASQ_Parser:
 
     def p_callfunc(self, p):
         '''
-        callfunc    : ID check_exists_func OPENPAREN altcall check_params CLOSEPAREN
+        callfunc    : ID check_exists_func OPENPAREN altcall check_params CLOSEPAREN generate_gosub
         altcall     : expresion generate_param_quad alt2call
                     | empty
         alt2call   : COMMA altcall
@@ -286,6 +286,17 @@ class QCASQ_Parser:
         if p[1] is not None:
             #p[0] = p[1]
             p[0] = None
+        pass
+
+    def p_generate_gosub(self, p):
+        ''' generate_gosub : '''
+        name = p[-6]
+        class_scope = self.class_dir.get_current_scope()
+        func_dir = self.class_dir.get_class(class_scope)["function_dir"].get_dictionary()
+        function = self.check_function_dir(func_dir, name)
+        quad_start = function["startQuad"]
+        self.quads.add_operand(quad_start, name)
+        self.quads.add_to_stack_op("gosub")
         pass
 
     def p_check_params(self, p):
@@ -309,14 +320,12 @@ class QCASQ_Parser:
             sys.exit(f"ERROR: Too many params in line {p.lineno(-1)}")
 
 
-    def create_era(self, function: dict):
-        size = function["varsNum"]["int"] + function["varsNum"]["float"] + function["varsNum"]["string"] + function["varsNum"]["bool"]
-        self.quads.add_operand(size, "")
+    def create_era(self, function_name: str, function: dict):
+        self.quads.add_operand(function_name, "")
         self.quads.add_to_stack_op("era")
         params = function["params"].get_dictionary()
         for param in params:
             self.params_call.append(params[param])
-
 
     def p_check_exists_func(self, p):
         ''' check_exists_func : '''
@@ -329,7 +338,7 @@ class QCASQ_Parser:
             index_scope_class = index_scope_class-1
             if function == None:
                 sys.exit(f"ERROR: couldn't find declaration of function {p[-1]} in line {p.lineno(-1)}")
-        self.create_era(function)
+        self.create_era(p[-1], function)
         pass
 
     def check_function_dir(self, func_dir: dict, func_name: str):
