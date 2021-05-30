@@ -228,8 +228,13 @@ class QCASQ_Parser:
         class_scope = self.class_dir.get_current_scope()
         self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
         self.class_dir.get_class(class_scope)["function_dir"].add_to_scope(p[-5])
-        cont_quad = len(self.quads.get_quadruples())
+        cont_quad = len(self.quads.get_quadruples()) # Know where the function starts in the quads
         self.class_dir.get_class(class_scope)["function_dir"].add_quad_dir(cont_quad, p[-5])
+        if p[-1] is not None:
+            tipo = p[-1] + "G"
+            address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
+            self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(p[-5], p[-1], address)
+            self.limits.upCont(tipo)
         self.limits.reset_locals()
         pass
 
@@ -256,7 +261,11 @@ class QCASQ_Parser:
         # Save how many variables we used
         count = self.limits.get_local_vars_count()
         self.class_dir.get_class(class_scope)["function_dir"].add_num_vars(count, func_scope)
+        has_return = self.class_dir.get_class(class_scope)["function_dir"].get_function(func_scope)["has_return"]
+        if has_return == False:
+            sys.exit(f"ERROR: couldn't find return for function {func_scope}")
         self.class_dir.get_class(class_scope)["function_dir"].pop_scope()
+        tipo = self.class_dir.get_class(class_scope)["function_dir"].get_function(func_scope)["has_return"]
         self.quads.add_to_stack_op("endfunc")
 
         pass
@@ -278,7 +287,7 @@ class QCASQ_Parser:
 
     def p_callfunc(self, p):
         '''
-        callfunc    : ID check_exists_func OPENPAREN altcall check_params CLOSEPAREN generate_gosub
+        callfunc    : ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
         altcall     : expresion generate_param_quad alt2call
                     | empty
         alt2call   : COMMA altcall
@@ -290,15 +299,30 @@ class QCASQ_Parser:
             p[0] = None
         pass
 
+    def p_add_false_stack(self, p):
+        ''' add_false_stack : '''
+        self.quads.add_to_stack_op("(")
+        pass
+
+    def p_end_false_stack(self, p):
+        ''' end_false_stack : '''
+        self.quads.add_to_stack_op(")")
+        pass
+
     def p_generate_gosub(self, p):
         ''' generate_gosub : '''
-        name = p[-6]
+        name = p[-8]
         class_scope = self.class_dir.get_current_scope()
         func_dir = self.class_dir.get_class(class_scope)["function_dir"].get_dictionary()
         function = self.check_function_dir(func_dir, name)
         quad_start = function["startQuad"]
         self.quads.add_operand(quad_start, name)
         self.quads.add_to_stack_op("gosub")
+        if function["type"] != "void":
+            print("here")
+            var = self.class_dir.get_class(class_scope)["tablevars"].get_variable(name)
+            self.quads.add_operand(var["address"], var["type"])
+            self.quads.add_to_stack_op("assignret")
         pass
 
     def p_check_params(self, p):
@@ -307,8 +331,6 @@ class QCASQ_Parser:
         if self.count_params < len(self.params_call):
             sys.exit(f"ERROR: Missing {len(self.params_call) - self.count_params} param(s) in line {p.lineno(-1)}")
         pass
-
-
 
     def p_generate_param_quad(self, p):
         ''' generate_param_quad : '''
@@ -638,8 +660,26 @@ class QCASQ_Parser:
 
     def p_return(self, p):
         '''
-        return  : RETURN save_op expresion SEMICOLON
+        return  : RETURN expresion generate_quad_ret SEMICOLON add_return_exists
         '''
+        pass
+
+    def p_generate_quad_ret(self, p):
+        ''' generate_quad_ret : '''
+        self.quads.empty_polish_vector()
+        class_scope = self.class_dir.get_current_scope()
+        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        var = self.class_dir.get_class(class_scope)["tablevars"].get_variable(func_scope)
+        self.quads.add_operand(var["address"], var["type"])
+        self.quads.add_to_stack_op("return")
+        self.quads.add_to_stack_op("endfunc")
+
+        pass
+    def p_add_return_exists(self, p):
+        ''' add_return_exists : '''
+        class_scope = self.class_dir.get_current_scope()
+        func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
+        self.class_dir.get_class(class_scope)["function_dir"].get_function(func_scope)["has_return"] = True
         pass
 
     def p_empty(self, p):

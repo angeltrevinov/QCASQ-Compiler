@@ -25,10 +25,15 @@ class Function_Dir:
         :param type: The type of the function to add (if not included, its going to be void)
         :type type: str
         """
+        if type == "void":
+            has_return = True
+        else:
+            has_return = False
         self.__func_dict__[name_function] = {
             "tablevars": Variables_Dir(),
             "params": Variables_Dir(),
             "type": type,
+            "has_return" : has_return
         }
 
     def get_dictionary(self) -> dict:

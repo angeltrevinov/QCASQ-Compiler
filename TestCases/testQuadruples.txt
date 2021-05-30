@@ -4,22 +4,13 @@ program Example;
 var x: int;
 var j: int;
 
-func adios(h:string){
-    output(h);
-    input(x);
-}
-
-func hola(g:int, y:int){
-    output("hola");
-    adios("adios");
-    x = x + y;
+func adios(h:string) : int{
+    return x;
 }
 
 main() {
     var f: float;
     x = 3;
     j = 5;
-    hola(x, j);
-    j = j + x;
-    output(j);
+    j = j + adios("hola");
 }

@@ -81,6 +81,16 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.GOSUB:
             quad_name = self.__pop_operand_stack()
             self.__add_to_quadruplues__(operator, (quad_name[1], ""), (), (quad_name[0], ""))
+        elif self.__operators[operator] == Hierarchies.RETURN:
+            storage = self.__pop_operand_stack()
+            op = self.__pop_operand_stack()
+            type = self.semantic_cube.get_result(storage[1], op[1], "=")
+            if type == Types.INVALID.value:
+                sys.exit(f"You cannot return {op[1]}, expected {storage[1]}")
+            self.__add_to_quadruplues__(operator, op, (), storage)
+        elif self.__operators[operator] == Hierarchies.ASSIGNRET:
+            op = self.__pop_operand_stack()
+            self.__add_to_quadruplues__(operator, op, (), (None, op[1]))
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
@@ -103,7 +113,6 @@ class QuadrupleManager:
                 opr = self.__pop_operator_stack()
                 op2 = self.__pop_operand_stack()
                 op1 = self.__pop_operand_stack()
-
                 type = self.semantic_cube.get_result(op1[1], op2[1], opr)
                 if type == Types.INVALID.value:
                     sys.exit(f"You cannot use the operation {opr} with { op1[1]} and {op2[1]}")
@@ -155,7 +164,9 @@ class QuadrupleManager:
                 self.__operators[operator] != Hierarchies.ENDFUNC and
                 self.__operators[operator] != Hierarchies.ERA and
                 self.__operators[operator] != Hierarchies.PARAMS and
-                self.__operators[operator] != Hierarchies.GOSUB
+                self.__operators[operator] != Hierarchies.GOSUB and
+                self.__operators[operator] != Hierarchies.RETURN and
+                self.__operators[operator] != Hierarchies.ASSIGNRET
         ):
             self.__stack_operators__.append(operator)
 
@@ -164,8 +175,12 @@ class QuadrupleManager:
         Empty the polish vector when we are at the end of the expresion
         """
         # until  the stack operator is empty
+        print(self.__polish_vector__)
+        print(self.__stack_operators__)
         while len(self.__stack_operators__) > 0:
-            if self.__operators[self.__stack_operators__[-1]] == Hierarchies.OUTPUT:
+            if self.__stack_operators__[-1] == "(":
+                break
+            elif self.__operators[self.__stack_operators__[-1]] == Hierarchies.OUTPUT:
                 opr = self.__pop_operator_stack()
                 op = self.__pop_operand_stack()
                 if (
@@ -279,7 +294,7 @@ class QuadrupleManager:
             "operand2": operand2,
             "storage": storage
         })
-        if self.__operators[operator] <= Hierarchies.LOGIC:
+        if self.__operators[operator] <= Hierarchies.LOGIC or self.__operators[operator] == Hierarchies.ASSIGNRET:
             self.add_operand(storage[0], storage[1])
 
     def __pop_jumps_stack(self) -> int:
