@@ -5,12 +5,14 @@ var x: int;
 var j: int;
 
 func adios(h:string) : int{
-    return x;
+    output(h);
+    return x + 3;
 }
 
 main() {
     var f: float;
     x = 3;
     j = 5;
-    j = j + adios("hola");
+    j = j + adios("hola") + 3;
+    output(j);
 }

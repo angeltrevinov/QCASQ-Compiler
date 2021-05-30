@@ -175,8 +175,6 @@ class QuadrupleManager:
         Empty the polish vector when we are at the end of the expresion
         """
         # until  the stack operator is empty
-        print(self.__polish_vector__)
-        print(self.__stack_operators__)
         while len(self.__stack_operators__) > 0:
             if self.__stack_operators__[-1] == "(":
                 break

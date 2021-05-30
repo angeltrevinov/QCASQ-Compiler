@@ -319,7 +319,6 @@ class QCASQ_Parser:
         self.quads.add_operand(quad_start, name)
         self.quads.add_to_stack_op("gosub")
         if function["type"] != "void":
-            print("here")
             var = self.class_dir.get_class(class_scope)["tablevars"].get_variable(name)
             self.quads.add_operand(var["address"], var["type"])
             self.quads.add_to_stack_op("assignret")
@@ -507,7 +506,6 @@ class QCASQ_Parser:
         while index_scope_class >= 0 and var_found is False:
             if p[-1] is None:
                 var_found = True
-                print("function is found")
             else:
                 scope_class = self.class_dir.get_scope()[index_scope_class]  # get class scope we are checking
                 current_class = self.class_dir.get_class(scope_class)  # get class object

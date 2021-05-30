@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Ejecuta funciones con returns              | Mayo 29     |
 | Crea quads de funciones no void            | Mayo 29     |
 | Verifica la cantidad de variables (compilacion) | Mayo 29|
 | Ejecuta void functions                     | Mayo 28     |

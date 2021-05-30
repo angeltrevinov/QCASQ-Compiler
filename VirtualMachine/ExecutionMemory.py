@@ -129,7 +129,7 @@ class ExecutionMemory:
             obtain_var = self.memory["constant"][self.base[tipo + "C"]][offset]
 
         if obtain_var == None:
-            sys.exit(f"Error: trying to do operations with None")
+            sys.exit(f"Error: trying to do operations with None in {dir}")
         return obtain_var
 
     def save_value(self, dir: int, tipo: str, value):
