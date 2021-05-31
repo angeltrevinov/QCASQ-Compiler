@@ -182,9 +182,18 @@ class QCASQ_Parser:
 
     def p_listids(self, p):
         '''
-        listids      : ID save_var_name array listidsalty
+        listids      : ID save_var_name dec_array listidsalty
         listidsalty : COMMA listids
                     | empty
+        '''
+        pass
+
+    def p_dec_array(self, p):
+        '''
+        dec_array : OPENBRACKET CTEINT CLOSEBRACKET dec_array2
+                | empty
+        dec_array2 : OPENBRACKET CTEINT CLOSEBRACKET
+              | empty
         '''
         pass
 
@@ -195,6 +204,7 @@ class QCASQ_Parser:
         array2 : OPENBRACKET expresion CLOSEBRACKET empty_pv
               | empty
         '''
+        pass
 
     def p_save_var_name(self, p):
         '''

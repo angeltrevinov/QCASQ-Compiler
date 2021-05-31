@@ -10,7 +10,7 @@ func adios(h:string):int{
 }
 
 main() {
-    var f: float;
+    var f[2]: float;
     x = 3;
     j = 5;
     //adios("hola");
