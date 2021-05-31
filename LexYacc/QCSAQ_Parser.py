@@ -516,21 +516,27 @@ class QCASQ_Parser:
 
     def check_variable_exists(self, p):
         """ Checks if the variable exists in any scope """
+        var_name = ""
+        if p[-1] is None:
+            print(p[-1], p[-2])
+            var_name = p[-2]
+        else:
+            var_name = p[-1]
         var_found = False
         index_scope_class = len(self.class_dir.get_scope()) - 1
         while index_scope_class >= 0 and var_found is False:
-            if p[-1] is None:
+            if var_name is None:
                 var_found = True
             else:
                 scope_class = self.class_dir.get_scope()[index_scope_class]  # get class scope we are checking
                 current_class = self.class_dir.get_class(scope_class)  # get class object
-                var = self.check_var_exists_function(current_class["function_dir"], p[-1])
+                var = self.check_var_exists_function(current_class["function_dir"], var_name)
                 if var is None:
                     tablevars = current_class["tablevars"]
-                    var = self.check_table_vars(tablevars, p[-1])
+                    var = self.check_table_vars(tablevars, var_name)
                 if var is not None:
                     var_found = True
-                    if self.check_var_in_function(p[-1], var, current_class):
+                    if self.check_var_in_function(var_name, var, current_class):
                         if var[1] == "void":
                             sys.exit(f"Error: you cannot use a void function inside an expresion")
                     else:
@@ -538,7 +544,7 @@ class QCASQ_Parser:
                 else:
                     index_scope_class = index_scope_class - 1
         if index_scope_class < 0 and var_found is False:
-            sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
+            sys.exit(f"ERROR: couldn't find declaration of variable {var_name} in line {p.lineno(-1)}")
 
     def check_var_in_function(self, name_var: str, var: tuple, current_class) -> bool:
 
@@ -678,7 +684,7 @@ class QCASQ_Parser:
 
     def p_assign(self, p):
         '''
-        assign : ID save_comp EQUALS save_op expresion SEMICOLON
+        assign : ID array save_comp EQUALS save_op expresion SEMICOLON
         '''
         pass
 
