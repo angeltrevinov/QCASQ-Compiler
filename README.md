@@ -12,6 +12,8 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Prohibe a voids utilizar returns           | Mayo 30
+| Prohibe a expresiones usar funcs voids     | Mayo 30     |  
 | Ejecuta funciones con returns              | Mayo 29     |
 | Crea quads de funciones no void            | Mayo 29     |
 | Verifica la cantidad de variables (compilacion) | Mayo 29|
