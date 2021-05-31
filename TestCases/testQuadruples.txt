@@ -2,7 +2,7 @@
 program Example;
 
 var x: int;
-var j: float;
+var j: int;
 
 func adios(h:string):int{
     output(h);
@@ -10,10 +10,10 @@ func adios(h:string):int{
 }
 
 main() {
-    var f[2]: float;
+    var f[2]: int;
     x = 3;
     //adios("hola");
-    f[2-1] = j;
+    f[2-1] = f[3-2];
     //j = j + adios("hola") + 3;
     output(j);
 }

@@ -461,7 +461,7 @@ class QCASQ_Parser:
                         | callfunc
         varcomp1        : ID varcomp2
         varcomp2        : DOT varcomp3
-                        | empty
+                        | array empty
         varcomp3        : varcomp1
                         | callfunc
         '''
