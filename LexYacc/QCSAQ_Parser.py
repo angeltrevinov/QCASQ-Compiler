@@ -238,6 +238,8 @@ class QCASQ_Parser:
             address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
             self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(p[-5], p[-1], address)
             self.limits.upCont(tipo)
+        else:
+            self.class_dir.get_class(class_scope)["tablevars"].add_to_dictionary(p[-5], "void", -1)
         self.limits.reset_locals()
         pass
 
@@ -297,9 +299,9 @@ class QCASQ_Parser:
                     | empty
         '''
         #TODO: Deal with returns functions later...
-        if p[1] is not None:
-            #p[0] = p[1]
-            p[0] = None
+        if p[1] is not None and p[1] != ",":
+            p[0] = p[1]
+            #p[0] = None
         pass
 
     def p_add_false_stack(self, p):
@@ -454,7 +456,7 @@ class QCASQ_Parser:
                         | callfunc
         '''
         # TODO: doesn't know id.func() id.id
-        if p[1] is not None:
+        if p[1] is not None and p[1] != ".":
             p[0] = p[1]
         pass
 
@@ -518,11 +520,22 @@ class QCASQ_Parser:
                     var = self.check_table_vars(tablevars, p[-1])
                 if var is not None:
                     var_found = True
-                    self.quads.add_operand(var[0], var[1])
+                    if self.check_var_in_function(p[-1], var, current_class):
+                        if var[1] == "void":
+                            sys.exit(f"Error: you cannot use a void function inside an expresion")
+                    else:
+                        self.quads.add_operand(var[0], var[1])
                 else:
                     index_scope_class = index_scope_class - 1
         if index_scope_class < 0 and var_found is False:
             sys.exit(f"ERROR: couldn't find declaration of variable {p[-1]} in line {p.lineno(-1)}")
+
+    def check_var_in_function(self, name_var: str, var: tuple, current_class) -> bool:
+
+        if name_var in current_class["function_dir"].get_dictionary():
+            return True
+        else:
+            return False
 
     def check_var_exists_function(self, function_dir: Function_Dir, var_name: str) -> tuple:
         """ Check that the var exists inside the function

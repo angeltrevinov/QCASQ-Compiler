@@ -26,6 +26,7 @@ class VM:
         #print("Antes de ejecutar quads")
         #self.ex.print_memory()
         self.quadruples = obj["Quadruples"]
+        #print(self.quadruples)
         self.execute_quadruples()
         #print("Despues de ejecutar quads")
         #self.ex.print_memory()
