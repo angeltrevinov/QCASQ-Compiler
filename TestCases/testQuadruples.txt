@@ -4,15 +4,16 @@ program Example;
 var x: int;
 var j: int;
 
-func adios(h:string){
+func adios(h:string):int{
     output(h);
+    return x;
 }
 
 main() {
     var f: float;
     x = 3;
     j = 5;
-    adios("hola");
-    //j = j + adios("hola") + 3;
+    //adios("hola");
+    j = j + adios("hola") + 3;
     output(j);
 }

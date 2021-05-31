@@ -684,10 +684,11 @@ class QCASQ_Parser:
         class_scope = self.class_dir.get_current_scope()
         func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
         var = self.class_dir.get_class(class_scope)["tablevars"].get_variable(func_scope)
+        if var["type"] == "void":
+            sys.exit(f"Error: you cannot use a return inside a void function")
         self.quads.add_operand(var["address"], var["type"])
         self.quads.add_to_stack_op("return")
         self.quads.add_to_stack_op("endfunc")
-
         pass
     def p_add_return_exists(self, p):
         ''' add_return_exists : '''
