@@ -226,7 +226,10 @@ class QCASQ_Parser:
         ''' save_function : '''
         # Saving function with their type to the function dir
         class_scope = self.class_dir.get_current_scope()
-        self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
+        if p[-1] is not None:
+            self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5], p[-1])
+        else:
+            self.class_dir.get_class(class_scope)["function_dir"].add_to_dictionary(p[-5])
         self.class_dir.get_class(class_scope)["function_dir"].add_to_scope(p[-5])
         cont_quad = len(self.quads.get_quadruples()) # Know where the function starts in the quads
         self.class_dir.get_class(class_scope)["function_dir"].add_quad_dir(cont_quad, p[-5])

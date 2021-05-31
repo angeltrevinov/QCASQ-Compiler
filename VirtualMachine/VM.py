@@ -185,14 +185,12 @@ class VM:
             self.IP = self.ex.restore_previous_memory()
             self.IP = self.IP + 1
         elif self.operadores["return"] == quad["operator"]:
-            print(quad)
             value_to_pass = quad["operand1"]
             value_to_pass = self.ex.get_value(value_to_pass[0], value_to_pass[1])
             storage = quad["storage"]
             self.ex.save_value(storage[0], storage[1], value_to_pass)
             self.IP = self.IP + 1
         elif self.operadores["assignret"] == quad["operator"]:
-            print(quad)
             value_to_pass = quad["operand1"]
             value_to_pass = self.ex.get_value(value_to_pass[0], value_to_pass[1])
             storage = quad["storage"]
