@@ -10,10 +10,11 @@ func adios(h:string):int{
 }
 
 main() {
-    var f[2]: int;
+    var f: int;
     x = 3;
+    j = 5;
     //adios("hola");
-    f[2-1] = f[3-2];
-    //j = j + adios("hola") + 3;
+    //f[2-1] = f[3-2];
+    j = j + adios("hola") + 3;
     output(j);
 }

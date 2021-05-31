@@ -2,13 +2,20 @@ from LexYacc.QCASQ_Lexer import QCASQ_Lexer
 from LexYacc.QCSAQ_Parser import QCASQ_Parser
 from VirtualMachine.VM import VM
 
-def test_from_file():
-    """Read from a file and tries to compile it.
+"""
+Main file that encapsulates the parser and execution of 
+the compiler in a single file. This is the starting point.
 
-    Tests from a file and tries to execute the following:
-        - Parser
-        - Executed
-    """
+:Date: 06-02-2021
+:Version: 1
+:Authors:
+    - Angel Treviño A01336559
+    - Julia Jimenez A00821428 
+"""
+
+
+def test_from_file():
+    """Reads from a file and tries to compile it."""
     file_name = input('Ingresa el nombre del archivo: \n')
     file = open(file_name, 'r')
     src_file = file.read()
@@ -25,16 +32,17 @@ def test_from_file():
     parser = pars.parser
     parser.parse(src_file, tracking=True)
 
-    # Prints the function directory generated after finishing reading code
+    # Enable this lines to print different structures used in the parser
     #pars.ctes.print_ctes()
-    pars.class_dir.print_dictionary()
+    #pars.class_dir.print_dictionary()
     #pars.quads.print_quadruples()
     #print(pars.pars_data_vm())
 
-    # Executing the program
+    # Enable this lines to execute the program from input file
     #print("Ejecución empieza")
-    #em = VM(pars.pars_data_vm())
+    em = VM(pars.pars_data_vm())
 
+    # Catch if there is an error
     if pars.get_error():
         print("Something went wrong")
     else:

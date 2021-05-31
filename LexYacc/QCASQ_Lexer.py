@@ -3,10 +3,18 @@ import ply.lex as lex
 
 
 class QCASQ_Lexer(object):
-    '''
-    Class that defines the tokens that are accepted.
+    """
+    Class that defines the tokens that are accepted by our
+    language.
     The Lexer of our compiler.
-    '''
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
+
     # --------------- Definition of tokens -----------------
     tokens = [
         'SEMICOLON',            # ;
@@ -86,7 +94,6 @@ class QCASQ_Lexer(object):
     t_DIV                   = r'\/'
     t_ignore                = ' \t'
 
-
     def t_CTESTRING(self, t):
         r'\"(.*)\"'
         t.value = str(t.value)
@@ -104,25 +111,34 @@ class QCASQ_Lexer(object):
 
     def t_ID(self, t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
-        t.type = self.reserved.get(t.value, 'ID')  # check that id does not match reserved words
+        # check that id does not match reserved words
+        t.type = self.reserved.get(t.value, 'ID')
         return t
 
     def t_COMMENT(self, t):
         r'\/\/.*'
+        # check that id does not match reserved words
         pass
-        # No return value. Token discarded
 
-    # Define a rule so we can track line numbers
     def t_newline(self, t):
         r'\n+'
+        # Define a rule so we can track line numbers
         t.lexer.lineno += len(t.value)
 
     def t_error(self, t):
+        """
+        To detect if there is an illegal token.
+        :param t: the token received
+        """
         print("Illegal character '%s'" % t.value[0])
         t.lexer.skip(1)
 
     # constructor
     def __init__(self):
+        """
+        Tells PLY to use this class as our definition of our
+        tokens.
+        """
         # adding reserve to tokens list
         self.tokens += list(self.reserved.values())
         self.lexer = lex.lex(module=self)  # to debug add debug=True
