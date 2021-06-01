@@ -33,9 +33,9 @@ Rule 27    dec_array -> empty
 Rule 28    dec_array2 -> OPENBRACKET CTEINT CLOSEBRACKET
 Rule 29    dec_array2 -> empty
 Rule 30    empty_dim_stack -> <empty>
-Rule 31    array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+Rule 31    array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
 Rule 32    array -> empty
-Rule 33    array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
+Rule 33    array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad
 Rule 34    array2 -> empty
 Rule 35    generate_ver_quad -> <empty>
 Rule 36    add_dir_base -> <empty>
@@ -200,7 +200,7 @@ error                :
 
 Nonterminals, with rules where they appear
 
-add_dir_base         : 31 33
+add_dir_base         : 31
 add_end_if           : 111 112
 add_false_stack      : 31 33 48
 add_gotof            : 67 111 112
@@ -238,7 +238,7 @@ dec_array            : 23
 dec_array2           : 26
 empty                : 12 18 25 27 29 32 34 39 41 47 50 52 81 86 99 104
 empty_dim_stack      : 23
-empty_pv             : 31 33 58 59 60 61 62 63 64
+empty_pv             : 58 59 60 61 62 63 64
 end_false_stack      : 31 33 48
 end_while            : 67
 estatuto             : 8 20 43 68 113
@@ -1254,7 +1254,7 @@ state 79
     (115) assign -> ID . array save_comp EQUALS save_op expresion SEMICOLON
     (66) voidcall -> ID . DOT voidcall
     (48) callfunc -> ID . check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
-    (31) array -> . OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> . OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
     (32) array -> . empty
     (134) check_exists_func -> .
     (117) empty -> .
@@ -1587,7 +1587,7 @@ state 108
 
 state 109
 
-    (31) array -> OPENBRACKET . add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> OPENBRACKET . add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
     (129) add_false_stack -> .
 
     OPENPAREN       reduce using rule 129 (add_false_stack -> .)
@@ -2075,7 +2075,7 @@ state 129
     (80) varcomp2 -> . DOT varcomp3
     (81) varcomp2 -> . array empty
     (134) check_exists_func -> .
-    (31) array -> . OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> . OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
     (32) array -> . empty
     (117) empty -> .
 
@@ -2228,7 +2228,7 @@ state 142
 
 state 143
 
-    (31) array -> OPENBRACKET add_false_stack . expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> OPENBRACKET add_false_stack . expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
     (84) expresion -> . exp altexpresion
     (95) exp -> . termino
     (96) exp -> . termino altexp
@@ -2944,7 +2944,7 @@ state 182
 
 state 183
 
-    (31) array -> OPENBRACKET add_false_stack expresion . end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> OPENBRACKET add_false_stack expresion . end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
     (130) end_false_stack -> .
 
     CLOSEBRACKET    reduce using rule 130 (end_false_stack -> .)
@@ -3479,7 +3479,7 @@ state 208
 
 state 209
 
-    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack . CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack . CLOSEBRACKET generate_ver_quad array2 add_dir_base
 
     CLOSEBRACKET    shift and go to state 231
 
@@ -3779,7 +3779,7 @@ state 230
 
 state 231
 
-    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET . generate_ver_quad add_dir_base empty_pv array2
+    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET . generate_ver_quad array2 add_dir_base
     (35) generate_ver_quad -> .
 
     OPENBRACKET     reduce using rule 35 (generate_ver_quad -> .)
@@ -4171,29 +4171,32 @@ state 248
 
 state 249
 
-    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad . add_dir_base empty_pv array2
-    (36) add_dir_base -> .
+    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad . array2 add_dir_base
+    (33) array2 -> . OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad
+    (34) array2 -> . empty
+    (117) empty -> .
 
-    OPENBRACKET     reduce using rule 36 (add_dir_base -> .)
-    EQUALS          reduce using rule 36 (add_dir_base -> .)
-    TIMES           reduce using rule 36 (add_dir_base -> .)
-    DIV             reduce using rule 36 (add_dir_base -> .)
-    SUM             reduce using rule 36 (add_dir_base -> .)
-    SUBTRACT        reduce using rule 36 (add_dir_base -> .)
-    SAMEAS          reduce using rule 36 (add_dir_base -> .)
-    BIGGERTHAN      reduce using rule 36 (add_dir_base -> .)
-    BIGGEREQUALSTHAN reduce using rule 36 (add_dir_base -> .)
-    SMALLTHAN       reduce using rule 36 (add_dir_base -> .)
-    SMALLEQUALSTHAN reduce using rule 36 (add_dir_base -> .)
-    DIFFERENTTHAN   reduce using rule 36 (add_dir_base -> .)
-    AND             reduce using rule 36 (add_dir_base -> .)
-    OR              reduce using rule 36 (add_dir_base -> .)
-    SEMICOLON       reduce using rule 36 (add_dir_base -> .)
-    CLOSEPAREN      reduce using rule 36 (add_dir_base -> .)
-    CLOSEBRACKET    reduce using rule 36 (add_dir_base -> .)
-    COMMA           reduce using rule 36 (add_dir_base -> .)
+    OPENBRACKET     shift and go to state 263
+    EQUALS          reduce using rule 117 (empty -> .)
+    TIMES           reduce using rule 117 (empty -> .)
+    DIV             reduce using rule 117 (empty -> .)
+    SUM             reduce using rule 117 (empty -> .)
+    SUBTRACT        reduce using rule 117 (empty -> .)
+    SAMEAS          reduce using rule 117 (empty -> .)
+    BIGGERTHAN      reduce using rule 117 (empty -> .)
+    BIGGEREQUALSTHAN reduce using rule 117 (empty -> .)
+    SMALLTHAN       reduce using rule 117 (empty -> .)
+    SMALLEQUALSTHAN reduce using rule 117 (empty -> .)
+    DIFFERENTTHAN   reduce using rule 117 (empty -> .)
+    AND             reduce using rule 117 (empty -> .)
+    OR              reduce using rule 117 (empty -> .)
+    SEMICOLON       reduce using rule 117 (empty -> .)
+    CLOSEPAREN      reduce using rule 117 (empty -> .)
+    CLOSEBRACKET    reduce using rule 117 (empty -> .)
+    COMMA           reduce using rule 117 (empty -> .)
 
-    add_dir_base                   shift and go to state 263
+    array2                         shift and go to state 264
+    empty                          shift and go to state 265
 
 state 250
 
@@ -4201,7 +4204,7 @@ state 250
     (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition . ELSE generate_goto OPENCURLY altcondition add_end_if
     (142) add_end_if -> .
 
-    ELSE            shift and go to state 265
+    ELSE            shift and go to state 267
     CLOSECURLY      reduce using rule 142 (add_end_if -> .)
     VAR             reduce using rule 142 (add_end_if -> .)
     ID              reduce using rule 142 (add_end_if -> .)
@@ -4211,7 +4214,7 @@ state 250
     RETURN          reduce using rule 142 (add_end_if -> .)
     WHILE           reduce using rule 142 (add_end_if -> .)
 
-    add_end_if                     shift and go to state 264
+    add_end_if                     shift and go to state 266
 
 state 251
 
@@ -4245,7 +4248,7 @@ state 251
     WHILE           shift and go to state 85
 
     estatuto                       shift and go to state 251
-    altcondition                   shift and go to state 266
+    altcondition                   shift and go to state 268
     assign                         shift and go to state 72
     condition                      shift and go to state 73
     write                          shift and go to state 74
@@ -4279,7 +4282,7 @@ state 253
     COMMA           shift and go to state 212
     CLOSEPAREN      shift and go to state 213
 
-    altwrite                       shift and go to state 267
+    altwrite                       shift and go to state 269
 
 state 254
 
@@ -4318,7 +4321,7 @@ state 255
     (67) while -> . WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while
     (48) callfunc -> . ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
 
-    CLOSECURLY      shift and go to state 270
+    CLOSECURLY      shift and go to state 272
     ID              shift and go to state 79
     IF              shift and go to state 80
     OUTPUT          shift and go to state 81
@@ -4326,8 +4329,8 @@ state 255
     RETURN          shift and go to state 83
     WHILE           shift and go to state 85
 
-    altwhile                       shift and go to state 268
-    estatuto                       shift and go to state 269
+    altwhile                       shift and go to state 270
+    estatuto                       shift and go to state 271
     assign                         shift and go to state 72
     condition                      shift and go to state 73
     write                          shift and go to state 74
@@ -4379,7 +4382,7 @@ state 257
     WHILE           shift and go to state 85
 
     var                            shift and go to state 257
-    alt2const                      shift and go to state 271
+    alt2const                      shift and go to state 273
     estatuto                       shift and go to state 258
     assign                         shift and go to state 72
     condition                      shift and go to state 73
@@ -4425,7 +4428,7 @@ state 258
     WHILE           shift and go to state 85
 
     estatuto                       shift and go to state 258
-    alt2const                      shift and go to state 272
+    alt2const                      shift and go to state 274
     var                            shift and go to state 257
     assign                         shift and go to state 72
     condition                      shift and go to state 73
@@ -4472,7 +4475,7 @@ state 261
     CLOSEBRACKET    reduce using rule 131 (generate_gosub -> .)
     COMMA           reduce using rule 131 (generate_gosub -> .)
 
-    generate_gosub                 shift and go to state 273
+    generate_gosub                 shift and go to state 275
 
 state 262
 
@@ -4483,257 +4486,7 @@ state 262
 
 state 263
 
-    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base . empty_pv array2
-    (135) empty_pv -> .
-
-    OPENBRACKET     reduce using rule 135 (empty_pv -> .)
-    EQUALS          reduce using rule 135 (empty_pv -> .)
-    TIMES           reduce using rule 135 (empty_pv -> .)
-    DIV             reduce using rule 135 (empty_pv -> .)
-    SUM             reduce using rule 135 (empty_pv -> .)
-    SUBTRACT        reduce using rule 135 (empty_pv -> .)
-    SAMEAS          reduce using rule 135 (empty_pv -> .)
-    BIGGERTHAN      reduce using rule 135 (empty_pv -> .)
-    BIGGEREQUALSTHAN reduce using rule 135 (empty_pv -> .)
-    SMALLTHAN       reduce using rule 135 (empty_pv -> .)
-    SMALLEQUALSTHAN reduce using rule 135 (empty_pv -> .)
-    DIFFERENTTHAN   reduce using rule 135 (empty_pv -> .)
-    AND             reduce using rule 135 (empty_pv -> .)
-    OR              reduce using rule 135 (empty_pv -> .)
-    SEMICOLON       reduce using rule 135 (empty_pv -> .)
-    CLOSEPAREN      reduce using rule 135 (empty_pv -> .)
-    CLOSEBRACKET    reduce using rule 135 (empty_pv -> .)
-    COMMA           reduce using rule 135 (empty_pv -> .)
-
-    empty_pv                       shift and go to state 274
-
-state 264
-
-    (111) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .
-
-    CLOSECURLY      reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    VAR             reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    ID              reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    IF              reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    OUTPUT          reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    INPUT           reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    RETURN          reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-    WHILE           reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
-
-
-state 265
-
-    (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE . generate_goto OPENCURLY altcondition add_end_if
-    (143) generate_goto -> .
-
-    OPENCURLY       reduce using rule 143 (generate_goto -> .)
-
-    generate_goto                  shift and go to state 275
-
-state 266
-
-    (113) altcondition -> estatuto altcondition .
-
-    ELSE            reduce using rule 113 (altcondition -> estatuto altcondition .)
-    CLOSECURLY      reduce using rule 113 (altcondition -> estatuto altcondition .)
-    VAR             reduce using rule 113 (altcondition -> estatuto altcondition .)
-    ID              reduce using rule 113 (altcondition -> estatuto altcondition .)
-    IF              reduce using rule 113 (altcondition -> estatuto altcondition .)
-    OUTPUT          reduce using rule 113 (altcondition -> estatuto altcondition .)
-    INPUT           reduce using rule 113 (altcondition -> estatuto altcondition .)
-    RETURN          reduce using rule 113 (altcondition -> estatuto altcondition .)
-    WHILE           reduce using rule 113 (altcondition -> estatuto altcondition .)
-
-
-state 267
-
-    (107) altwrite -> COMMA save_op expresion altwrite .
-
-    CLOSECURLY      reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    VAR             reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    ID              reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    IF              reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    OUTPUT          reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    INPUT           reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    RETURN          reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-    WHILE           reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
-
-
-state 268
-
-    (67) while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile . end_while
-    (137) end_while -> .
-
-    CLOSECURLY      reduce using rule 137 (end_while -> .)
-    VAR             reduce using rule 137 (end_while -> .)
-    ID              reduce using rule 137 (end_while -> .)
-    IF              reduce using rule 137 (end_while -> .)
-    OUTPUT          reduce using rule 137 (end_while -> .)
-    INPUT           reduce using rule 137 (end_while -> .)
-    RETURN          reduce using rule 137 (end_while -> .)
-    WHILE           reduce using rule 137 (end_while -> .)
-
-    end_while                      shift and go to state 276
-
-state 269
-
-    (68) altwhile -> estatuto . altwhile
-    (68) altwhile -> . estatuto altwhile
-    (69) altwhile -> . CLOSECURLY
-    (58) estatuto -> . assign empty_pv
-    (59) estatuto -> . condition empty_pv
-    (60) estatuto -> . write empty_pv
-    (61) estatuto -> . read empty_pv
-    (62) estatuto -> . return empty_pv
-    (63) estatuto -> . voidcall empty_pv
-    (64) estatuto -> . while empty_pv
-    (115) assign -> . ID array save_comp EQUALS save_op expresion SEMICOLON
-    (111) condition -> . IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if
-    (112) condition -> . IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if
-    (106) write -> . OUTPUT save_op OPENPAREN expresion altwrite
-    (105) read -> . INPUT save_op OPENPAREN ID save_comp CLOSEPAREN SEMICOLON
-    (116) return -> . RETURN expresion generate_quad_ret SEMICOLON add_return_exists
-    (65) voidcall -> . callfunc SEMICOLON
-    (66) voidcall -> . ID DOT voidcall
-    (67) while -> . WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while
-    (48) callfunc -> . ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
-
-    CLOSECURLY      shift and go to state 270
-    ID              shift and go to state 79
-    IF              shift and go to state 80
-    OUTPUT          shift and go to state 81
-    INPUT           shift and go to state 82
-    RETURN          shift and go to state 83
-    WHILE           shift and go to state 85
-
-    estatuto                       shift and go to state 269
-    altwhile                       shift and go to state 277
-    assign                         shift and go to state 72
-    condition                      shift and go to state 73
-    write                          shift and go to state 74
-    read                           shift and go to state 75
-    return                         shift and go to state 76
-    voidcall                       shift and go to state 77
-    while                          shift and go to state 78
-    callfunc                       shift and go to state 84
-
-state 270
-
-    (69) altwhile -> CLOSECURLY .
-
-    CLOSECURLY      reduce using rule 69 (altwhile -> CLOSECURLY .)
-    VAR             reduce using rule 69 (altwhile -> CLOSECURLY .)
-    ID              reduce using rule 69 (altwhile -> CLOSECURLY .)
-    IF              reduce using rule 69 (altwhile -> CLOSECURLY .)
-    OUTPUT          reduce using rule 69 (altwhile -> CLOSECURLY .)
-    INPUT           reduce using rule 69 (altwhile -> CLOSECURLY .)
-    RETURN          reduce using rule 69 (altwhile -> CLOSECURLY .)
-    WHILE           reduce using rule 69 (altwhile -> CLOSECURLY .)
-
-
-state 271
-
-    (19) alt2const -> var alt2const .
-
-    CLOSECURLY      reduce using rule 19 (alt2const -> var alt2const .)
-
-
-state 272
-
-    (20) alt2const -> estatuto alt2const .
-
-    CLOSECURLY      reduce using rule 20 (alt2const -> estatuto alt2const .)
-
-
-state 273
-
-    (48) callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .
-
-    SEMICOLON       reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    TIMES           reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    DIV             reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    SUM             reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    SUBTRACT        reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    SAMEAS          reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    BIGGERTHAN      reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    BIGGEREQUALSTHAN reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    SMALLTHAN       reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    SMALLEQUALSTHAN reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    DIFFERENTTHAN   reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    AND             reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    OR              reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    CLOSEPAREN      reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    CLOSEBRACKET    reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-    COMMA           reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
-
-
-state 274
-
-    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv . array2
-    (33) array2 -> . OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
-    (34) array2 -> . empty
-    (117) empty -> .
-
-    OPENBRACKET     shift and go to state 278
-    EQUALS          reduce using rule 117 (empty -> .)
-    TIMES           reduce using rule 117 (empty -> .)
-    DIV             reduce using rule 117 (empty -> .)
-    SUM             reduce using rule 117 (empty -> .)
-    SUBTRACT        reduce using rule 117 (empty -> .)
-    SAMEAS          reduce using rule 117 (empty -> .)
-    BIGGERTHAN      reduce using rule 117 (empty -> .)
-    BIGGEREQUALSTHAN reduce using rule 117 (empty -> .)
-    SMALLTHAN       reduce using rule 117 (empty -> .)
-    SMALLEQUALSTHAN reduce using rule 117 (empty -> .)
-    DIFFERENTTHAN   reduce using rule 117 (empty -> .)
-    AND             reduce using rule 117 (empty -> .)
-    OR              reduce using rule 117 (empty -> .)
-    SEMICOLON       reduce using rule 117 (empty -> .)
-    CLOSEPAREN      reduce using rule 117 (empty -> .)
-    CLOSEBRACKET    reduce using rule 117 (empty -> .)
-    COMMA           reduce using rule 117 (empty -> .)
-
-    array2                         shift and go to state 279
-    empty                          shift and go to state 280
-
-state 275
-
-    (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto . OPENCURLY altcondition add_end_if
-
-    OPENCURLY       shift and go to state 281
-
-
-state 276
-
-    (67) while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .
-
-    CLOSECURLY      reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    VAR             reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    ID              reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    IF              reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    OUTPUT          reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    INPUT           reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    RETURN          reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-    WHILE           reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
-
-
-state 277
-
-    (68) altwhile -> estatuto altwhile .
-
-    CLOSECURLY      reduce using rule 68 (altwhile -> estatuto altwhile .)
-    VAR             reduce using rule 68 (altwhile -> estatuto altwhile .)
-    ID              reduce using rule 68 (altwhile -> estatuto altwhile .)
-    IF              reduce using rule 68 (altwhile -> estatuto altwhile .)
-    OUTPUT          reduce using rule 68 (altwhile -> estatuto altwhile .)
-    INPUT           reduce using rule 68 (altwhile -> estatuto altwhile .)
-    RETURN          reduce using rule 68 (altwhile -> estatuto altwhile .)
-    WHILE           reduce using rule 68 (altwhile -> estatuto altwhile .)
-
-
-state 278
-
-    (33) array2 -> OPENBRACKET . add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
+    (33) array2 -> OPENBRACKET . add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad
     (129) add_false_stack -> .
 
     OPENPAREN       reduce using rule 129 (add_false_stack -> .)
@@ -4744,32 +4497,34 @@ state 278
     CTEINT          reduce using rule 129 (add_false_stack -> .)
     ID              reduce using rule 129 (add_false_stack -> .)
 
-    add_false_stack                shift and go to state 282
+    add_false_stack                shift and go to state 276
 
-state 279
+state 264
 
-    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .
+    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 . add_dir_base
+    (36) add_dir_base -> .
 
-    EQUALS          reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    TIMES           reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    DIV             reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    SUM             reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    SUBTRACT        reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    SAMEAS          reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    BIGGERTHAN      reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    BIGGEREQUALSTHAN reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    SMALLTHAN       reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    SMALLEQUALSTHAN reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    DIFFERENTTHAN   reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    AND             reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    OR              reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    SEMICOLON       reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    CLOSEPAREN      reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    CLOSEBRACKET    reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
-    COMMA           reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2 .)
+    EQUALS          reduce using rule 36 (add_dir_base -> .)
+    TIMES           reduce using rule 36 (add_dir_base -> .)
+    DIV             reduce using rule 36 (add_dir_base -> .)
+    SUM             reduce using rule 36 (add_dir_base -> .)
+    SUBTRACT        reduce using rule 36 (add_dir_base -> .)
+    SAMEAS          reduce using rule 36 (add_dir_base -> .)
+    BIGGERTHAN      reduce using rule 36 (add_dir_base -> .)
+    BIGGEREQUALSTHAN reduce using rule 36 (add_dir_base -> .)
+    SMALLTHAN       reduce using rule 36 (add_dir_base -> .)
+    SMALLEQUALSTHAN reduce using rule 36 (add_dir_base -> .)
+    DIFFERENTTHAN   reduce using rule 36 (add_dir_base -> .)
+    AND             reduce using rule 36 (add_dir_base -> .)
+    OR              reduce using rule 36 (add_dir_base -> .)
+    SEMICOLON       reduce using rule 36 (add_dir_base -> .)
+    CLOSEPAREN      reduce using rule 36 (add_dir_base -> .)
+    CLOSEBRACKET    reduce using rule 36 (add_dir_base -> .)
+    COMMA           reduce using rule 36 (add_dir_base -> .)
 
+    add_dir_base                   shift and go to state 277
 
-state 280
+state 265
 
     (34) array2 -> empty .
 
@@ -4792,7 +4547,274 @@ state 280
     COMMA           reduce using rule 34 (array2 -> empty .)
 
 
+state 266
+
+    (111) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .
+
+    CLOSECURLY      reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    VAR             reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    ID              reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    IF              reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    OUTPUT          reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    INPUT           reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    RETURN          reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+    WHILE           reduce using rule 111 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if .)
+
+
+state 267
+
+    (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE . generate_goto OPENCURLY altcondition add_end_if
+    (143) generate_goto -> .
+
+    OPENCURLY       reduce using rule 143 (generate_goto -> .)
+
+    generate_goto                  shift and go to state 278
+
+state 268
+
+    (113) altcondition -> estatuto altcondition .
+
+    ELSE            reduce using rule 113 (altcondition -> estatuto altcondition .)
+    CLOSECURLY      reduce using rule 113 (altcondition -> estatuto altcondition .)
+    VAR             reduce using rule 113 (altcondition -> estatuto altcondition .)
+    ID              reduce using rule 113 (altcondition -> estatuto altcondition .)
+    IF              reduce using rule 113 (altcondition -> estatuto altcondition .)
+    OUTPUT          reduce using rule 113 (altcondition -> estatuto altcondition .)
+    INPUT           reduce using rule 113 (altcondition -> estatuto altcondition .)
+    RETURN          reduce using rule 113 (altcondition -> estatuto altcondition .)
+    WHILE           reduce using rule 113 (altcondition -> estatuto altcondition .)
+
+
+state 269
+
+    (107) altwrite -> COMMA save_op expresion altwrite .
+
+    CLOSECURLY      reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    VAR             reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    ID              reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    IF              reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    OUTPUT          reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    INPUT           reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    RETURN          reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+    WHILE           reduce using rule 107 (altwrite -> COMMA save_op expresion altwrite .)
+
+
+state 270
+
+    (67) while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile . end_while
+    (137) end_while -> .
+
+    CLOSECURLY      reduce using rule 137 (end_while -> .)
+    VAR             reduce using rule 137 (end_while -> .)
+    ID              reduce using rule 137 (end_while -> .)
+    IF              reduce using rule 137 (end_while -> .)
+    OUTPUT          reduce using rule 137 (end_while -> .)
+    INPUT           reduce using rule 137 (end_while -> .)
+    RETURN          reduce using rule 137 (end_while -> .)
+    WHILE           reduce using rule 137 (end_while -> .)
+
+    end_while                      shift and go to state 279
+
+state 271
+
+    (68) altwhile -> estatuto . altwhile
+    (68) altwhile -> . estatuto altwhile
+    (69) altwhile -> . CLOSECURLY
+    (58) estatuto -> . assign empty_pv
+    (59) estatuto -> . condition empty_pv
+    (60) estatuto -> . write empty_pv
+    (61) estatuto -> . read empty_pv
+    (62) estatuto -> . return empty_pv
+    (63) estatuto -> . voidcall empty_pv
+    (64) estatuto -> . while empty_pv
+    (115) assign -> . ID array save_comp EQUALS save_op expresion SEMICOLON
+    (111) condition -> . IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition add_end_if
+    (112) condition -> . IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if
+    (106) write -> . OUTPUT save_op OPENPAREN expresion altwrite
+    (105) read -> . INPUT save_op OPENPAREN ID save_comp CLOSEPAREN SEMICOLON
+    (116) return -> . RETURN expresion generate_quad_ret SEMICOLON add_return_exists
+    (65) voidcall -> . callfunc SEMICOLON
+    (66) voidcall -> . ID DOT voidcall
+    (67) while -> . WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while
+    (48) callfunc -> . ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
+
+    CLOSECURLY      shift and go to state 272
+    ID              shift and go to state 79
+    IF              shift and go to state 80
+    OUTPUT          shift and go to state 81
+    INPUT           shift and go to state 82
+    RETURN          shift and go to state 83
+    WHILE           shift and go to state 85
+
+    estatuto                       shift and go to state 271
+    altwhile                       shift and go to state 280
+    assign                         shift and go to state 72
+    condition                      shift and go to state 73
+    write                          shift and go to state 74
+    read                           shift and go to state 75
+    return                         shift and go to state 76
+    voidcall                       shift and go to state 77
+    while                          shift and go to state 78
+    callfunc                       shift and go to state 84
+
+state 272
+
+    (69) altwhile -> CLOSECURLY .
+
+    CLOSECURLY      reduce using rule 69 (altwhile -> CLOSECURLY .)
+    VAR             reduce using rule 69 (altwhile -> CLOSECURLY .)
+    ID              reduce using rule 69 (altwhile -> CLOSECURLY .)
+    IF              reduce using rule 69 (altwhile -> CLOSECURLY .)
+    OUTPUT          reduce using rule 69 (altwhile -> CLOSECURLY .)
+    INPUT           reduce using rule 69 (altwhile -> CLOSECURLY .)
+    RETURN          reduce using rule 69 (altwhile -> CLOSECURLY .)
+    WHILE           reduce using rule 69 (altwhile -> CLOSECURLY .)
+
+
+state 273
+
+    (19) alt2const -> var alt2const .
+
+    CLOSECURLY      reduce using rule 19 (alt2const -> var alt2const .)
+
+
+state 274
+
+    (20) alt2const -> estatuto alt2const .
+
+    CLOSECURLY      reduce using rule 20 (alt2const -> estatuto alt2const .)
+
+
+state 275
+
+    (48) callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .
+
+    SEMICOLON       reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    TIMES           reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    DIV             reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    SUM             reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    SUBTRACT        reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    SAMEAS          reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    BIGGERTHAN      reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    BIGGEREQUALSTHAN reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    SMALLTHAN       reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    SMALLEQUALSTHAN reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    DIFFERENTTHAN   reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    AND             reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    OR              reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    CLOSEPAREN      reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    CLOSEBRACKET    reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+    COMMA           reduce using rule 48 (callfunc -> ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub .)
+
+
+state 276
+
+    (33) array2 -> OPENBRACKET add_false_stack . expresion end_false_stack CLOSEBRACKET generate_ver_quad
+    (84) expresion -> . exp altexpresion
+    (95) exp -> . termino
+    (96) exp -> . termino altexp
+    (100) termino -> . factor
+    (101) termino -> . factor alttermino
+    (109) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
+    (110) factor -> . varcall
+    (70) varcall -> . varcte save_const
+    (71) varcall -> . varcomplicated save_comp
+    (72) varcte -> . TRUE
+    (73) varcte -> . FALSE
+    (74) varcte -> . CTEFLOAT
+    (75) varcte -> . CTESTRING
+    (76) varcte -> . CTEINT
+    (77) varcomplicated -> . varcomp1
+    (78) varcomplicated -> . callfunc
+    (79) varcomp1 -> . ID varcomp2
+    (48) callfunc -> . ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
+
+    OPENPAREN       shift and go to state 118
+    TRUE            shift and go to state 122
+    FALSE           shift and go to state 123
+    CTEFLOAT        shift and go to state 124
+    CTESTRING       shift and go to state 125
+    CTEINT          shift and go to state 126
+    ID              shift and go to state 129
+
+    expresion                      shift and go to state 281
+    exp                            shift and go to state 115
+    termino                        shift and go to state 116
+    factor                         shift and go to state 117
+    varcall                        shift and go to state 119
+    varcte                         shift and go to state 120
+    varcomplicated                 shift and go to state 121
+    varcomp1                       shift and go to state 127
+    callfunc                       shift and go to state 128
+
+state 277
+
+    (31) array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .
+
+    EQUALS          reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    TIMES           reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    DIV             reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    SUM             reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    SUBTRACT        reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    SAMEAS          reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    BIGGERTHAN      reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    BIGGEREQUALSTHAN reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    SMALLTHAN       reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    SMALLEQUALSTHAN reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    DIFFERENTTHAN   reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    AND             reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    OR              reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    SEMICOLON       reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    CLOSEPAREN      reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    CLOSEBRACKET    reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+    COMMA           reduce using rule 31 (array -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base .)
+
+
+state 278
+
+    (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto . OPENCURLY altcondition add_end_if
+
+    OPENCURLY       shift and go to state 282
+
+
+state 279
+
+    (67) while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .
+
+    CLOSECURLY      reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    VAR             reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    ID              reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    IF              reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    OUTPUT          reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    INPUT           reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    RETURN          reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+    WHILE           reduce using rule 67 (while -> WHILE add_stack_jump OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altwhile end_while .)
+
+
+state 280
+
+    (68) altwhile -> estatuto altwhile .
+
+    CLOSECURLY      reduce using rule 68 (altwhile -> estatuto altwhile .)
+    VAR             reduce using rule 68 (altwhile -> estatuto altwhile .)
+    ID              reduce using rule 68 (altwhile -> estatuto altwhile .)
+    IF              reduce using rule 68 (altwhile -> estatuto altwhile .)
+    OUTPUT          reduce using rule 68 (altwhile -> estatuto altwhile .)
+    INPUT           reduce using rule 68 (altwhile -> estatuto altwhile .)
+    RETURN          reduce using rule 68 (altwhile -> estatuto altwhile .)
+    WHILE           reduce using rule 68 (altwhile -> estatuto altwhile .)
+
+
 state 281
+
+    (33) array2 -> OPENBRACKET add_false_stack expresion . end_false_stack CLOSEBRACKET generate_ver_quad
+    (130) end_false_stack -> .
+
+    CLOSEBRACKET    reduce using rule 130 (end_false_stack -> .)
+
+    end_false_stack                shift and go to state 283
+
+state 282
 
     (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY . altcondition add_end_if
     (113) altcondition -> . estatuto altcondition
@@ -4823,7 +4845,7 @@ state 281
     RETURN          shift and go to state 83
     WHILE           shift and go to state 85
 
-    altcondition                   shift and go to state 283
+    altcondition                   shift and go to state 284
     estatuto                       shift and go to state 251
     assign                         shift and go to state 72
     condition                      shift and go to state 73
@@ -4834,47 +4856,14 @@ state 281
     while                          shift and go to state 78
     callfunc                       shift and go to state 84
 
-state 282
-
-    (33) array2 -> OPENBRACKET add_false_stack . expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
-    (84) expresion -> . exp altexpresion
-    (95) exp -> . termino
-    (96) exp -> . termino altexp
-    (100) termino -> . factor
-    (101) termino -> . factor alttermino
-    (109) factor -> . OPENPAREN save_op expresion CLOSEPAREN save_op
-    (110) factor -> . varcall
-    (70) varcall -> . varcte save_const
-    (71) varcall -> . varcomplicated save_comp
-    (72) varcte -> . TRUE
-    (73) varcte -> . FALSE
-    (74) varcte -> . CTEFLOAT
-    (75) varcte -> . CTESTRING
-    (76) varcte -> . CTEINT
-    (77) varcomplicated -> . varcomp1
-    (78) varcomplicated -> . callfunc
-    (79) varcomp1 -> . ID varcomp2
-    (48) callfunc -> . ID check_exists_func add_false_stack OPENPAREN altcall check_params CLOSEPAREN end_false_stack generate_gosub
-
-    OPENPAREN       shift and go to state 118
-    TRUE            shift and go to state 122
-    FALSE           shift and go to state 123
-    CTEFLOAT        shift and go to state 124
-    CTESTRING       shift and go to state 125
-    CTEINT          shift and go to state 126
-    ID              shift and go to state 129
-
-    expresion                      shift and go to state 284
-    exp                            shift and go to state 115
-    termino                        shift and go to state 116
-    factor                         shift and go to state 117
-    varcall                        shift and go to state 119
-    varcte                         shift and go to state 120
-    varcomplicated                 shift and go to state 121
-    varcomp1                       shift and go to state 127
-    callfunc                       shift and go to state 128
-
 state 283
+
+    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack . CLOSEBRACKET generate_ver_quad
+
+    CLOSEBRACKET    shift and go to state 285
+
+
+state 284
 
     (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition . add_end_if
     (142) add_end_if -> .
@@ -4888,41 +4877,11 @@ state 283
     RETURN          reduce using rule 142 (add_end_if -> .)
     WHILE           reduce using rule 142 (add_end_if -> .)
 
-    add_end_if                     shift and go to state 285
-
-state 284
-
-    (33) array2 -> OPENBRACKET add_false_stack expresion . end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
-    (130) end_false_stack -> .
-
-    CLOSEBRACKET    reduce using rule 130 (end_false_stack -> .)
-
-    end_false_stack                shift and go to state 286
+    add_end_if                     shift and go to state 286
 
 state 285
 
-    (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .
-
-    CLOSECURLY      reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    VAR             reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    ID              reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    IF              reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    OUTPUT          reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    INPUT           reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    RETURN          reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-    WHILE           reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
-
-
-state 286
-
-    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack . CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
-
-    CLOSEBRACKET    shift and go to state 287
-
-
-state 287
-
-    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET . generate_ver_quad add_dir_base empty_pv
+    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET . generate_ver_quad
     (35) generate_ver_quad -> .
 
     EQUALS          reduce using rule 35 (generate_ver_quad -> .)
@@ -4943,79 +4902,43 @@ state 287
     CLOSEBRACKET    reduce using rule 35 (generate_ver_quad -> .)
     COMMA           reduce using rule 35 (generate_ver_quad -> .)
 
-    generate_ver_quad              shift and go to state 288
+    generate_ver_quad              shift and go to state 287
 
-state 288
+state 286
 
-    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad . add_dir_base empty_pv
-    (36) add_dir_base -> .
+    (112) condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .
 
-    EQUALS          reduce using rule 36 (add_dir_base -> .)
-    TIMES           reduce using rule 36 (add_dir_base -> .)
-    DIV             reduce using rule 36 (add_dir_base -> .)
-    SUM             reduce using rule 36 (add_dir_base -> .)
-    SUBTRACT        reduce using rule 36 (add_dir_base -> .)
-    SAMEAS          reduce using rule 36 (add_dir_base -> .)
-    BIGGERTHAN      reduce using rule 36 (add_dir_base -> .)
-    BIGGEREQUALSTHAN reduce using rule 36 (add_dir_base -> .)
-    SMALLTHAN       reduce using rule 36 (add_dir_base -> .)
-    SMALLEQUALSTHAN reduce using rule 36 (add_dir_base -> .)
-    DIFFERENTTHAN   reduce using rule 36 (add_dir_base -> .)
-    AND             reduce using rule 36 (add_dir_base -> .)
-    OR              reduce using rule 36 (add_dir_base -> .)
-    SEMICOLON       reduce using rule 36 (add_dir_base -> .)
-    CLOSEPAREN      reduce using rule 36 (add_dir_base -> .)
-    CLOSEBRACKET    reduce using rule 36 (add_dir_base -> .)
-    COMMA           reduce using rule 36 (add_dir_base -> .)
+    CLOSECURLY      reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    VAR             reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    ID              reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    IF              reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    OUTPUT          reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    INPUT           reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    RETURN          reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
+    WHILE           reduce using rule 112 (condition -> IF OPENPAREN expresion CLOSEPAREN add_gotof OPENCURLY altcondition ELSE generate_goto OPENCURLY altcondition add_end_if .)
 
-    add_dir_base                   shift and go to state 289
 
-state 289
+state 287
 
-    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base . empty_pv
-    (135) empty_pv -> .
+    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .
 
-    EQUALS          reduce using rule 135 (empty_pv -> .)
-    TIMES           reduce using rule 135 (empty_pv -> .)
-    DIV             reduce using rule 135 (empty_pv -> .)
-    SUM             reduce using rule 135 (empty_pv -> .)
-    SUBTRACT        reduce using rule 135 (empty_pv -> .)
-    SAMEAS          reduce using rule 135 (empty_pv -> .)
-    BIGGERTHAN      reduce using rule 135 (empty_pv -> .)
-    BIGGEREQUALSTHAN reduce using rule 135 (empty_pv -> .)
-    SMALLTHAN       reduce using rule 135 (empty_pv -> .)
-    SMALLEQUALSTHAN reduce using rule 135 (empty_pv -> .)
-    DIFFERENTTHAN   reduce using rule 135 (empty_pv -> .)
-    AND             reduce using rule 135 (empty_pv -> .)
-    OR              reduce using rule 135 (empty_pv -> .)
-    SEMICOLON       reduce using rule 135 (empty_pv -> .)
-    CLOSEPAREN      reduce using rule 135 (empty_pv -> .)
-    CLOSEBRACKET    reduce using rule 135 (empty_pv -> .)
-    COMMA           reduce using rule 135 (empty_pv -> .)
-
-    empty_pv                       shift and go to state 290
-
-state 290
-
-    (33) array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .
-
-    EQUALS          reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    TIMES           reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    DIV             reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    SUM             reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    SUBTRACT        reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    SAMEAS          reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    BIGGERTHAN      reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    BIGGEREQUALSTHAN reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    SMALLTHAN       reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    SMALLEQUALSTHAN reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    DIFFERENTTHAN   reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    AND             reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    OR              reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    SEMICOLON       reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    CLOSEPAREN      reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    CLOSEBRACKET    reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
-    COMMA           reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv .)
+    EQUALS          reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    TIMES           reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    DIV             reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    SUM             reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    SUBTRACT        reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    SAMEAS          reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    BIGGERTHAN      reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    BIGGEREQUALSTHAN reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    SMALLTHAN       reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    SMALLEQUALSTHAN reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    DIFFERENTTHAN   reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    AND             reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    OR              reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    SEMICOLON       reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    CLOSEPAREN      reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    CLOSEBRACKET    reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
+    COMMA           reduce using rule 33 (array2 -> OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad .)
 
 WARNING: 
 WARNING: Conflicts:

@@ -31,6 +31,7 @@ class QCASQ_Parser:
     # to keep track of the variables that we are sending the func call
     params_call = []
     count_params = 0
+    count = 1
 
     # initialize Objects that we need
     class_dir = Class_Dir()
@@ -122,29 +123,50 @@ class QCASQ_Parser:
 
     def p_array(self, p):
         '''
-        array   : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
+        array   : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
                 | empty
-        array2  : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
+        array2  : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad
                 | empty
         '''
         pass
 
     def p_generate_ver_quad(self, p):
         ''' generate_ver_quad : '''
-        #TODO: add quads for matrix
+        # TODO: Check dimensions to catch errors
         var_name = p[-6]
-        var = self.check_variable_exists(p[-6])
+        var = self.check_variable_exists(var_name, p)
+        if var is None:
+            var_name = p[-12]
+            var = self.check_variable_exists(var_name, p)
         if var[2] is None:
-            # TODO: Check that a matrix is not an array
             sys.exit(f"{var_name} is not an array in line {p.lineno(-1)}")
-        limitS = var[2][0]
-        self.quads.add_operand(limitS, "int")
-        self.quads.add_to_stack_op("ver")
+        elif len(var[2]) == 1:
+            limitS = var[2][0]
+            self.quads.add_operand(limitS, "int")
+            self.quads.add_to_stack_op("ver")
+        elif len(var[2]) == 2:
+            limitS = var[2][self.count]
+            self.quads.add_operand(limitS, "int")
+            self.quads.add_to_stack_op("ver")
+            if self.count > 0:
+                self.multi_s_d(var_name, p)
+            if self.count == 0:
+                self.generate_s2(var_name)
+            self.count -= 1
+        pass
+
+    def generate_s2(self, var_name : str):
+        self.quads.add_to_stack_op("s2")
+
+    def multi_s_d(self, var_name: str, p):
+        var = self.check_variable_exists(var_name, p)
+        self.quads.add_operand(var[2][0], "int")
+        self.quads.add_to_stack_op("s1d2")
         pass
 
     def p_add_dir_base(self, p):
         ''' add_dir_base : '''
-        var = self.check_variable_exists(p[-7])
+        var = self.check_variable_exists(p[-8], p)
         self.quads.add_operand(var[0], var[1])
         self.quads.add_to_stack_op("addbase")
         pass
@@ -661,10 +683,11 @@ class QCASQ_Parser:
             var_name = p[-2]
         else:
             var_name = p[-1]
-        var = self.check_variable_exists(var_name)
+        var = self.check_variable_exists(var_name, p)
         # catchet if var_name is a function, do not add
         if var is not None:
             self.quads.add_operand(var[0], var[1])
+        self.count = 1
 
         pass
 
@@ -721,7 +744,7 @@ class QCASQ_Parser:
         if func_name in func_dir:
             return func_dir[func_name]
 
-    def check_variable_exists(self, var_name: str):
+    def check_variable_exists(self, var_name: str, p):
         """ Checks if the variable exists in any scope """
         var_found = False
         index_scope_class = len(self.class_dir.get_scope()) - 1
