@@ -122,11 +122,31 @@ class QCASQ_Parser:
 
     def p_array(self, p):
         '''
-        array   : OPENBRACKET expresion CLOSEBRACKET empty_pv array2
+        array   : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv array2
                 | empty
-        array2  : OPENBRACKET expresion CLOSEBRACKET empty_pv
+        array2  : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad add_dir_base empty_pv
                 | empty
         '''
+        pass
+
+    def p_generate_ver_quad(self, p):
+        ''' generate_ver_quad : '''
+        #TODO: add quads for matrix
+        var_name = p[-6]
+        var = self.check_variable_exists(p[-6])
+        if var[2] is None:
+            # TODO: Check that a matrix is not an array
+            sys.exit(f"{var_name} is not an array in line {p.lineno(-1)}")
+        limitS = var[2][0]
+        self.quads.add_operand(limitS, "int")
+        self.quads.add_to_stack_op("ver")
+        pass
+
+    def p_add_dir_base(self, p):
+        ''' add_dir_base : '''
+        var = self.check_variable_exists(p[-7])
+        self.quads.add_operand(var[0], var[1])
+        self.quads.add_to_stack_op("addbase")
         pass
 
     def p_function(self, p):
@@ -237,6 +257,7 @@ class QCASQ_Parser:
         if p[1] is not None and p[1] != ".":
             p[0] = p[1]
         pass
+
 
     def p_expresion(self, p):
         '''
@@ -427,7 +448,6 @@ class QCASQ_Parser:
                 # local variables for a class
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
                 tipo = p[-1] + "L"
-                print("here", self.limits.getAddress(tipo), self.limits.getCont(tipo))
                 address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
                 if element[1] == True:
                     dimensions = element[2]
@@ -637,7 +657,13 @@ class QCASQ_Parser:
 
     def p_save_comp(self, p):
         """ save_comp : """
-        self.check_variable_exists(p)
+        if p[-1] is None:
+            var_name = p[-2]
+        else:
+            var_name = p[-1]
+        var = self.check_variable_exists(var_name)
+        self.quads.add_operand(var[0], var[1])
+
         pass
 
     def p_save_op(self, p):
@@ -693,15 +719,8 @@ class QCASQ_Parser:
         if func_name in func_dir:
             return func_dir[func_name]
 
-    def check_variable_exists(self, p):
+    def check_variable_exists(self, var_name: str):
         """ Checks if the variable exists in any scope """
-        # TODO: Check that var is actually an array
-        # TOOD: Generate quadruples array
-        var_name = ""
-        if p[-1] is None:
-            var_name = p[-2]
-        else:
-            var_name = p[-1]
         var_found = False
         index_scope_class = len(self.class_dir.get_scope()) - 1
         while index_scope_class >= 0 and var_found is False:
@@ -720,7 +739,7 @@ class QCASQ_Parser:
                         if var[1] == "void":
                             sys.exit(f"Error: you cannot use a void function inside an expresion")
                     else:
-                        self.quads.add_operand(var[0], var[1])
+                        return var
                 else:
                     index_scope_class = index_scope_class - 1
         if index_scope_class < 0 and var_found is False:
@@ -768,7 +787,7 @@ class QCASQ_Parser:
         """
         if var_name in tablevars.get_dictionary():
             var = tablevars.get_variable(var_name)
-            return var["address"], var["type"]
+            return var["address"], var["type"], var["dims"]
         else:
             return None
 

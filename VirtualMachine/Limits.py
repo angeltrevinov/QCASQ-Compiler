@@ -51,7 +51,6 @@ class Limits:
         return self.cont[type]
 
     def check_limits(self, address:int, tipo: str):
-        print(address, tipo)
         in_limits = False
         if address >= self.offsets[tipo] and address < self.offsets[tipo] + self.division:
             in_limits = True

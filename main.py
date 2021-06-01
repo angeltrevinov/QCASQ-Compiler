@@ -35,7 +35,7 @@ def test_from_file():
     # Enable this lines to print different structures used in the parser
     #pars.ctes.print_ctes()
     pars.class_dir.print_dictionary()
-    #pars.quads.print_quadruples()
+    pars.quads.print_quadruples()
     #print(pars.pars_data_vm())
 
     # Enable this lines to execute the program from input file

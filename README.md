@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Crea quads de arrays                       | Mayo 31     |
 | Saving Dimensions for Array & Matrix       | Mayo 31     |
 | Declara arreglos y los acepta dentro de exp | Mayo 31    |
 | Prohibe a voids utilizar returns           | Mayo 30     |

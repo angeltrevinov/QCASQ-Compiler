@@ -91,6 +91,21 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.ASSIGNRET:
             op = self.__pop_operand_stack()
             self.__add_to_quadruplues__(operator, op, (), (None, op[1]))
+        # Quad for VER - Array
+        elif self.__operators[operator] == Hierarchies.VER:
+            limit = self.__pop_operand_stack()
+            op = self.__polish_vector__[-1]
+            if op[1] != "int":
+                sys.exit(f"You can only use integers in an array")
+            self.__add_to_quadruplues__(operator, op, (0, "int"), limit)
+            #print(self.__stack_quadruples__)
+        elif self.__operators[operator] == Hierarchies.ADDBASE:
+            dir_base = self.__pop_operand_stack()
+            op = self.__pop_operand_stack()
+            print(dir_base)
+            print(op)
+            self.__add_to_quadruplues__(operator, op, dir_base, (None, "int"))
+
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
@@ -166,7 +181,9 @@ class QuadrupleManager:
                 self.__operators[operator] != Hierarchies.PARAMS and
                 self.__operators[operator] != Hierarchies.GOSUB and
                 self.__operators[operator] != Hierarchies.RETURN and
-                self.__operators[operator] != Hierarchies.ASSIGNRET
+                self.__operators[operator] != Hierarchies.ASSIGNRET and
+                self.__operators[operator] != Hierarchies.VER and
+                self.__operators[operator] != Hierarchies.ADDBASE
         ):
             self.__stack_operators__.append(operator)
 
@@ -234,7 +251,6 @@ class QuadrupleManager:
     def add_jump_stack(self):
         self.__stack_jumps__.append((len(self.__stack_quadruples__)))
 
-
     def __empty_false_stack(self):
         while self.__stack_operators__[-1] != "(":
             opr = self.__pop_operator_stack()
@@ -283,8 +299,11 @@ class QuadrupleManager:
             self.limits.check_limits(address, str(storage[1]) + "L")
             self.limits.upCont(str(storage[1]) + "L")
             storage = (address, storage[1])
-        elif operator == "era" or operator == "params" or operator == "gosub":
+        elif operator == "era" or operator == "params" or operator == "gosub" or operator == "ver":
             storage = storage[0]
+
+        if operator == "addbase":
+            storage = ("(" + str(storage[0]) + ")", "int")
 
         self.__stack_quadruples__.append({
             "operator": self.oprTrans.translate(operator),
@@ -292,7 +311,9 @@ class QuadrupleManager:
             "operand2": operand2,
             "storage": storage
         })
-        if self.__operators[operator] <= Hierarchies.LOGIC or self.__operators[operator] == Hierarchies.ASSIGNRET:
+        if (self.__operators[operator] <= Hierarchies.LOGIC or
+                self.__operators[operator] == Hierarchies.ASSIGNRET or
+                self.__operators[operator] == Hierarchies.ADDBASE):
             self.add_operand(storage[0], storage[1])
 
     def __pop_jumps_stack(self) -> int:
