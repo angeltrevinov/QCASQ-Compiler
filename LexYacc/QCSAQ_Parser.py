@@ -27,6 +27,7 @@ class QCASQ_Parser:
     __stack_vars = []  # this is to store if multiple vars came as a list, so we can also add their type
     __stack_params = []  # to save the params in their corresponding function directory
     tokens = QCASQ_Lexer.tokens  # add the lexer
+    stack_dimensions = [] # to keep track of the number of dimensions if variable is an array
     # to keep track of the variables that we are sending the func call
     params_call = []
     count_params = 0
@@ -89,20 +90,34 @@ class QCASQ_Parser:
         pass
 
     def p_listids(self, p):
-        '''
-        listids     : ID save_var_name dec_array listidsalty
+        """
+        listids     : ID save_var_name dec_array empty_dim_stack listidsalty
         listidsalty : COMMA listids
                     | empty
-        '''
+        """
         pass
 
     def p_dec_array(self, p):
-        '''
+        """
         dec_array   : OPENBRACKET CTEINT CLOSEBRACKET dec_array2
                     | empty
         dec_array2  : OPENBRACKET CTEINT CLOSEBRACKET
                     | empty
-        '''
+        """
+        if p[1] is not None:
+            self.stack_dimensions.append(p[2])
+            new_tuple = (self.__stack_vars[-1][0], True)
+            self.__stack_vars.pop()
+            self.__stack_vars.append(new_tuple)
+        pass
+
+    def p_empty_dim_stack(self, p):
+        ''' empty_dim_stack : '''
+        if self.__stack_vars[-1][1]:
+            new_tuple = (self.__stack_vars[-1][0], True, self.stack_dimensions.copy())
+            self.__stack_vars.pop()
+            self.__stack_vars.append(new_tuple)
+            self.stack_dimensions.clear()
         pass
 
     def p_array(self, p):
@@ -381,21 +396,33 @@ class QCASQ_Parser:
             if class_func_scope_length == 0:
                 # Check if we are in the global scope
                 if len(self.class_dir.get_scope()) == 1:
+                    # Add the variable to global vars
                     tipo = p[-1] + "G"
                     address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
-                    # Add the variable to global vars
-                    self.limits.check_limits(address, tipo)
-                    self.class_dir.get_class(
-                        class_scope
-                    )["tablevars"].add_to_dictionary(
-                        element, p[-1], address
-                    )
-                    self.limits.upCont(tipo)
+                    if element[1] == True:  # An array has been found
+                        dimensions = element[2]
+                        R = self.calculate_r(dimensions)
+                        self.limits.check_limits(address+R, tipo)
+                        self.class_dir.get_class(
+                            class_scope
+                        )["tablevars"].add_to_dictionary(
+                            element[0], p[-1], address, dimensions
+                        )
+                        self.limits.upCont(tipo, R)
+                    else:  # A simple var has been foun
+                        self.limits.check_limits(address, tipo)
+                        self.class_dir.get_class(
+                            class_scope
+                        )["tablevars"].add_to_dictionary(
+                            element[0], p[-1], address
+                        )
+                        self.limits.upCont(tipo)
+
+                # TODO: CHECKS if var is declared inside a class
                 else:
-                    # Checks if we are inside a class
                     self.class_dir.get_class(
                         class_scope
-                    )["tablevars"].add_to_dictionary(element, p[-1], 0)
+                    )["tablevars"].add_to_dictionary(element[0], p[-1], 0)
             else:
                 # local variables for a class
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
@@ -406,15 +433,22 @@ class QCASQ_Parser:
                     class_scope
                 )["function_dir"].get_function(
                     func_scope
-                )["tablevars"].add_to_dictionary(element, p[-1], address)
+                )["tablevars"].add_to_dictionary(element[0], p[-1], address)
                 self.limits.upCont(tipo)
         self.__stack_vars.clear()
         pass
 
+    def calculate_r(self, dimensions: list) -> int:
+        print(dimensions)
+        R = 1
+        for dim in dimensions:
+            R = dim * R
+        return R
+
     # Adds the var to the var stack to be safe later
     def p_save_var_name(self, p):
         """ save_var_name : """
-        self.__stack_vars.append(p[-1])
+        self.__stack_vars.append((p[-1], False))
         pass
 
     # Add function name and type to the dictionary

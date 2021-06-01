@@ -44,8 +44,8 @@ class Limits:
     def getAddress(self, type: str):
         return self.offsets[type]
 
-    def upCont(self, type: str):
-        self.cont[type] = self.cont[type] + 1
+    def upCont(self, type: str, add: int=1):
+        self.cont[type] = self.cont[type] + add
 
     def getCont(self, type: str):
         return self.cont[type]
