@@ -695,6 +695,8 @@ class QCASQ_Parser:
 
     def check_variable_exists(self, p):
         """ Checks if the variable exists in any scope """
+        # TODO: Check that var is actually an array
+        # TOOD: Generate quadruples array
         var_name = ""
         if p[-1] is None:
             var_name = p[-2]

@@ -12,7 +12,8 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
-| Declara arreglos y los acepta dentro de exp | Mayo 31
+| Saving Dimensions for Array & Matrix       | Mayo 31     |
+| Declara arreglos y los acepta dentro de exp | Mayo 31    |
 | Prohibe a voids utilizar returns           | Mayo 30     |
 | Prohibe a expresiones usar funcs voids     | Mayo 30     |  
 | Ejecuta funciones con returns              | Mayo 29     |
