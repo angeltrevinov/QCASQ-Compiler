@@ -175,8 +175,8 @@ class ExecutionMemory:
         :type value_type: str
         :param var: the value to cast
         :type var: str
-        :return:
-        :rtype:
+        :return: the cast value to our language
+        :rtype: the type it should be
         """
         try:
             if value_type == 'int':
@@ -184,9 +184,10 @@ class ExecutionMemory:
             elif value_type == 'float':
                 return float(var)
             elif value_type == 'bool':
-                if var == 'false' or var == False:
+                # just make sure that we accept our language booleans and pythons booleans
+                if var == 'false' or var is False:
                     return False
-                elif var == 'true' or var == True:
+                elif var == 'true' or var is True:
                     return True
                 else:
                     sys.exit(f"Wrong boolean")
@@ -196,36 +197,76 @@ class ExecutionMemory:
             sys.exit(f"Wrong type of variable received")
 
     def get_value(self, dir: int, tipo: str):
+        """
+        Method that retrieves the value inside an address
+        :param dir: the direction where the value is
+        :type dir: int
+        :param tipo: the type of variable to retrieve
+        :type tipo: str
+        :return: The value in that direction
+        """
+        # if the direction is global
         if dir >= 0 * self.division and dir < 4 * self.division:
-            offset = dir - self.base[tipo + "G"]
+            offset = dir - self.base[tipo + "G"]  # calculates the position in the array
             obtain_var = self.memory["global"][self.base[tipo + "G"]][offset]
+        # if the direction is local
         elif dir >= 4 * self.division and dir < 8 * self.division:
-            offset = dir - self.base[tipo + "L"]
+            offset = dir - self.base[tipo + "L"]  # calculates the position in the array
             obtain_var = self.memory["local"][self.base[tipo + "L"]][offset]
+        # if the direction is constant
         elif dir >= 8 * self.division and dir < 12 * self.division:
-            offset = dir - self.base[tipo + "C"]
+            offset = dir - self.base[tipo + "C"]  # calculates the position in the array
             obtain_var = self.memory["constant"][self.base[tipo + "C"]][offset]
+        # if the var is none, we throw error of trying to do operations with none values
         if obtain_var == None:
             sys.exit(f"Error: trying to do operations with None in {dir}")
         return obtain_var
 
     def save_value(self, dir: int, tipo: str, value):
-        value = self.cast_type(tipo, value) # 'x' will be removed by the function
+        """
+        Method that saves a value in the corresponding address
+        :param dir: Address where to store the variable
+        :type dir: int
+        :param tipo: The type of varibale
+        :type tipo: str
+        :param value: the value to store
+        :type value: the ones supported
+        """
+        value = self.cast_type(tipo, value)
+        # If its a global variable
         if dir >= 0  * self.division and dir < 4 * self.division:
             offset = dir - self.base[tipo + "G"]
             self.memory["global"][self.base[tipo + "G"]][offset] = value
+        # If its a local variable
         elif dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
             self.memory["local"][self.base[tipo + "L"]][offset] = value
 
 
     def pass_params_to_new(self, dir: int, tipo: str, value):
+        """
+        Pass the values send by the calllfunc into their corresponding
+        memory location in the new memory created
+        :param dir: address where to save it
+        :type dir: int
+        :param tipo: the type of variable
+        :type tipo: str
+        :param value: the value to pass
+        :type value: the basic types the language handles
+        """
         value = self.cast_type(tipo, value)
+        # Makes sure that we are actually saving it on local
         if dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
             self.new_memory_to_be_set[self.base[tipo + "L"]][offset] = value
 
     def restore_previous_memory(self) -> int:
+        """
+        Method that wakes up the sleeping memory and assigns
+        it as our current local memory in execution
+        :return: The instruction pointer to return to
+        :rtype: int
+        """
         previous_memory = self.sleeping_memory[-1]
         self.memory["local"] = previous_memory["memory"]
         self.sleeping_memory.pop()
