@@ -3,7 +3,6 @@ program Example;
 
 var x: int;
 var j: int;
-var f[9], z, y[2][3], p: int;
 
 func adios(h:string):int{
     output(h);
@@ -14,6 +13,7 @@ main() {
    //var f[9], z, y[2][3], p: int;
     x = 3;
     j = 5;
+    var f[9], z, y[2][3], p: int;
     //adios("hola");
     //f[2-1] = f[3-2];
     j = j + adios("hola") + 3;

@@ -406,7 +406,7 @@ class QCASQ_Parser:
                         self.class_dir.get_class(
                             class_scope
                         )["tablevars"].add_to_dictionary(
-                            element[0], p[-1], address, dimensions
+                            element[0], p[-1], address, dimensions, R-1
                         )
                         self.limits.upCont(tipo, R)
                     else:  # A simple var has been foun
@@ -427,19 +427,32 @@ class QCASQ_Parser:
                 # local variables for a class
                 func_scope = self.class_dir.get_class(class_scope)["function_dir"].get_current_scope()
                 tipo = p[-1] + "L"
+                print("here", self.limits.getAddress(tipo), self.limits.getCont(tipo))
                 address = self.limits.getAddress(tipo) + self.limits.getCont(tipo)
-                self.limits.check_limits(address, tipo)
-                self.class_dir.get_class(
-                    class_scope
-                )["function_dir"].get_function(
-                    func_scope
-                )["tablevars"].add_to_dictionary(element[0], p[-1], address)
-                self.limits.upCont(tipo)
+                if element[1] == True:
+                    dimensions = element[2]
+                    R = self.calculate_r(dimensions)
+                    self.limits.check_limits(address+R, tipo)
+                    self.class_dir.get_class(
+                        class_scope
+                    )["function_dir"].get_function(
+                        func_scope
+                    )["tablevars"].add_to_dictionary(
+                        element[0], p[-1], address, dimensions, R-1
+                    )
+                    self.limits.upCont(tipo, R)
+                else:
+                    self.limits.check_limits(address, tipo)
+                    self.class_dir.get_class(
+                        class_scope
+                    )["function_dir"].get_function(
+                        func_scope
+                    )["tablevars"].add_to_dictionary(element[0], p[-1], address)
+                    self.limits.upCont(tipo)
         self.__stack_vars.clear()
         pass
 
     def calculate_r(self, dimensions: list) -> int:
-        print(dimensions)
         R = 1
         for dim in dimensions:
             R = dim * R

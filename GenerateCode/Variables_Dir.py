@@ -14,7 +14,7 @@ class Variables_Dir:
         """
         return self.__var_dict__[name_var]
 
-    def add_to_dictionary(self, name_var: str, type: str, cont: int, dims: [] = None):
+    def add_to_dictionary(self, name_var: str, type: str, cont: int, dims: [] = None, R: int = 0):
         """ Adds the incoming variable with its type to the variable directory.
 
         :param name_var: Name of the variable
@@ -25,7 +25,8 @@ class Variables_Dir:
         self.__var_dict__[name_var] = {
             "type": type,
             "address": cont,
-            "dims": dims
+            "dims": dims,
+            "R": R
         }
 
 #TODO: Clases definir divisiones con sus divisiones de global y local
