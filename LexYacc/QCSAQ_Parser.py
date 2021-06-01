@@ -685,7 +685,7 @@ class QCASQ_Parser:
             var_name = p[-1]
         var = self.check_variable_exists(var_name, p)
         # catchet if var_name is a function, do not add
-        if var is not None:
+        if var is not None and var[2] is None:
             self.quads.add_operand(var[0], var[1])
         self.count = 1
 
