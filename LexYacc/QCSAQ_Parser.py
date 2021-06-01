@@ -662,8 +662,9 @@ class QCASQ_Parser:
         else:
             var_name = p[-1]
         var = self.check_variable_exists(var_name)
-        #TODO: check why fibonacci breaks
-        self.quads.add_operand(var[0], var[1])
+        # catchet if var_name is a function, do not add
+        if var is not None:
+            self.quads.add_operand(var[0], var[1])
 
         pass
 
