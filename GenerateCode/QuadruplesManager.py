@@ -102,10 +102,16 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.ADDBASE:
             dir_base = self.__pop_operand_stack()
             op = self.__pop_operand_stack()
-            print(dir_base)
-            print(op)
             self.__add_to_quadruplues__(operator, op, dir_base, (None, "int"))
-
+        elif self.__operators[operator] == Hierarchies.S1D2:
+            d2 = self.__pop_operand_stack()
+            s1 = self.__pop_operand_stack()
+            self.__add_to_quadruplues__(operator, s1, d2, (None, "int"))
+        elif self.__operators[operator] == Hierarchies.S2:
+            s1d2 = self.__pop_operand_stack()
+            s2 = self.__pop_operand_stack()
+            self.__add_to_quadruplues__(operator, s1d2, s2, (None, "int"))
+            print(self.__polish_vector__)
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
@@ -183,7 +189,9 @@ class QuadrupleManager:
                 self.__operators[operator] != Hierarchies.RETURN and
                 self.__operators[operator] != Hierarchies.ASSIGNRET and
                 self.__operators[operator] != Hierarchies.VER and
-                self.__operators[operator] != Hierarchies.ADDBASE
+                self.__operators[operator] != Hierarchies.ADDBASE and
+                self.__operators[operator] != Hierarchies.S1D2 and
+                self.__operators[operator] != Hierarchies.S2
         ):
             self.__stack_operators__.append(operator)
 
@@ -313,7 +321,9 @@ class QuadrupleManager:
         })
         if (self.__operators[operator] <= Hierarchies.LOGIC or
                 self.__operators[operator] == Hierarchies.ASSIGNRET or
-                self.__operators[operator] == Hierarchies.ADDBASE):
+                self.__operators[operator] == Hierarchies.ADDBASE or
+                self.__operators[operator] == Hierarchies.S1D2 or
+                self.__operators[operator] == Hierarchies.S2):
             self.add_operand(storage[0], storage[1])
 
     def __pop_jumps_stack(self) -> int:

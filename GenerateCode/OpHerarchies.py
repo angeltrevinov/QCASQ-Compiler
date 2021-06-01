@@ -20,6 +20,8 @@ class Hierarchies(enum.IntEnum):
     ASSIGNRET   = 17
     VER         = 18
     ADDBASE     = 19
+    S1D2        = 20
+    S2          = 21
 
 class OprTranslator():
     OprTrans = {
@@ -47,7 +49,9 @@ class OprTranslator():
         "gosub" : 22,
         "assignret" : 23,
         "ver" : 24,
-        "addbase" : 25
+        "addbase" : 25,
+        "s1d2" : 26,
+        "s2" : 27
     }
 
     def translate(self, opr: str):
@@ -83,5 +87,7 @@ class Operators():
         "gosub" : Hierarchies.GOSUB,
         "assignret" : Hierarchies.ASSIGNRET,
         "ver" : Hierarchies.VER,
-        "addbase" : Hierarchies.ADDBASE
+        "addbase" : Hierarchies.ADDBASE,
+        "s1d2" : Hierarchies.S1D2,
+        "s2" : Hierarchies.S2
     }
