@@ -4,15 +4,28 @@ from VirtualMachine.Limits import Limits
 import sys
 
 class ExecutionMemory:
-    base = Limits().offsets
-    division = Limits().division
-    sleeping_memory = [] # to store the accumulated memories
-    new_memory_to_be_set =  {
+    """
+    Class that controls the state of the memory during
+    execution time.
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
+
+    base = Limits().offsets  # object that contains the base address for types
+    division = Limits().division  # object that contains how many each type gets
+    sleeping_memory = []  # to store the accumulated memories if we enter a function
+
+    new_memory_to_be_set = {  # object to hold the new memory before we enter a function
         base["intL"]: [],
         base["floatL"]: [],
         base["stringL"]: [],
         base["boolL"]: []
     }
+    # Object that controls current memory
     memory = {
         "global": {
             base["intG"]: [],
@@ -21,7 +34,7 @@ class ExecutionMemory:
             base["boolG"]: [],
 
         },
-        "local": { # tuple-> [dict : {}, dict]
+        "local": {
             base["intL"]: [],
             base["floatL"]: [],
             base["stringL"]: [],
@@ -35,15 +48,24 @@ class ExecutionMemory:
         }
     }
 
-    def reserve_global_memory(self, varsNum : dict):
+    def reserve_global_memory(self, varsNum: dict):
+        """
+        Method that fills the global memory with the spaces needed
+        :param varsNum: The number of variables declared in the global scope
+        :type varsNum: dict
+        """
         self.memory["global"][self.base["intG"]] = [None] * varsNum["int"]
         self.memory["global"][self.base["floatG"]] = [None] * varsNum["float"]
         self.memory["global"][self.base["stringG"]] = [None] * varsNum["string"]
         self.memory["global"][self.base["boolG"]] = [None] * varsNum["bool"]
 
-        #print(self.memory["global"])
-
     def reserve_cte_memory(self, constants: dict):
+        """
+        Memory that fills the constant memory with the spaces needed
+        for each constant used inside the program
+        :param constants: Number of constants for each type
+        :type constants: dict
+        """
         self.memory["constant"][self.base["intC"]] = [None] * len(constants["int"])
         self.memory["constant"][self.base["floatC"]] = [None] * len(constants["float"])
         self.memory["constant"][self.base["stringC"]] = [None] * len(constants["string"])
@@ -55,12 +77,30 @@ class ExecutionMemory:
         self.save_cte_value("boolC", constants["bool"])
 
     def save_cte_value(self, value_type: str, vars: dict):
+        """
+        Method that stores the constant value in their
+        corresponding address in the memory.
+        :param value_type: the type of constant to store
+        :type value_type: str
+        :param vars: The value and address to store it at
+        :type vars: dict
+        """
         start = self.base[value_type]
         for var in vars:
             offset = vars[var] - start
             self.memory["constant"][start][offset] = self.cast_to_type_cte(value_type, var)
 
     def cast_to_type_cte(self, value_type: str, var: str):
+        """
+        Method that casts the data receive, original string,
+        to the corresponding type that python can do operations
+        with.
+        :param value_type: the type to convert to
+        :type value_type: str
+        :param var: the value
+        :type var: str
+        :return: the converted value
+        """
         value_type = value_type[:len(value_type) - 1]
         if value_type == 'int':
             return int(var)
@@ -69,29 +109,47 @@ class ExecutionMemory:
         elif value_type == 'bool':
             if var == 'false':
                 return False
-            else:
+            elif var == 'true':
                 return True
+            else:
+                sys.exit(f"Wrong boolean")
         else:
             return var[1:-1]
 
     def reserve_local_memory(self, varsNum):
+        """
+        Method that fills the spaces for the new local memory
+        to be used. It does not tell the EM to use it just yet.
+        :param varsNum: The number of variables to be created for each type
+        :type varsNum: dict
+        """
         self.new_memory_to_be_set[self.base["intL"]] = [None] * varsNum["int"]
         self.new_memory_to_be_set[self.base["floatL"]] = [None] * varsNum["float"]
         self.new_memory_to_be_set[self.base["stringL"]] = [None] * varsNum["string"]
         self.new_memory_to_be_set[self.base["boolL"]] = [None] * varsNum["bool"]
-        ''''
-        self.memory["local"][self.base["intL"]] = [None] * varsNum["int"]
-        self.memory["local"][self.base["floatL"]] = [None] * varsNum["float"]
-        self.memory["local"][self.base["stringL"]] = [None] * varsNum["string"]
-        self.memory["local"][self.base["boolL"]] = [None] * varsNum["bool"]'''
 
     def set_new_memory_to_local(self):
+        """
+        Sets the new memory created to our local memory inside
+        the memory in execution
+        """
         self.memory["local"] = self.new_memory_to_be_set.copy()
 
     def get_local_memory(self):
+        """
+        Method that returns the current local memory object
+        :return: Current local memory object
+        :rtype: dict
+        """
         return self.memory["local"]
 
     def save_memory(self, ip: int):
+        """
+        Saves the current local memory and the instruction pointer,
+        so we can add the new local memory to be used.
+        :param ip: The current instruction pointer before we enter a func
+        :type ip: int
+        """
         data = {
             "memory": self.get_local_memory().copy(),
             "ip": ip
@@ -99,6 +157,9 @@ class ExecutionMemory:
         self.sleeping_memory.append(data)
 
     def print_memory(self):
+        """
+        Method that prints the whole current memory in used
+        """
         print("This are constants")
         print(self.memory["constant"])
         print("This are globals")
@@ -107,15 +168,32 @@ class ExecutionMemory:
         print(self.memory["local"])
 
     def cast_type(self, value_type: str, var: str):
+        """
+        Method that transforms the value received in input
+        to the corresponding type it should received
+        :param value_type: the type to cast to
+        :type value_type: str
+        :param var: the value to cast
+        :type var: str
+        :return:
+        :rtype:
+        """
         try:
             if value_type == 'int':
                 return int(var)
             elif value_type == 'float':
                 return float(var)
+            elif value_type == 'bool':
+                if var == 'false' or var == False:
+                    return False
+                elif var == 'true' or var == True:
+                    return True
+                else:
+                    sys.exit(f"Wrong boolean")
             else:
                 return var
         except ValueError:
-            sys.exit(f"Wrong type of variable recived")
+            sys.exit(f"Wrong type of variable received")
 
     def get_value(self, dir: int, tipo: str):
         if dir >= 0 * self.division and dir < 4 * self.division:
@@ -127,7 +205,6 @@ class ExecutionMemory:
         elif dir >= 8 * self.division and dir < 12 * self.division:
             offset = dir - self.base[tipo + "C"]
             obtain_var = self.memory["constant"][self.base[tipo + "C"]][offset]
-
         if obtain_var == None:
             sys.exit(f"Error: trying to do operations with None in {dir}")
         return obtain_var
@@ -143,7 +220,7 @@ class ExecutionMemory:
 
 
     def pass_params_to_new(self, dir: int, tipo: str, value):
-        value = self.cast_type(tipo, value)  # 'x' will be removed by the function
+        value = self.cast_type(tipo, value)
         if dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
             self.new_memory_to_be_set[self.base[tipo + "L"]][offset] = value
