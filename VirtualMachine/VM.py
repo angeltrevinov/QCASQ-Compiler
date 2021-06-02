@@ -252,7 +252,7 @@ class VM:
             higher_limit = quad["storage"]
             value_to_check = self.ex.get_value(operand1[0], operand1[1])
             if value_to_check < low_limit or value_to_check >= higher_limit:
-                sys.exit(f"Error: Index out of range")
+                sys.exit(f"Error: Index out of range, value: {value_to_check} for limits {low_limit} and {higher_limit}")
             self.IP = self.IP + 1
         elif self.operadores["addbase"] == quad["operator"]:
             operand1 = quad["operand1"]
@@ -263,8 +263,24 @@ class VM:
             dir_final = operand1 + base
             self.ex.save_value(int(storage[0]), storage[1], dir_final)
             self.IP = self.IP + 1
-            # S1d2: Multiplica los operandos y lo dejamos en temporal
-            # S2: Suma de los operandos y guardarlo en una temporal
+        elif self.operadores["s1d2"] == quad["operator"]:
+            operand1 = quad["operand1"]
+            operand1 = self.ex.get_value(operand1[0], operand1[1])
+            operand2 = quad["operand2"]
+            #operand2 = self.ex.get_value(operand2[0], operand2[1])
+            storage = quad["storage"]
+            res = operand1 * operand2[0]
+            self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
+        elif self.operadores["s2"] == quad["operator"]:
+            operand1 = quad["operand1"]
+            operand1 = self.ex.get_value(operand1[0], operand1[1])
+            operand2 = quad["operand2"]
+            operand2 = self.ex.get_value(operand2[0], operand2[1])
+            storage = quad["storage"]
+            res = operand1 + operand2
+            self.ex.save_value(storage[0], storage[1], res)
+            self.IP = self.IP + 1
 
 
 

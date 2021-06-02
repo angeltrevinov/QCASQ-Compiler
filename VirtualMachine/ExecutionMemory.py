@@ -184,7 +184,6 @@ class ExecutionMemory:
             elif value_type == 'float':
                 return float(var)
             elif value_type == 'bool' and not isinstance(var, int):
-                print("here", var)
                 # just make sure that we accept our language booleans and pythons booleans
                 if var == 'false' or var is False:
                     return False
@@ -226,6 +225,7 @@ class ExecutionMemory:
             obtain_var = self.memory["constant"][self.base[tipo + "C"]][offset]
         # if the var is none, we throw error of trying to do operations with none values
         if obtain_var == None:
+            print(dir)
             sys.exit(f"Error: trying to do operations with None in {dir}")
         return obtain_var
 

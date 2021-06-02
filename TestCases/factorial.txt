@@ -1,0 +1,17 @@
+//testCases/factorial.txt
+program Factorial;
+
+func factorial(n: int): int {
+    if(n > 1) {
+        return n * factorial(n - 1);
+    } else {
+        return 1;
+    }
+}
+
+main ()
+{
+    var n: int;
+    n = 5;
+    output(factorial(n));
+}

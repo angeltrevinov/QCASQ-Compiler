@@ -102,7 +102,6 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.ADDBASE:
             dir_base = self.__pop_operand_stack()
             op = self.__pop_operand_stack()
-            print(dir_base)
             self.__add_to_quadruplues__(operator, op, dir_base, (None, dir_base[1]))
         elif self.__operators[operator] == Hierarchies.S1D2:
             d2 = self.__pop_operand_stack()
