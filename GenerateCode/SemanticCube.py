@@ -2,6 +2,16 @@ from GenerateCode.Types import Types
 
 
 class SemanticCube():
+    """
+    Class that acts as our semantic cube, tells which operations
+    can be done with certain operands.
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
 
     __cube__ = {
         # -----------------  INT ---------------------------

@@ -7,6 +7,12 @@ class Class_Dir:
     Class that manages the class directory, here we maintain
     control of the scope of classes and add them to the
     directory.
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
     """
 
     def __init__(self):
@@ -16,6 +22,7 @@ class Class_Dir:
     def get_class(self, name_class: str) -> dict:
         """
         Gets the information of a class based on the name
+
         :param name_class: name of class
         :type name_class: str
         :return: the information of the class
@@ -26,6 +33,7 @@ class Class_Dir:
     def add_to_dictionary(self, name_class: str, herencia: str = ""):
         """
         Adds the class to the dictionary of classes
+
         :param name_class: the name of the class to add
         :type name_class: str
         :param herencia: if it has any inheritance
@@ -45,7 +53,9 @@ class Class_Dir:
         return self.__class_dir__
 
     def print_dictionary(self):
-        """Prints the whole dictionary with the definition of the table vars for each function saved"""
+        """
+        Prints the whole dictionary with the definition of the table vars for each function saved
+        """
         for element in self.__class_dir__:
             print("#### CLASS ####")
             print(
@@ -57,7 +67,9 @@ class Class_Dir:
             self.get_class(element)["tablevars"].print_dictionary()
 
     def add_to_scope(self, scope: str):
-        """Adds the name of the class or program to the top of the scope stack
+        """
+        Adds the name of the class or program to the top of the scope stack
+
         :param scope: The name of the current scope to add
         :type scope: str
         """

@@ -2,6 +2,15 @@ from GenerateCode.Variables_Dir import Variables_Dir
 
 
 class Function_Dir:
+    """
+    Class that manages the function directory and its scope
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
 
     def __init__(self):
         self.__func_dict__ = {}  # the object that stores all functions
@@ -83,7 +92,21 @@ class Function_Dir:
         return self.__scope_controller
 
     def add_num_vars(self, count : dict, name_function: str):
+        """
+        Adds the number of variables used inside the function
+        :param count: number of variables
+        :type count: dict
+        :param name_function: name of the function
+        :type name_function: str
+        """
         self.__func_dict__[name_function]["varsNum"] = count
 
     def add_quad_dir(self, dir: int, name_function: str):
+        """
+        Function that adds in which quadruple it starts
+        :param dir: index of quadruple when it starts
+        :type dir: int
+        :param name_function: the name of the function
+        :type name_function: str
+        """
         self.__func_dict__[name_function]["startQuad"] = dir

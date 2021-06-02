@@ -1,6 +1,15 @@
 import enum
 
 class Hierarchies(enum.IntEnum):
+    """
+    Enum that gives herarchies of operations to our operators
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
     MULTDIV     = 1
     SUMSUB      = 2
     COMPARISON  = 3
@@ -24,6 +33,16 @@ class Hierarchies(enum.IntEnum):
     S2          = 21
 
 class OprTranslator():
+    """
+    Class that transforms our operators into values that we
+    can use in execution memory.
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
     OprTrans = {
         "/": 1,
         "*": 2,
@@ -54,11 +73,29 @@ class OprTranslator():
         "s2" : 27
     }
 
-    def translate(self, opr: str):
+    def translate(self, opr: str) -> int:
+        """
+        Giving an operator in string, returns the id we
+        identified that operator with.
+        :param opr: operator
+        :type opr: str
+        :return: the id of that operator
+        :rtype: int
+        """
         return self.OprTrans[opr]
 
 
 class Operators():
+    """
+    Class that helps us look for the hierarchies of a certain
+    operator.
+
+    :Date: 06-02-2021
+    :Version: 1
+    :Authors:
+        - Angel Treviño A01336559
+        - Julia Jimenez A00821428
+    """
     OpHierarchy = {
         "(": Hierarchies.PARENTESIS,
         ")": Hierarchies.PARENTESIS,
