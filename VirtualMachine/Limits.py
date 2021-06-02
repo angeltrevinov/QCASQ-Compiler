@@ -110,7 +110,6 @@ class Limits:
         floats = self.cont["floatG"]
         string = self.cont["stringG"]
         bool = self.cont["boolG"]
-
         obj = {
             "int" : ints,
             "float" : floats,

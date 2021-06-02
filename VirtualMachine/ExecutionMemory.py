@@ -106,7 +106,7 @@ class ExecutionMemory:
             return int(var)
         elif value_type == 'float':
             return float(var)
-        elif value_type == 'bool':
+        elif value_type == 'bool' and not isinstance(var, int):
             if var == 'false':
                 return False
             elif var == 'true':
@@ -183,7 +183,8 @@ class ExecutionMemory:
                 return int(var)
             elif value_type == 'float':
                 return float(var)
-            elif value_type == 'bool':
+            elif value_type == 'bool' and not isinstance(var, int):
+                print("here", var)
                 # just make sure that we accept our language booleans and pythons booleans
                 if var == 'false' or var is False:
                     return False
@@ -206,12 +207,18 @@ class ExecutionMemory:
         :return: The value in that direction
         """
         # if the direction is global
-        if dir >= 0 * self.division and dir < 4 * self.division:
+        if type(dir) == str:
+            new_dir = dir[1:-1]
+            address_to_search = self.get_value(int(new_dir), tipo)
+            return self.get_value(address_to_search, tipo)
+        elif dir >= 0 * self.division and dir < 4 * self.division:
             offset = dir - self.base[tipo + "G"]  # calculates the position in the array
+            offset = self.cast_type("int", offset)
             obtain_var = self.memory["global"][self.base[tipo + "G"]][offset]
         # if the direction is local
         elif dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]  # calculates the position in the array
+            offset = self.cast_type("int", offset)
             obtain_var = self.memory["local"][self.base[tipo + "L"]][offset]
         # if the direction is constant
         elif dir >= 8 * self.division and dir < 12 * self.division:
@@ -232,14 +239,20 @@ class ExecutionMemory:
         :param value: the value to store
         :type value: the ones supported
         """
+        if type(dir) == str:
+            new_dir = dir[1:-1]
+            address_to_search = self.get_value(int(new_dir), tipo)
+            dir = address_to_search
         value = self.cast_type(tipo, value)
         # If its a global variable
         if dir >= 0  * self.division and dir < 4 * self.division:
             offset = dir - self.base[tipo + "G"]
+            offset = self.cast_type("int", offset)
             self.memory["global"][self.base[tipo + "G"]][offset] = value
         # If its a local variable
         elif dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
+            offset = self.cast_type("int", offset)
             self.memory["local"][self.base[tipo + "L"]][offset] = value
 
 

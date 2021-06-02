@@ -102,7 +102,8 @@ class QuadrupleManager:
         elif self.__operators[operator] == Hierarchies.ADDBASE:
             dir_base = self.__pop_operand_stack()
             op = self.__pop_operand_stack()
-            self.__add_to_quadruplues__(operator, op, dir_base, (None, "int"))
+            print(dir_base)
+            self.__add_to_quadruplues__(operator, op, dir_base, (None, dir_base[1]))
         elif self.__operators[operator] == Hierarchies.S1D2:
             d2 = self.__pop_operand_stack()
             s1 = self.__pop_operand_stack()
@@ -111,7 +112,6 @@ class QuadrupleManager:
             s1d2 = self.__pop_operand_stack()
             s2 = self.__pop_operand_stack()
             self.__add_to_quadruplues__(operator, s1d2, s2, (None, "int"))
-            print(self.__polish_vector__)
         # Check for * or /
         elif self.__operators[operator] == Hierarchies.MULTDIV and len(self.__stack_operators__) > 0:
             # Check if top of the stack has the same hierarchy
@@ -311,7 +311,7 @@ class QuadrupleManager:
             storage = storage[0]
 
         if operator == "addbase":
-            storage = ("(" + str(storage[0]) + ")", "int")
+            storage = ("(" + str(storage[0]) + ")", storage[1])
 
         self.__stack_quadruples__.append({
             "operator": self.oprTrans.translate(operator),

@@ -1,3 +1,5 @@
+import sys
+
 from VirtualMachine.ExecutionMemory import ExecutionMemory
 from GenerateCode.OpHerarchies import OprTranslator
 
@@ -242,6 +244,24 @@ class VM:
             value_to_pass = self.ex.get_value(value_to_pass[0], value_to_pass[1])
             storage = quad["storage"]
             self.ex.save_value(storage[0], storage[1], value_to_pass)
+            self.IP = self.IP + 1
+        # ----------------- VER ----------------------------
+        elif self.operadores["ver"] == quad["operator"]:
+            operand1 = quad["operand1"]
+            low_limit = quad["operand2"][0]
+            higher_limit = quad["storage"]
+            value_to_check = self.ex.get_value(operand1[0], operand1[1])
+            if value_to_check < low_limit or value_to_check >= higher_limit:
+                sys.exit(f"Error: Index out of range")
+            self.IP = self.IP + 1
+        elif self.operadores["addbase"] == quad["operator"]:
+            operand1 = quad["operand1"]
+            operand1 = self.ex.get_value(operand1[0], operand1[1])
+            base = quad["operand2"][0]
+            storage = quad["storage"]
+            storage = (quad["storage"][0][1:-1], quad["storage"][1])
+            dir_final = operand1 + base
+            self.ex.save_value(int(storage[0]), storage[1], dir_final)
             self.IP = self.IP + 1
 
 
