@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Agregar operaciones con arrays             | Junio 1     |
 | Crea quads de matrices                     | Junio 1     |
 | Crea quads de arrays                       | Mayo 31     |
 | Saving Dimensions for Array & Matrix       | Mayo 31     |

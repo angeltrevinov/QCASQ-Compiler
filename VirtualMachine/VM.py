@@ -263,6 +263,8 @@ class VM:
             dir_final = operand1 + base
             self.ex.save_value(int(storage[0]), storage[1], dir_final)
             self.IP = self.IP + 1
+            # S1d2: Multiplica los operandos y lo dejamos en temporal
+            # S2: Suma de los operandos y guardarlo en una temporal
 
 
 
