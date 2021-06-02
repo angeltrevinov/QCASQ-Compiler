@@ -28,6 +28,6 @@ main ()
 {
     var n: int;
     n = 14;
-    //output(fib(n));
-    output(fib_while(n));
+    output(fib(n));
+    //output(fib_while(n));
 }

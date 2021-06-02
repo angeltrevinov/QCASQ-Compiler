@@ -26,6 +26,6 @@ main ()
     var n: int;
     output("Que factorial quieres calcular?");
     input(n);
-    //output(factorial(n));
-    output(factorial_while(n));
+    output(factorial(n));
+    //output(factorial_while(n));
 }

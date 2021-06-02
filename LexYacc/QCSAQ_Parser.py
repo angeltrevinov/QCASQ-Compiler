@@ -112,15 +112,6 @@ class QCASQ_Parser:
             self.__stack_vars.append(new_tuple)
         pass
 
-    def p_empty_dim_stack(self, p):
-        ''' empty_dim_stack : '''
-        if self.__stack_vars[-1][1]:
-            new_tuple = (self.__stack_vars[-1][0], True, self.stack_dimensions.copy())
-            self.__stack_vars.pop()
-            self.__stack_vars.append(new_tuple)
-            self.stack_dimensions.clear()
-        pass
-
     def p_array(self, p):
         '''
         array   : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad array2 add_dir_base
@@ -128,47 +119,6 @@ class QCASQ_Parser:
         array2  : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad
                 | empty
         '''
-        pass
-
-    def p_generate_ver_quad(self, p):
-        ''' generate_ver_quad : '''
-        # TODO: Check dimensions to catch errors
-        var_name = p[-6]
-        var = self.check_variable_exists(var_name, p)
-        if var is None:
-            var_name = p[-12]
-            var = self.check_variable_exists(var_name, p)
-        if var[2] is None:
-            sys.exit(f"{var_name} is not an array in line {p.lineno(-1)}")
-        elif len(var[2]) == 1:
-            limitS = var[2][0]
-            self.quads.add_operand(limitS, "int")
-            self.quads.add_to_stack_op("ver")
-        elif len(var[2]) == 2:
-            limitS = var[2][self.count]
-            self.quads.add_operand(limitS, "int")
-            self.quads.add_to_stack_op("ver")
-            if self.count > 0:
-                self.multi_s_d(var_name, p)
-            if self.count == 0:
-                self.generate_s2(var_name)
-            self.count -= 1
-        pass
-
-    def generate_s2(self, var_name : str):
-        self.quads.add_to_stack_op("s2")
-
-    def multi_s_d(self, var_name: str, p):
-        var = self.check_variable_exists(var_name, p)
-        self.quads.add_operand(var[2][0], "int")
-        self.quads.add_to_stack_op("s1d2")
-        pass
-
-    def p_add_dir_base(self, p):
-        ''' add_dir_base : '''
-        var = self.check_variable_exists(p[-8], p)
-        self.quads.add_operand(var[0], var[1])
-        self.quads.add_to_stack_op("addbase")
         pass
 
     def p_function(self, p):
@@ -732,8 +682,56 @@ class QCASQ_Parser:
         self.class_dir.get_class(class_scope)["function_dir"].get_function(func_scope)["has_return"] = True
         pass
 
+    def p_empty_dim_stack(self, p):
+        ''' empty_dim_stack : '''
+        if self.__stack_vars[-1][1]:
+            new_tuple = (self.__stack_vars[-1][0], True, self.stack_dimensions.copy())
+            self.__stack_vars.pop()
+            self.__stack_vars.append(new_tuple)
+            self.stack_dimensions.clear()
+        pass
+
+    def p_generate_ver_quad(self, p):
+        ''' generate_ver_quad : '''
+        # TODO: Check dimensions to catch errors
+        var_name = p[-6]
+        var = self.check_variable_exists(var_name, p)
+        if var is None:
+            var_name = p[-12]
+            var = self.check_variable_exists(var_name, p)
+        if var[2] is None:
+            sys.exit(f"{var_name} is not an array in line {p.lineno(-1)}")
+        elif len(var[2]) == 1:
+            limitS = var[2][0]
+            self.quads.add_operand(limitS, "int")
+            self.quads.add_to_stack_op("ver")
+        elif len(var[2]) == 2:
+            limitS = var[2][self.count]
+            self.quads.add_operand(limitS, "int")
+            self.quads.add_to_stack_op("ver")
+            if self.count > 0:
+                self.multi_s_d(var_name, p)
+            if self.count == 0:
+                self.generate_s2(var_name)
+            self.count -= 1
+        pass
+
+    def p_add_dir_base(self, p):
+        ''' add_dir_base : '''
+        var = self.check_variable_exists(p[-8], p)
+        self.quads.add_operand(var[0], var[1])
+        self.quads.add_to_stack_op("addbase")
+        pass
+
     # --------------- Helper Functions ---------------------
     def create_era(self, function_name: str, function: dict):
+        """
+        Function that creates the quadruples for era
+        :param function_name: the function name where we are
+        :type function_name: str
+        :param function: the function directory
+        :type function: dict
+        """
         self.quads.add_operand(function_name, "")
         self.quads.add_to_stack_op("era")
         params = function["params"].get_dictionary()
@@ -741,36 +739,70 @@ class QCASQ_Parser:
             self.params_call.append(params[param])
 
     def check_function_dir(self, func_dir: dict, func_name: str):
+        """
+        Checks that the function exists inside the function
+        directory of a class.
+        :param func_dir: the function directory object
+        :type func_dir: dict
+        :param func_name: the name of the function to check
+        :type func_name: str
+        :return: the information of the function
+        :rtype: dict
+        """
         if func_name in func_dir:
             return func_dir[func_name]
 
     def check_variable_exists(self, var_name: str, p):
-        """ Checks if the variable exists in any scope """
+        """
+        Checks if the variable exists in any scope
+        :param var_name: the name of the variable to find
+        :type var_name: str
+        :param p: where we are in the parser
+        :return: The variable found
+        :rtype: dict
+        """
         var_found = False
         index_scope_class = len(self.class_dir.get_scope()) - 1
         while index_scope_class >= 0 and var_found is False:
+            # to stop function calls being a variable
             if var_name is None:
                 var_found = True
             else:
+                # To check inside the class object
                 scope_class = self.class_dir.get_scope()[index_scope_class]  # get class scope we are checking
                 current_class = self.class_dir.get_class(scope_class)  # get class object
                 var = self.check_var_exists_function(current_class["function_dir"], var_name)
+                # check global vars
                 if var is None:
                     tablevars = current_class["tablevars"]
                     var = self.check_table_vars(tablevars, var_name)
+                # when the var is found
                 if var is not None:
                     var_found = True
-                    if self.check_var_in_function(var_name, var, current_class):
+                    # check if its a function
+                    if self.check_var_in_function(var_name, current_class):
+                        # checks the function is not void
                         if var[1] == "void":
                             sys.exit(f"Error: you cannot use a void function inside an expresion")
                     else:
                         return var
                 else:
                     index_scope_class = index_scope_class - 1
+        # if we cannot find the variable
         if index_scope_class < 0 and var_found is False:
             sys.exit(f"ERROR: couldn't find declaration of variable {var_name} in line {p.lineno(-1)}")
 
-    def check_var_in_function(self, name_var: str, var: tuple, current_class) -> bool:
+    def check_var_in_function(self, name_var: str, current_class) -> bool:
+        """
+        Checks that the var is a function call.
+
+        :param name_var: name of the variable to checl
+        :type name_var: str
+        :param current_class: the current class we are on
+        :type current_class: dict
+        :return: If its a function
+        :rtype: bool
+        """
         if name_var in current_class["function_dir"].get_dictionary():
             return True
         else:
@@ -816,19 +848,43 @@ class QCASQ_Parser:
         else:
             return None
 
+    def generate_s2(self, var_name : str):
+        """
+        Generates the S2 quadruple.
+
+        :param var_name: the name of the variable
+        :type var_name: str
+        """
+        self.quads.add_to_stack_op("s2")
+
+    def multi_s_d(self, var_name: str, p):
+        """
+        Generates the s1*d2 quadruple.
+
+        :param var_name: the name of the variable
+        :type var_name: str
+        :param p: just o know the line of code
+        """
+        var = self.check_variable_exists(var_name, p)
+        self.quads.add_operand(var[2][0], "int")
+        self.quads.add_to_stack_op("s1d2")
+        pass
+
     def __init__(self, lexer):
-        """The constructor of the parser
+        """The constructor of the parser/
+
         :param lexer: The lexer object to use for our parser
         """
         self.parser = yacc.yacc(module=self, debug=True)  # To use debug add debug = True
         self.lexer = lexer
 
-    def pars_data_vm(self):
+    def pars_data_vm(self) -> dict:
         """
         Transform the collected data to an object our virtual
         machine can understand.
-        :return:
-        :rtype:
+
+        :return: obj that the vm is going to read
+        :rtype: dict
         """
         # save the number of variables our global scope used.
         counts = self.limits.get_global_vars_count()
