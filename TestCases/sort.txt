@@ -1,5 +1,5 @@
-//testCases/findInVector.txt
-program FindInVector;
+//testCases/sort.txt
+program Sort;
 
 var arr[9]: int;
 
@@ -15,24 +15,17 @@ func fill_array() {
     arr[8] = 31;
 }
 
-func find_in_array(n: int): int {
-    var found: int;
+func print_array() {
     var index: int;
     index = 0;
-    found = 0 - 1;
-    while(index < 9) {
-        if(n == arr[index]) {
-            found = index;
-        }
+    while (index < 9) {
+        output(arr[index]);
         index = index + 1;
     }
-    return found;
 }
 
 main ()
 {
-    var n: int;
-    n = 4;
     fill_array();
-    output(find_in_array(n));
+    print_array();
 }

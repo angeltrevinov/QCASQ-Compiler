@@ -9,9 +9,25 @@ func fib(n:int) : int
     return fib(n-1) + fib(n-2);
 }
 
+func fib_while(n:int): int {
+    var f: int;
+    var f1: int;
+    var f2: int;
+    f1 = 0-1;
+    f2 = 1;
+    while(n >= 0) {
+        f=f1+f2;
+        f1=f2;
+        f2=f;
+        n = n - 1;
+    }
+    return f;
+}
+
 main ()
 {
     var n: int;
     n = 14;
-    output(fib(n));
+    //output(fib(n));
+    output(fib_while(n));
 }
