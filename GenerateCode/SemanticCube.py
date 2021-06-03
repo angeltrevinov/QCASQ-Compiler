@@ -46,7 +46,7 @@ class SemanticCube():
                 ">=": Types.BOOL,
                 ">": Types.BOOL,
                 "==": Types.BOOL,
-                "=": Types.INVALID,
+                "=": Types.INT,
                 "output": Types.STRING,
                 "input": Types.INVALID
             },

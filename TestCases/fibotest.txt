@@ -1,0 +1,16 @@
+//testCases/fibotest.txt
+program FiboTest;
+
+func fibo(n: int): int {
+     if (n <= 1){
+        return n;
+    }
+    return fibo(n-1) + fibo(n-2);
+}
+
+main() {
+    var n: int;
+    output("Inserta tu numero");
+    input(n);
+    output(fibo(n));
+}
