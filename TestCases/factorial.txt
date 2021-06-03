@@ -1,0 +1,31 @@
+//testCases/factorial.txt
+program Factorial;
+
+func factorial(n: int): int {
+    if(n > 1) {
+        return n * factorial(n - 1);
+    } else {
+        return 1;
+    }
+}
+
+func factorial_while(n: int): int {
+    var fac: int;
+    var index: int;
+    fac = 1;
+    index = 1;
+    while(index <= n) {
+        fac = fac * index;
+        index = index + 1;
+    }
+    return fac;
+}
+
+main ()
+{
+    var n: int;
+    output("Que factorial quieres calcular?");
+    input(n);
+    output(factorial(n));
+    //output(factorial_while(n));
+}

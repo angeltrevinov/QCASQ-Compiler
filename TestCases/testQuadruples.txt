@@ -1,0 +1,32 @@
+//testCases/testQuadruples.txt
+program Example;
+
+
+var y[2][3]: int;
+
+func initMatrixRes() {
+    y[0][0] = 3;
+    y[0][1] = 2;
+    y[0][2] = 1;
+    y[1][0] = 0;
+    y[1][1] = 0;
+    y[1][2] = 0;
+}
+
+func print(){
+    var i, j : int;
+    i = 0;
+    while(i < 2){
+        j = 0;
+        while(j < 3){
+            output(y[i][j]);
+            j = j+1;
+        }
+        i=i+1;
+    }
+}
+
+main() {
+    initMatrixRes();
+    print();
+}
