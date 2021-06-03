@@ -12,6 +12,7 @@ Julia Margarita Jimenez Herrera A00821428
 ## Bitacora
 | Tarea                                      |   Fecha     |
 |------------------------------------------- |:-----------:|
+| Checar errores de matrices y documentación | Junio 2     |
 | Agregar operaciones con matrices           | Junio 1     |
 | Agregar operaciones con arrays             | Junio 1     |
 | Crea quads de matrices                     | Junio 1     |
