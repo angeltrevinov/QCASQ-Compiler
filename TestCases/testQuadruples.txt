@@ -1,19 +1,32 @@
 //testCases/testQuadruples.txt
 program Example;
 
-var x: int;
-var j: int;
-var f[9]: int;
 
-func adios(h:string){
-    output(h);
+var y[2][3]: int;
+
+func initMatrixRes() {
+    y[0][0] = 3;
+    y[0][1] = 2;
+    y[0][2] = 1;
+    y[1][0] = 0;
+    y[1][1] = 0;
+    y[1][2] = 0;
+}
+
+func print(){
+    var i, j : int;
+    i = 0;
+    while(i < 2){
+        j = 0;
+        while(j < 3){
+            output(y[i][j]);
+            j = j+1;
+        }
+        i=i+1;
+    }
 }
 
 main() {
-    j = 5;
-    var y[3][9]: int;
-    y[3-1][3] = 78;
-    x = y[3-1][3];
-    //j = j + adios("hola") + 3;
-    output(x);
+    initMatrixRes();
+    print();
 }

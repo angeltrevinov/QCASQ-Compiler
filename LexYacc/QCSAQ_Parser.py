@@ -119,6 +119,7 @@ class QCASQ_Parser:
         array2  : OPENBRACKET add_false_stack expresion end_false_stack CLOSEBRACKET generate_ver_quad
                 | empty
         '''
+
         pass
 
     def p_function(self, p):
@@ -637,7 +638,6 @@ class QCASQ_Parser:
         # catchet if var_name is a function, do not add
         if var is not None and var[2] is None:
             self.quads.add_operand(var[0], var[1])
-        self.count = 1
 
         pass
 
@@ -706,6 +706,8 @@ class QCASQ_Parser:
             self.quads.add_operand(limitS, "int")
             self.quads.add_to_stack_op("ver")
         elif len(var[2]) == 2:
+            if(self.count < 0):
+                self.count = 1
             limitS = var[2][self.count]
             self.quads.add_operand(limitS, "int")
             self.quads.add_to_stack_op("ver")
