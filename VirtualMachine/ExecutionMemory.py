@@ -18,13 +18,8 @@ class ExecutionMemory:
     base = Limits().offsets  # object that contains the base address for types
     division = Limits().division  # object that contains how many each type gets
     sleeping_memory = []  # to store the accumulated memories if we enter a function
+    stack_of_new_memory = []
 
-    new_memory_to_be_set = {  # object to hold the new memory before we enter a function
-        base["intL"]: [],
-        base["floatL"]: [],
-        base["stringL"]: [],
-        base["boolL"]: []
-    }
     # Object that controls current memory
     memory = {
         "global": {
@@ -123,17 +118,19 @@ class ExecutionMemory:
         :param varsNum: The number of variables to be created for each type
         :type varsNum: dict
         """
-        self.new_memory_to_be_set[self.base["intL"]] = [None] * varsNum["int"]
-        self.new_memory_to_be_set[self.base["floatL"]] = [None] * varsNum["float"]
-        self.new_memory_to_be_set[self.base["stringL"]] = [None] * varsNum["string"]
-        self.new_memory_to_be_set[self.base["boolL"]] = [None] * varsNum["bool"]
+        new_memory_to_be_set = {self.base["intL"]: [None] * varsNum["int"],
+                                self.base["floatL"]: [None] * varsNum["float"],
+                                self.base["stringL"]: [None] * varsNum["string"],
+                                self.base["boolL"]: [None] * varsNum["bool"]}
+        self.stack_of_new_memory.append(new_memory_to_be_set)
 
     def set_new_memory_to_local(self):
         """
         Sets the new memory created to our local memory inside
         the memory in execution
         """
-        self.memory["local"] = self.new_memory_to_be_set.copy()
+        self.memory["local"] = self.stack_of_new_memory[-1].copy()
+        self.stack_of_new_memory.pop()
 
     def get_local_memory(self):
         """
@@ -270,7 +267,7 @@ class ExecutionMemory:
         # Makes sure that we are actually saving it on local
         if dir >= 4 * self.division and dir < 8 * self.division:
             offset = dir - self.base[tipo + "L"]
-            self.new_memory_to_be_set[self.base[tipo + "L"]][offset] = value
+            self.stack_of_new_memory[-1][self.base[tipo + "L"]][offset] = value
 
     def restore_previous_memory(self) -> int:
         """

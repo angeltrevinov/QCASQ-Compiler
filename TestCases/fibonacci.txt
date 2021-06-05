@@ -27,7 +27,7 @@ func fib_while(n:int): int {
 main ()
 {
     var n: int;
-    n = 14;
-    //output(fib(n));
+    n = 20;
+    output(fib(n));
     output(fib_while(n));
 }

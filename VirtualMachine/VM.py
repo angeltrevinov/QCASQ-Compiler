@@ -214,6 +214,7 @@ class VM:
                     quad["storage"]
                 )["varsNum"]
             )
+
             self.IP = self.IP + 1
         # ---------------- PARAMS --------------------------
         elif self.operadores["params"] == quad["operator"]:

@@ -29,7 +29,7 @@ class QCASQ_Parser:
     tokens = QCASQ_Lexer.tokens  # add the lexer
     stack_dimensions = [] # to keep track of the number of dimensions if variable is an array
     # to keep track of the variables that we are sending the func call
-    params_call = []
+    params_call = [] # to
     count_params = 0
     count = 1
 
@@ -546,15 +546,18 @@ class QCASQ_Parser:
     def p_check_params(self, p):
         """ check_params : """
         # Get fucntion we are calling
-        if self.count_params < len(self.params_call):
+        if self.count_params < len(self.params_call[-1]):
             sys.exit(f"ERROR: Missing {len(self.params_call) - self.count_params} param(s) in line {p.lineno(-1)}")
+        self.count_params = 0
+        self.params_call.pop()
         pass
 
     def p_generate_param_quad(self, p):
         """ generate_param_quad : """
         self.quads.empty_polish_vector()
-        if self.count_params < len(self.params_call):
-            self.quads.add_operand(self.params_call[self.count_params]["address"], self.params_call[self.count_params]["type"] )
+        func_name = p[-5]
+        if self.count_params < len(self.params_call[-1]):
+            self.quads.add_operand(self.params_call[-1][self.count_params]["address"], self.params_call[-1][self.count_params]["type"] )
             self.quads.add_to_stack_op("params")
             self.count_params = self.count_params + 1
         else:
@@ -737,8 +740,10 @@ class QCASQ_Parser:
         self.quads.add_operand(function_name, "")
         self.quads.add_to_stack_op("era")
         params = function["params"].get_dictionary()
+        params_holder_stack = []
         for param in params:
-            self.params_call.append(params[param])
+            params_holder_stack.append(params[param])
+        self.params_call.append(params_holder_stack)
 
     def check_function_dir(self, func_dir: dict, func_name: str):
         """
